@@ -1,0 +1,5 @@
+rootProject.name = 'PSDS'
+
+include 'application'
+include 'kb'
+include 'pa'
