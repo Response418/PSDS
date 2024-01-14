@@ -1,6 +1,5 @@
 # PSDS
 Professional skills development system Java School 
 
-**application - точка старта**\
-**pa - personal account (Личный кабинет)**\
-**kb - knowledge base (База знаний)**
+**personal_account (модуль Личный кабинет)**\
+**knowledge_base (модуль База знаний)**

@@ -5,29 +5,9 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/application" />
-            <option value="$PROJECT_DIR$/kb" />
-            <option value="$PROJECT_DIR$/pa" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/kb" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/kb" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/pa" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/pa" />
           </set>
         </option>
       </GradleProjectSettings>
