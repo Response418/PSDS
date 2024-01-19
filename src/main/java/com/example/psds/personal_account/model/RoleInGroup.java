@@ -1,12 +1,11 @@
 package com.example.psds.personal_account.model;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.management.relation.Role;
 import java.util.HashSet;
 import java.util.Set;
-
 @Entity
 @Table(name = "t_role_in_group")
 @Getter
@@ -31,5 +30,5 @@ public class RoleInGroup {
     @CollectionTable(name = "t_role",
             joinColumns = @JoinColumn(name = "role_in_group_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles = new HashSet();
+    private Set<Role> roles = new HashSet<>();
 }
