@@ -40,7 +40,7 @@ public class KnowledgeBaseBD {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("com.example.psds.knowledge_base.Model");
+        em.setPackagesToScan(new String[] {"com.example.psds.knowledge_base.Model", "com.example.psds.personal_account.Model"});
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
