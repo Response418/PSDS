@@ -1,27 +1,31 @@
 package com.example.psds.knowledge_base.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Table(name = "t_specialist_profile")
 public class SpecialistProfile {
 
     @Id
     @GeneratedValue
     @Column(name = "specialist_profile_id")
-    public Long specialistProfileId;
+    private Long specialistProfileId;
 
-    int title;
+    private String title;
 
-    int description;
+    private String description;
 
-    @OneToMany(mappedBy = "themeId")
-    public List<Themes> themes;
+    @Column(name = "theme_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tapTheme")
+    private List<ThemesAndProfiles> themeId = new ArrayList<>();
 
 }
