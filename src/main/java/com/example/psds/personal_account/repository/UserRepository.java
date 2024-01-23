@@ -10,7 +10,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     User findUserById(Long userId);
-
-    User findUserByIdAndRoleInGroups_GroupId (Long userId, Long groupId);
     List<User> findAllByRoleInGroups_GroupId(Long groupId);
 }

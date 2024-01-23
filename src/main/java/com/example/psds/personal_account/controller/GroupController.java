@@ -1,8 +1,8 @@
 package com.example.psds.personal_account.controller;
 
-import com.example.psds.personal_account.model.Group;
-import com.example.psds.personal_account.model.RoleInGroup;
 import com.example.psds.personal_account.service.GroupService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,33 +10,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/group")
 public class GroupController {
-    GroupService gs;
+    private final GroupService groupService;
 
-    public GroupController(GroupService gs){
-        this.gs=gs;
+    public GroupController(GroupService groupService){
+        this.groupService=groupService;
     }
 
-    @GetMapping("")
-    public List<Group> getAllGroups(){
-        return gs.getGroupList();
+    @RequestMapping(method = RequestMethod.GET)
+    public List<com.example.psds.personal_account.object.Group> getAllGroups(){
+        return groupService.getGroupList();
     }
 
-    @PostMapping("")
-    public void createGroup(@RequestBody String name, @RequestBody String description, @RequestBody List<RoleInGroup> roleInGroups){
-        gs.createNewGroup(name, description, roleInGroups);
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<String> createGroup(@RequestBody com.example.psds.personal_account.object.Group group){
+        groupService.createNewGroup(group);
+        return new ResponseEntity<>("Successful create", HttpStatus.CREATED);
     }
 
-    @GetMapping("/{groupId}")
-    public Group getGroupById(@PathVariable Long groupId){
-        return gs.getGroupById(groupId);
+    @RequestMapping(method = RequestMethod.GET, path = "/{groupId}")
+    public com.example.psds.personal_account.object.Group getGroupById(@PathVariable Long groupId){
+        return groupService.getGroupById(groupId);
     }
 
-    @PutMapping("/{groupId}")
-    public void changeGroupById(@PathVariable Long groupId, @RequestBody String name, @RequestBody String description, @RequestBody List<RoleInGroup> roleInGroups){
-        if (name==null || description==null || roleInGroups==null) {
-            gs.deleteGroup(groupId);
-        }else{
-            gs.updateGroup(groupId, name, description, roleInGroups);
-        }
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<String> updateGroup(@RequestBody com.example.psds.personal_account.object.Group group){
+        groupService.updateGroup(group);
+        return new ResponseEntity<>("Successful update", HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteGroup(@RequestBody com.example.psds.personal_account.object.Group group){
+        groupService.deleteGroup(group);
+        return new ResponseEntity<>("Successful delete", HttpStatus.NO_CONTENT);
     }
 }

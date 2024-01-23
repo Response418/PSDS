@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "com.example.psds.knowledge_base.Repository",
+        basePackages = "com.example.psds.knowledge_base.repository",
         entityManagerFactoryRef = "kbEntityManagerFactory",
         transactionManagerRef = "kbTransactionManager"
 )

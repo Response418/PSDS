@@ -1,43 +1,50 @@
 package com.example.psds.personal_account.service;
 
-import com.example.psds.personal_account.model.RoleInGroup;
-import com.example.psds.personal_account.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.psds.personal_account.mapper.ModelWithUserToObjectWithUser;
+import com.example.psds.personal_account.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.relation.Role;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService {
-    @Autowired
-    private com.example.psds.personal_account.repository.UserRepository ur;
+    private final UserRepository userRepository;
+    private final ModelWithUserToObjectWithUser modelWithUserToObjectWithUser;
 
-    @Transactional
-    public List<User> getUserList(Long groupId){
-        return ur.findAllByRoleInGroups_GroupId(groupId);
+    public UserService(UserRepository userRepository, ModelWithUserToObjectWithUser modelWithUserToObjectWithUser){
+        this.userRepository=userRepository;
+        this.modelWithUserToObjectWithUser=modelWithUserToObjectWithUser;
     }
 
     @Transactional
-    public User getUserByIdAndGroupId(Long userId,Long groupId){
-        return ur.findUserByIdAndRoleInGroups_GroupId(userId, groupId);
-    }
-
-    @Transactional
-    public void updateUser(Long userId, Long groupId, Set<Role> roles){
-        User user = ur.findUserByIdAndRoleInGroups_GroupId(userId, groupId);
-        List<RoleInGroup> roleInGroups = user.getRoleInGroups();
-        RoleInGroup roleInGroup;
-        while ((roleInGroup = roleInGroups.iterator().next())!=null){
-            roleInGroup.setRoles(roles);
+    public List<com.example.psds.personal_account.object.User> getUserList(Long groupId){
+        List<com.example.psds.personal_account.model.User> userModelList = userRepository.findAllByRoleInGroups_GroupId(groupId);
+        List<com.example.psds.personal_account.object.User> userObjectList = new ArrayList<>();
+        com.example.psds.personal_account.model.User userModel;
+        while ((userModel=userModelList.iterator().next())!=null){
+            userObjectList.add(modelWithUserToObjectWithUser.modelToObject(userModel));
         }
+        return userObjectList;
     }
 
     @Transactional
-    public void deleteUser(Long userId){
-        ur.deleteById(userId);
+    public com.example.psds.personal_account.object.User getUserByIdAndGroupId(Long userId){
+        com.example.psds.personal_account.model.User userModel = userRepository.findUserById(userId);
+        return modelWithUserToObjectWithUser.modelToObject(userModel);
+    }
+
+    @Transactional
+    public void updateUser(com.example.psds.personal_account.object.User user){
+        com.example.psds.personal_account.model.User userModel = modelWithUserToObjectWithUser.objectToModel(user);
+        userRepository.save(userModel);
+    }
+
+    @Transactional
+    public void deleteUser(com.example.psds.personal_account.object.User user){
+        com.example.psds.personal_account.model.User userModel = modelWithUserToObjectWithUser.objectToModel(user);
+        userRepository.delete(userModel);
     }
 
 }
