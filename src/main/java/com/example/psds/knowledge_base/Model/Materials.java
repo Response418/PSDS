@@ -21,7 +21,6 @@ public class Materials {
 
     private String description;
 
-    @Column(name = "m_lesson_id")
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id")
     private Lessons lesson;

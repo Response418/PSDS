@@ -17,12 +17,10 @@ public class ThemesAndProfiles {
     @Column(name = "pair_id")
     private Long pairId;
 
-    @Column(name = "tap_theme_id")
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
     private Themes tapTheme;
 
-    @Column(name = "tap_specialist_profile_id")
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "specialist_profile_id")
     private SpecialistProfile tapSpecialistProfileId;

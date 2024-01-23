@@ -24,9 +24,9 @@ public class Themes {
 
     private String description;
 
-    @Column(name = "specialist_profile_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tapSpecialistProfileId")
-    private List<ThemesAndProfiles> specialistProfileId = new ArrayList<>();
+    @Column(name = "tap_theme")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tapTheme")
+    private List<ThemesAndProfiles> tapTheme = new ArrayList<>();
 
     @Column(name = "lessons_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lessonId")

@@ -24,8 +24,8 @@ public class SpecialistProfile {
 
     private String description;
 
-    @Column(name = "theme_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tapTheme")
-    private List<ThemesAndProfiles> themeId = new ArrayList<>();
+    @Column(name = "tap_specialist_profile")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tapSpecialistProfileId")
+    private List<ThemesAndProfiles> tapSpecialistProfile = new ArrayList<>();
 
 }
