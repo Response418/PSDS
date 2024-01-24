@@ -37,7 +37,7 @@ public class PersonalAccountDB {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("com.example.psds.personal_account.Model");
+        em.setPackagesToScan("com.example.psds.personal_account.model");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
