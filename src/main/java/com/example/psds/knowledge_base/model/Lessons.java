@@ -13,9 +13,8 @@ import lombok.*;
 @Table(name = "t_lessons")
 public class Lessons {
     @Id
-    @GeneratedValue
-    @Column(name = "lesson_id")
-    private Long lessonId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     private String title;
 
@@ -23,7 +22,7 @@ public class Lessons {
 
     private int level;
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
     private Themes theme;
 

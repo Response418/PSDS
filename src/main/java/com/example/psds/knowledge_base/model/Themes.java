@@ -14,11 +14,9 @@ import java.util.List;
 @ToString
 @Table(name = "t_themes")
 public class Themes {
-
     @Id
-    @GeneratedValue
-    @Column(name = "theme_id")
-    private Long themeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     private String title;
 
@@ -29,8 +27,8 @@ public class Themes {
     private List<ThemesAndProfiles> tapTheme = new ArrayList<>();
 
     @Column(name = "lessons_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lessonId")
-    private List<Lessons> lessonsId = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "theme")
+    private List<Lessons> lessons = new ArrayList<>();
 
 
 

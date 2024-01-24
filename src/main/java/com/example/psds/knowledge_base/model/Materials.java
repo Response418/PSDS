@@ -11,11 +11,9 @@ import lombok.*;
 @ToString
 @Table(name = "t_materials")
 public class Materials {
-
     @Id
-    @GeneratedValue
-    @Column(name = "material_id")
-    private Long materialId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     private String title;
 

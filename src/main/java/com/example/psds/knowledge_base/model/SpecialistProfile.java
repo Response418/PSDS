@@ -14,11 +14,9 @@ import java.util.List;
 @ToString
 @Table(name = "t_specialist_profile")
 public class SpecialistProfile {
-
     @Id
-    @GeneratedValue
-    @Column(name = "specialist_profile_id")
-    private Long specialistProfileId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     private String title;
 
