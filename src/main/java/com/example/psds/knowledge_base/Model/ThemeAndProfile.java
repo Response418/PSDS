@@ -3,30 +3,24 @@ package com.example.psds.knowledge_base.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Getter
 @Setter
 @Entity
+@Table(name = "t_themes_and_profiles")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "t_lessons")
-public class Lessons {
+public class ThemeAndProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String title;
-
-    private String description;
-
-    private int level;
-
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
-    private Themes theme;
+    private Theme tapTheme;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Materials material;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "specialist_profile_id")
+    private SpecialistProfile tapSpecialistProfileId;
 
 }

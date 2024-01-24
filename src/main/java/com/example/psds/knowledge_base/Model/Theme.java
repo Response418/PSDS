@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Table(name = "t_themes")
-public class Themes {
+public class Theme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,11 +24,11 @@ public class Themes {
 
     @Column(name = "tap_theme")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tapTheme")
-    private List<ThemesAndProfiles> tapTheme = new ArrayList<>();
+    private List<ThemeAndProfile> tapTheme = new ArrayList<>();
 
     @Column(name = "lessons_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "theme")
-    private List<Lessons> lessons = new ArrayList<>();
+    private List<Lesson> lessons = new ArrayList<>();
 
 
 
