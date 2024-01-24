@@ -17,7 +17,4 @@ public class SpecialistProfile {
     @OneToMany(mappedBy = "specialistProfiles")
     private List<Theme> themes;
 
-    @ManyToOne
-    @JoinColumn(name = "plan_id")
-    private Plan plan;
 }

@@ -1,6 +1,5 @@
 package com.example.psds.knowledge_base.Model;
 
-import com.example.psds.personal_account.Model.RelationUsers;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +15,6 @@ public class Grade {
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
-    @ManyToOne
-    @JoinColumn(name = "relation_users_id")
-    private RelationUsers relationUsers;
+    @Column(name = "relation_users_id")
+    private Long relationUsersId;
 }
