@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Table(name = "t_lessons")
-public class Lessons {
+public class Lesson {
     @Id
     @GeneratedValue
     @Column(name = "lesson_id")
@@ -25,9 +25,9 @@ public class Lessons {
 
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
-    private Themes theme;
+    private Theme theme;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Materials material;
+    private Material material;
 
 }

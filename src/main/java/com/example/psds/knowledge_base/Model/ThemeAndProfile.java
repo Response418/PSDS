@@ -10,16 +10,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ThemesAndProfiles {
-
+public class ThemeAndProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pair_id")
-    private Long pairId;
+    private long id;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
-    private Themes tapTheme;
+    private Theme tapTheme;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "specialist_profile_id")

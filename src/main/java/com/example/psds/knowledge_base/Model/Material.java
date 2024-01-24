@@ -10,12 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Table(name = "t_materials")
-public class Materials {
-
+public class Material {
     @Id
-    @GeneratedValue
-    @Column(name = "material_id")
-    private Long materialId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     private String title;
 
@@ -23,7 +21,7 @@ public class Materials {
 
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id")
-    private Lessons lesson;
+    private Lesson lesson;
 
 
 }
