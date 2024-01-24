@@ -1,6 +1,9 @@
-package com.example.psds.personal_account.Model;
+package com.example.psds.personal_account.model;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "t_user")
@@ -22,4 +25,7 @@ public class User {
     private String email;
 
     private String password;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<RoleInGroup> roleInGroups = new ArrayList<>();
 }
