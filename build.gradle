@@ -30,7 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.postgresql:postgresql'
-    implementation 'org.hibernate:hibernate-gradle-plugin:5.6.15.Final'
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: '6.4.1.Final', ext: 'pom'
     implementation 'org.hibernate:hibernate-validator:8.0.1.Final'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-test'
