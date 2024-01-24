@@ -21,7 +21,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "com.example.psds.knowledge_base.Repository",
+        basePackages = "com.example.psds.knowledge_base.repository",
         entityManagerFactoryRef = "kbEntityManagerFactory",
         transactionManagerRef = "kbTransactionManager"
 )
@@ -40,7 +40,7 @@ public class KnowledgeBaseBD {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("com.example.psds.knowledge_base.Model");
+        em.setPackagesToScan("com.example.psds.knowledge_base.model");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
