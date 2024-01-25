@@ -1,4 +1,4 @@
-package com.example.psds.knowledge_base.model;
+package com.example.psds.knowledge_base.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
