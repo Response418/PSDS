@@ -18,7 +18,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.example.psds.personal_account.Repository",
+        basePackages = "com.example.psds.personal_account.repository",
         entityManagerFactoryRef = "paEntityManagerFactory",
         transactionManagerRef = "paTransactionManager"
 )
@@ -37,7 +37,7 @@ public class PersonalAccountDB {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("com.example.psds.personal_account.Model");
+        em.setPackagesToScan("com.example.psds.personal_account.model");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
