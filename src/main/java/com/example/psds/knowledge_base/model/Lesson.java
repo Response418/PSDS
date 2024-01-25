@@ -10,12 +10,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "t_lessons")
-public class Lessons {
+@Table(name = "t_lesson")
+public class Lesson {
     @Id
-    @GeneratedValue
-    @Column(name = "lesson_id")
-    private Long lessonId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String title;
 
@@ -23,11 +22,11 @@ public class Lessons {
 
     private int level;
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
-    private Themes theme;
+    private Theme theme;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Materials material;
+    private Material material;
 
 }
