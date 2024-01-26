@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 
 public interface LessonMapper {
-    com.example.psds.knowledge_base.object.Lesson modelToObject(com.example.psds.knowledge_base.model.Lesson lesson);
-    com.example.psds.knowledge_base.model.Lesson objectToModel(com.example.psds.knowledge_base.object.Lesson lesson);
+    com.example.psds.knowledge_base.dto.Lesson modelToObject(com.example.psds.knowledge_base.model.Lesson lesson);
+    com.example.psds.knowledge_base.model.Lesson objectToModel(com.example.psds.knowledge_base.dto.Lesson lesson);
 }

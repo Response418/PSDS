@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -20,12 +19,11 @@ public class MaterialService {
     }
 
     @Transactional
-    public List<com.example.psds.knowledge_base.object.Material> getMaterialsByLessonId(Long lessonId){
-        Iterator<com.example.psds.knowledge_base.model.Material> materialsModel = materialRepository.findMaterialsByLesson_Id(lessonId).iterator();
-        List<com.example.psds.knowledge_base.object.Material> materialsObject = new ArrayList<>();
-        com.example.psds.knowledge_base.model.Material materialModel;
-        while((materialModel = materialsModel.next())!=null){
-            materialsObject.add(materialMapper.modelToObject(materialModel));
+    public List<com.example.psds.knowledge_base.dto.Material> getMaterialsByLessonId(Long lessonId){
+        List<com.example.psds.knowledge_base.model.Material> materialsModel = materialRepository.findMaterialsByLesson_Id(lessonId);
+        List<com.example.psds.knowledge_base.dto.Material> materialsObject = new ArrayList<>();
+        for(int i=0; i<materialsModel.size(); i++){
+            materialsObject.add(materialMapper.modelToObject(materialsModel.get(i)));
         }
         return materialsObject;
     }

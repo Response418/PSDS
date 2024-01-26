@@ -18,7 +18,7 @@ public class MaterialController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{lessonId}")
-    public List<com.example.psds.knowledge_base.object.Material> getMaterialsByLessonId(@PathVariable Long lessonId){
+    public List<com.example.psds.knowledge_base.dto.Material> getMaterialsByLessonId(@PathVariable Long lessonId){
         return materialService.getMaterialsByLessonId(lessonId);
     }
 }

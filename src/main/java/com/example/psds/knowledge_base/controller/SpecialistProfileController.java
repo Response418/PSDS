@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/professionProfile")
+@RequestMapping("/specialistProfile")
 public class SpecialistProfileController {
     private final SpecialistProfileService specialistProfileService;
 
@@ -15,8 +15,9 @@ public class SpecialistProfileController {
         this.specialistProfileService = specialistProfileService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{professionProfileId}")
-    public com.example.psds.knowledge_base.object.SpecialistProfile getSpecialistProfileByProfessionProfileId(@PathVariable Long professionProfileId){
-        return specialistProfileService.getSpecialistProfileByProfessionProfileId(professionProfileId);
+    @RequestMapping(method = RequestMethod.GET, path = "/{specialistProfileId}")
+    public com.example.psds.knowledge_base.dto.SpecialistProfile getSpecialistProfileBySpecialistProfileId(@PathVariable Long specialistProfileId){
+        return specialistProfileService.getSpecialistProfileByProfessionProfileId(specialistProfileId);
     }
+
 }

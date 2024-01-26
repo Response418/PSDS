@@ -15,20 +15,19 @@ public class PlanController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{linkUsersId}")
-    public com.example.psds.knowledge_base.object.Plan getPlanByLinkUsersId (@PathVariable Long linkUsersId){
+    public com.example.psds.knowledge_base.dto.Plan getPlanByLinkUsersId (@PathVariable Long linkUsersId){
         return planService.getPlanByLinkUsersId(linkUsersId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/{planId}")
-    public ResponseEntity<String> addSpecialistProfile(@PathVariable Long planId, @RequestBody com.example.psds.knowledge_base.object.SpecialistProfile specialistProfile){
+    @RequestMapping(method = RequestMethod.POST, path = "/{planId}/specialistProfile")
+    public ResponseEntity<String> addSpecialistProfile(@PathVariable Long planId, @RequestBody com.example.psds.knowledge_base.dto.SpecialistProfile specialistProfile) {
         planService.addSpecialistProfile(planId, specialistProfile);
         return new ResponseEntity<>("Successful add", HttpStatus.CREATED);
     }
 
-    //что удаляем?
-    @RequestMapping(method = RequestMethod.PUT, path = "/{planId}")
-    public ResponseEntity<String> changeSpecialistProfile(@PathVariable Long planId, @RequestBody com.example.psds.knowledge_base.object.SpecialistProfile specialistProfile){
-        planService.changeSpecialistProfile(planId, specialistProfile);
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{planId}/specialistProfile")
+    public ResponseEntity<String> deleteSpecialistProfile(@PathVariable Long planId){
+        planService.updateSpecialistProfile(planId);
         return new ResponseEntity<>("Successful delete", HttpStatus.NO_CONTENT);
     }
 }

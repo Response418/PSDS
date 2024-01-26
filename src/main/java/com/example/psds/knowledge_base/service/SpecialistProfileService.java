@@ -8,16 +8,21 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SpecialistProfileService {
     private final SpecialistProfileRepository specialistProfileRepository;
+    private final ThemeAndProfileRepository themeAndProfileRepository;
     private final SpecialistProfileMapper specialistProfileMapper;
 
-    public SpecialistProfileService(final SpecialistProfileRepository specialistProfileRepository, final SpecialistProfileMapper specialistProfileMapper) {
+    public SpecialistProfileService(final SpecialistProfileRepository specialistProfileRepository, final ThemeAndProfileRepository themeAndProfileRepository, final SpecialistProfileMapper specialistProfileMapper) {
         this.specialistProfileRepository = specialistProfileRepository;
+        this.themeAndProfileRepository = themeAndProfileRepository;
         this.specialistProfileMapper = specialistProfileMapper;
     }
 
     @Transactional
-    public com.example.psds.knowledge_base.object.SpecialistProfile getSpecialistProfileByProfessionProfileId(Long professionProfileId){
-        com.example.psds.knowledge_base.model.SpecialistProfile specialistProfileModel = specialistProfileRepository.findSpecialistProfileById(professionProfileId);
-        return specialistProfileMapper.modelToObject(specialistProfileModel);
+    public com.example.psds.knowledge_base.dto.SpecialistProfile getSpecialistProfileByProfessionProfileId(Long specialistProfileId) {
+        com.example.psds.knowledge_base.model.SpecialistProfile specialistProfileModel = specialistProfileRepository.findSpecialistProfileById(specialistProfileId);
+
+        com.example.psds.knowledge_base.dto.SpecialistProfile specialistProfileObject = specialistProfileMapper.modelToObject(specialistProfileModel);
+        return specialistProfileObject;
     }
+
 }
