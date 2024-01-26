@@ -1,4 +1,4 @@
-package com.example.psds.personal_account.object;
+package com.example.psds.personal_account.dto;
 
 import com.example.psds.personal_account.model.RoleInGroup;
 import lombok.*;

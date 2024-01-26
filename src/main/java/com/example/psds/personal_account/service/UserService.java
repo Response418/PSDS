@@ -19,30 +19,29 @@ public class UserService {
     }
 
     @Transactional
-    public List<com.example.psds.personal_account.object.User> getUserList(Long groupId){
+    public List<com.example.psds.personal_account.dto.User> getUserList(Long groupId){
         List<com.example.psds.personal_account.model.User> userModelList = userRepository.findAllByRoleInGroups_GroupId(groupId);
-        List<com.example.psds.personal_account.object.User> userObjectList = new ArrayList<>();
-        com.example.psds.personal_account.model.User userModel;
-        while ((userModel=userModelList.iterator().next())!=null){
-            userObjectList.add(modelWithUserToObjectWithUser.modelToObject(userModel));
+        List<com.example.psds.personal_account.dto.User> userObjectList = new ArrayList<>();
+        for (int i=0; i<userModelList.size(); i++){
+            userObjectList.add(modelWithUserToObjectWithUser.modelToObject(userModelList.get(i)));
         }
         return userObjectList;
     }
 
     @Transactional
-    public com.example.psds.personal_account.object.User getUserByIdAndGroupId(Long userId){
+    public com.example.psds.personal_account.dto.User getUserByIdAndGroupId(Long userId){
         com.example.psds.personal_account.model.User userModel = userRepository.findUserById(userId);
         return modelWithUserToObjectWithUser.modelToObject(userModel);
     }
 
     @Transactional
-    public void updateUser(com.example.psds.personal_account.object.User user){
+    public void updateUser(com.example.psds.personal_account.dto.User user){
         com.example.psds.personal_account.model.User userModel = modelWithUserToObjectWithUser.objectToModel(user);
         userRepository.save(userModel);
     }
 
     @Transactional
-    public void deleteUser(com.example.psds.personal_account.object.User user){
+    public void deleteUser(com.example.psds.personal_account.dto.User user){
         com.example.psds.personal_account.model.User userModel = modelWithUserToObjectWithUser.objectToModel(user);
         userRepository.delete(userModel);
     }
