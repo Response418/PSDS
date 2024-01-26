@@ -1,8 +1,9 @@
 package com.example.psds.knowledge_base.controller;
 
+import com.example.psds.knowledge_base.model.SpecialistProfile;
+import com.example.psds.knowledge_base.responce.PlanResponce;
 import com.example.psds.knowledge_base.service.PlanService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,19 +16,20 @@ public class PlanController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{linkUsersId}")
-    public com.example.psds.knowledge_base.dto.Plan getPlanByLinkUsersId (@PathVariable Long linkUsersId){
+    @ResponseStatus(HttpStatus.OK)
+    public PlanResponce getPlanByLinkUsersId (@PathVariable Long linkUsersId){
         return planService.getPlanByLinkUsersId(linkUsersId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/{planId}/specialistProfile")
-    public ResponseEntity<String> addSpecialistProfile(@PathVariable Long planId, @RequestBody com.example.psds.knowledge_base.dto.SpecialistProfile specialistProfile) {
-        planService.addSpecialistProfile(planId, specialistProfile);
-        return new ResponseEntity<>("Successful add", HttpStatus.CREATED);
+    @RequestMapping(method = RequestMethod.PUT, path = "/{linkUsersId}/specialistProfile")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addSpecialistProfile(@PathVariable Long linkUsersId, @RequestBody SpecialistProfile specialistProfile) {
+        planService.addSpecialistProfile(linkUsersId, specialistProfile);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{planId}/specialistProfile")
-    public ResponseEntity<String> deleteSpecialistProfile(@PathVariable Long planId){
-        planService.updateSpecialistProfile(planId);
-        return new ResponseEntity<>("Successful delete", HttpStatus.NO_CONTENT);
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{linkUsersId}/specialistProfile/{specialistProfileId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSpecialistProfile(@PathVariable Long linkUsersId, @PathVariable Long specialistProfileId){
+        planService.deleteSpecialistProfile(linkUsersId,specialistProfileId);
     }
 }

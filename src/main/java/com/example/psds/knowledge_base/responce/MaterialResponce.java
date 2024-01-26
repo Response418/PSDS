@@ -1,15 +1,16 @@
-package com.example.psds.knowledge_base.dto;
+package com.example.psds.knowledge_base.responce;
 
 import lombok.*;
 
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class Material {
+
+public class MaterialResponce {
     private Long id;
     private String title;
     private String description;
-    private Lesson lesson;
+    private LessonResponce lesson;
 }
