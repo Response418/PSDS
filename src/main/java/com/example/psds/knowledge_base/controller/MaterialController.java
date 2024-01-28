@@ -1,6 +1,6 @@
 package com.example.psds.knowledge_base.controller;
 
-import com.example.psds.knowledge_base.responce.MaterialResponce;
+import com.example.psds.knowledge_base.dto.MaterialDTO;
 import com.example.psds.knowledge_base.service.MaterialService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class MaterialController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/{lessonId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<MaterialResponce> getMaterialsByLessonId(@PathVariable Long lessonId){
+    public List<MaterialDTO> getMaterialsByLessonId(@PathVariable Long lessonId){
         return materialService.getMaterialsByLessonId(lessonId);
     }
 }

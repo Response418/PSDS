@@ -1,4 +1,4 @@
-package com.example.psds.knowledge_base.responce;
+package com.example.psds.knowledge_base.dto;
 
 import lombok.*;
 
@@ -7,9 +7,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class LessonResponce {
+
+public class MaterialDTO {
     private Long id;
     private String title;
     private String description;
-    private int level;
+    private LessonDTO lesson;
 }

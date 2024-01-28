@@ -1,10 +1,10 @@
 package com.example.psds.knowledge_base.service;
 
-import com.example.psds.knowledge_base.model.Lesson;
+import com.example.psds.knowledge_base.mapper.ModelLessonAndObjectLesson;
+import com.example.psds.knowledge_base.mapper.ModelMaterialAndObjectMaterial;
 import com.example.psds.knowledge_base.model.Material;
 import com.example.psds.knowledge_base.repository.MaterialRepository;
-import com.example.psds.knowledge_base.responce.LessonResponce;
-import com.example.psds.knowledge_base.responce.MaterialResponce;
+import com.example.psds.knowledge_base.dto.MaterialDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,32 +14,25 @@ import java.util.List;
 @Service
 public class MaterialService {
     private final MaterialRepository materialRepository;
+    private final ModelMaterialAndObjectMaterial modelMaterialAndObjectMaterial;
+    private final ModelLessonAndObjectLesson modelLessonAndObjectLesson;
 
-    public MaterialService(final MaterialRepository materialRepository) {
+    public MaterialService(final MaterialRepository materialRepository, final ModelMaterialAndObjectMaterial modelMaterialAndObjectMaterial, final ModelLessonAndObjectLesson modelLessonAndObjectLesson) {
         this.materialRepository = materialRepository;
+        this.modelMaterialAndObjectMaterial = modelMaterialAndObjectMaterial;
+        this.modelLessonAndObjectLesson = modelLessonAndObjectLesson;
     }
 
     @Transactional
-    public List<MaterialResponce> getMaterialsByLessonId(Long lessonId){
+    public List<MaterialDTO> getMaterialsByLessonId(Long lessonId){
         List<Material> materials = materialRepository.findMaterialsByLesson_Id(lessonId);
-        List<MaterialResponce> materialResponces = new ArrayList<>();
-        Lesson lesson;
-        LessonResponce lessonResponce;
+        List<MaterialDTO> materialDTOS = new ArrayList<>();
+
         for (int i=0; i<materials.size(); i++){
-            materialResponces.add(i, new MaterialResponce());
-            materialResponces.get(i).setId(materials.get(i).getId());
-            materialResponces.get(i).setTitle(materials.get(i).getTitle());
-            materialResponces.get(i).setDescription(materials.get(i).getDescription());
-
-            lesson = materials.get(i).getLesson();
-            lessonResponce = new LessonResponce();
-            lessonResponce.setId(lesson.getId());
-            lessonResponce.setTitle(lesson.getTitle());
-            lessonResponce.setLevel(lesson.getLevel());
-            lessonResponce.setDescription(lesson.getDescription());
-
-            materialResponces.get(i).setLesson(lessonResponce);
+            materialDTOS.add(modelMaterialAndObjectMaterial.modelToObject(materials.get(i)));
+            /*получили связанный с материалом урок, преобразовали в объект и сохранили в материал*/
+            materialDTOS.get(i).setLesson(modelLessonAndObjectLesson.modelToObject(materials.get(i).getLesson()));
         }
-        return materialResponces;
+        return materialDTOS;
     }
 }

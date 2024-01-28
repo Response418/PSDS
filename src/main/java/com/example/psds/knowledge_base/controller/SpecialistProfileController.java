@@ -1,6 +1,6 @@
 package com.example.psds.knowledge_base.controller;
 
-import com.example.psds.knowledge_base.responce.SpecialistProfileResponce;
+import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
 import com.example.psds.knowledge_base.service.SpecialistProfileService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class SpecialistProfileController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{specialistProfileId}")
-    public SpecialistProfileResponce getSpecialistProfileBySpecialistProfileId(@PathVariable Long specialistProfileId){
+    public SpecialistProfileDTO getSpecialistProfileBySpecialistProfileId(@PathVariable Long specialistProfileId){
         return specialistProfileService.getSpecialistProfileByProfessionProfileId(specialistProfileId);
     }
 }

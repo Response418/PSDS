@@ -1,4 +1,4 @@
-package com.example.psds.knowledge_base.responce;
+package com.example.psds.knowledge_base.dto;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PlanResponce {
+public class PlanDTO {
     private Long relationUsersId;
-    private List<SpecialistProfileResponce> specialistProfiles;
+    private List<SpecialistProfileDTO> specialistProfiles;
 }
