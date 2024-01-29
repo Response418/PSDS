@@ -1,7 +1,5 @@
 package com.example.psds.knowledge_base.service;
 
-import com.example.psds.knowledge_base.dto.ThemeDTO;
-import com.example.psds.knowledge_base.mapper.ModelThemeAndObjectModel;
 import com.example.psds.knowledge_base.model.SpecialistProfile;
 import com.example.psds.knowledge_base.model.Theme;
 import com.example.psds.knowledge_base.model.ThemeAndProfile;
@@ -14,11 +12,9 @@ import java.util.List;
 @Service
 public class ThemeAndProfileService {
     private final ThemeAndProfileRepository themeAndProfileRepository;
-    private final ModelThemeAndObjectModel modelThemeAndObjectModel;
 
-    public ThemeAndProfileService(final ThemeAndProfileRepository themeAndProfileRepository, final ModelThemeAndObjectModel modelThemeAndObjectModel) {
+    public ThemeAndProfileService(final ThemeAndProfileRepository themeAndProfileRepository) {
         this.themeAndProfileRepository = themeAndProfileRepository;
-        this.modelThemeAndObjectModel = modelThemeAndObjectModel;
     }
 
     @Transactional

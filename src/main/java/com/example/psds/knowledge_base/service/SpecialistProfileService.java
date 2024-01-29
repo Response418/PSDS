@@ -1,11 +1,9 @@
 package com.example.psds.knowledge_base.service;
 
 import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
-import com.example.psds.knowledge_base.dto.ThemeDTO;
 import com.example.psds.knowledge_base.mapper.ModelSpecialistProfileAndObjectSpecialistProfile;
 import com.example.psds.knowledge_base.mapper.ModelThemeAndObjectModel;
 import com.example.psds.knowledge_base.model.SpecialistProfile;
-import com.example.psds.knowledge_base.model.Theme;
 import com.example.psds.knowledge_base.model.ThemeAndProfile;
 import com.example.psds.knowledge_base.repository.SpecialistProfileRepository;
 import com.example.psds.knowledge_base.repository.ThemeAndProfileRepository;
@@ -18,13 +16,11 @@ import java.util.List;
 @Service
 public class SpecialistProfileService {
     private final SpecialistProfileRepository specialistProfileRepository;
-    private final ThemeAndProfileRepository themeAndProfileRepository;
     private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
     private final ModelThemeAndObjectModel modelThemeAndObjectModel;
 
     public SpecialistProfileService(final SpecialistProfileRepository specialistProfileRepository, final ThemeAndProfileRepository themeAndProfileRepository, final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile, final ModelThemeAndObjectModel modelThemeAndObjectModel) {
         this.specialistProfileRepository = specialistProfileRepository;
-        this.themeAndProfileRepository = themeAndProfileRepository;
         this.modelSpecialistProfileAndObjectSpecialistProfile = modelSpecialistProfileAndObjectSpecialistProfile;
         this.modelThemeAndObjectModel = modelThemeAndObjectModel;
     }
@@ -54,10 +50,12 @@ public class SpecialistProfileService {
         return specialistProfileRepository.save(specialistProfile);
     }
 
+    @Transactional
     public void deleteSpecialistProfile(Long specialistProfileId){
         specialistProfileRepository.deleteById(specialistProfileId);
     }
 
+    @Transactional
     public SpecialistProfileDTO getSpecialistProfileById(Long specialistProfileId){
         SpecialistProfile specialistProfile = specialistProfileRepository.findSpecialistProfilesById(specialistProfileId);
         SpecialistProfileDTO specialistProfileDTO = modelSpecialistProfileAndObjectSpecialistProfile.modelToObject(specialistProfile);
