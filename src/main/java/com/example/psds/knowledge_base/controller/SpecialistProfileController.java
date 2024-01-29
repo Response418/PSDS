@@ -1,41 +1,62 @@
 package com.example.psds.knowledge_base.controller;
 
+import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
+import com.example.psds.knowledge_base.dto.ThemeDTO;
 import com.example.psds.knowledge_base.model.SpecialistProfile;
+import com.example.psds.knowledge_base.model.Theme;
 import com.example.psds.knowledge_base.service.SpecialistProfileService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.psds.knowledge_base.service.ThemeAndProfileService;
+import com.example.psds.knowledge_base.service.ThemeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Tag(name = "ProfessionProfile", description = "Управление профилями специалиста")
 @RestController
-@RequestMapping("/specialistProfiles")
+@RequestMapping("/specialistProfile")
 public class SpecialistProfileController {
-    @Autowired
-    private SpecialistProfileService specialistProfileService;
+    private final SpecialistProfileService specialistProfileService;
+    private final ThemeService themeService;
+    private final ThemeAndProfileService themeAndProfileService;
+
+    public SpecialistProfileController(final SpecialistProfileService specialistProfileService, final ThemeService themeService, final ThemeAndProfileService themeAndProfileService) {
+        this.specialistProfileService = specialistProfileService;
+        this.themeService = themeService;
+        this.themeAndProfileService = themeAndProfileService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<SpecialistProfile> getSpecialistProfileList(){
+    public List<SpecialistProfileDTO> getSpecialistProfileList(){
         return specialistProfileService.getSpecialistProfileList();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createSpecialistProfile(@RequestBody SpecialistProfile specialistProfile){
-        specialistProfileService.createSpecialistProfile(specialistProfile);
-    }
     @RequestMapping(method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void changeSpecialistProfile(@RequestBody SpecialistProfileDTO specialistProfileDTO){
+        SpecialistProfile specialistProfile =  specialistProfileService.changeSpecialistProfile(specialistProfileDTO);
+        List<ThemeDTO> themeDTOS = specialistProfileDTO.getThemes();
+        List<Theme> themes = new ArrayList<>();
+        Theme theme;
+        for (int i=0; i< themeDTOS.size(); i++) {
+            theme = themeService.saveTheme(themeDTOS.get(i));
+            for (int j=0; j<theme.getLessons().size(); j++){
+                theme.getLessons().get(j).setTheme(theme);
+            }
+            themes.add(theme);
+        }
+        themeAndProfileService.saveThemeAndProfileModels(specialistProfile, themes);
+    }
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{specialistProfileId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateSpecialistProfile(@RequestBody SpecialistProfile specialistProfile){
-        specialistProfileService.updateSpecialistProfile(specialistProfile);
+    public void deleteSpecialistProfile(@PathVariable Long specialistProfileId){
+        specialistProfileService.deleteSpecialistProfile(specialistProfileId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "professionProfileId")
+    @RequestMapping(method = RequestMethod.GET, path = "/{specialistProfileId}")
     @ResponseStatus(HttpStatus.OK)
-    public SpecialistProfile getSpecialistProfileById(@PathVariable Long specialistProfileId) {
+    public SpecialistProfileDTO getSpecialistProfileById(@PathVariable Long specialistProfileId) {
         return specialistProfileService.getSpecialistProfileById(specialistProfileId);
     }
 }
