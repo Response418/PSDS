@@ -1,6 +1,8 @@
 package com.example.psds.personal_account.service;
 
+import com.example.psds.personal_account.dto.UserDTO;
 import com.example.psds.personal_account.mapper.ModelWithUserToObjectWithUser;
+import com.example.psds.personal_account.model.User;
 import com.example.psds.personal_account.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,31 +21,30 @@ public class UserService {
     }
 
     @Transactional
-    public List<com.example.psds.personal_account.dto.User> getUserList(Long groupId){
-        List<com.example.psds.personal_account.model.User> userModelList = userRepository.findAllByRoleInGroups_GroupId(groupId);
-        List<com.example.psds.personal_account.dto.User> userObjectList = new ArrayList<>();
-        for (int i=0; i<userModelList.size(); i++){
-            userObjectList.add(modelWithUserToObjectWithUser.modelToObject(userModelList.get(i)));
+    public List<UserDTO> getUserList(){
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for (int i=0; i<users.size(); i++){
+            userDTOS.add(modelWithUserToObjectWithUser.modelToObject(users.get(i)));
         }
-        return userObjectList;
+        return userDTOS;
     }
 
     @Transactional
-    public com.example.psds.personal_account.dto.User getUserByIdAndGroupId(Long userId){
-        com.example.psds.personal_account.model.User userModel = userRepository.findUserById(userId);
-        return modelWithUserToObjectWithUser.modelToObject(userModel);
+    public UserDTO getUserById(Long userId){
+        User user = userRepository.findUserById(userId);
+        return modelWithUserToObjectWithUser.modelToObject(user);
     }
 
     @Transactional
-    public void updateUser(com.example.psds.personal_account.dto.User user){
-        com.example.psds.personal_account.model.User userModel = modelWithUserToObjectWithUser.objectToModel(user);
-        userRepository.save(userModel);
+    public void changeUser(UserDTO userDTO){
+        User user = modelWithUserToObjectWithUser.objectToModel(userDTO);
+        userRepository.save(user);
     }
 
     @Transactional
-    public void deleteUser(com.example.psds.personal_account.dto.User user){
-        com.example.psds.personal_account.model.User userModel = modelWithUserToObjectWithUser.objectToModel(user);
-        userRepository.delete(userModel);
+    public void deleteUser(Long userId){
+        userRepository.deleteById(userId);
     }
 
 }

@@ -1,8 +1,9 @@
 package com.example.psds.personal_account.controller;
 
+import com.example.psds.personal_account.dto.UserDTO;
+import com.example.psds.personal_account.service.RelationUsersService;
 import com.example.psds.personal_account.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -12,30 +13,35 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final RelationUsersService relationUsersService;
 
-    public UserController(UserService userService){
+    public UserController(UserService userService, final RelationUsersService relationUsersService){
         this.userService=userService;
+        this.relationUsersService = relationUsersService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/group/{groupId}")
-    public List<com.example.psds.personal_account.dto.User> getAllUsersFromGroup(@PathVariable Long groupId){
-        return userService.getUserList(groupId);
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDTO> getUserList(){
+        return userService.getUserList();
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{userId}")
-    public com.example.psds.personal_account.dto.User getUserByIdAndGroupId(@PathVariable Long userId){
-        return userService.getUserByIdAndGroupId(userId);
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO getUserById(@PathVariable Long userId){
+        return userService.getUserById(userId);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<String> updateUserByIdAndGroupId(@RequestBody com.example.psds.personal_account.dto.User user){
-        userService.updateUser(user);
-        return new ResponseEntity<>("Successful update", HttpStatus.NO_CONTENT);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void changeUser(@RequestBody UserDTO userDTO){
+        userService.changeUser(userDTO);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteUser(@RequestBody com.example.psds.personal_account.dto.User user){
-        userService.deleteUser(user);
-        return new ResponseEntity<>("Successful delete", HttpStatus.NO_CONTENT);
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Long userId){
+        relationUsersService.deleteRelationUsersByUserIdOrMasterId(userId, userId);
+        userService.deleteUser(userId);
     }
 }

@@ -1,11 +1,13 @@
 package com.example.psds.personal_account.mapper;
 
+import com.example.psds.personal_account.dto.GroupDTO;
+import com.example.psds.personal_account.model.Group;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring")
 public interface ModelWithGroupToObjectWithGroup {
-    com.example.psds.personal_account.model.Group objectToModel(com.example.psds.personal_account.dto.Group group);
-    com.example.psds.personal_account.dto.Group modelToObject(com.example.psds.personal_account.model.Group group);
+    Group objectToModel(GroupDTO group);
+    GroupDTO modelToObject(Group group);
 }
