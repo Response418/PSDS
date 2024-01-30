@@ -58,11 +58,14 @@ public class SpecialistProfileService {
     @Transactional
     public SpecialistProfileDTO getSpecialistProfileById(Long specialistProfileId){
         SpecialistProfile specialistProfile = specialistProfileRepository.findSpecialistProfilesById(specialistProfileId);
-        SpecialistProfileDTO specialistProfileDTO = modelSpecialistProfileAndObjectSpecialistProfile.modelToObject(specialistProfile);
-        List<ThemeAndProfile> themeAndProfiles = specialistProfile.getTapSpecialistProfile();
-        for (int i=0; i<themeAndProfiles.size(); i++){
-            specialistProfileDTO.getThemes().add(modelThemeAndObjectModel.modelToObject(themeAndProfiles.get(i).getTapTheme()));
+        if(specialistProfile!=null) {
+            SpecialistProfileDTO specialistProfileDTO = modelSpecialistProfileAndObjectSpecialistProfile.modelToObject(specialistProfile);
+            List<ThemeAndProfile> themeAndProfiles = specialistProfile.getTapSpecialistProfile();
+            for (int i = 0; i < themeAndProfiles.size(); i++) {
+                specialistProfileDTO.getThemes().add(modelThemeAndObjectModel.modelToObject(themeAndProfiles.get(i).getTapTheme()));
+            }
+            return specialistProfileDTO;
         }
-        return specialistProfileDTO;
+        return null;
     }
 }

@@ -24,7 +24,7 @@ public class LessonController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.CREATED)
-    public void changeLesson(LessonDTO lessonDTO){
+    public void changeLesson(@RequestBody LessonDTO lessonDTO){
         lessonService.changeLesson(lessonDTO);
     }
 

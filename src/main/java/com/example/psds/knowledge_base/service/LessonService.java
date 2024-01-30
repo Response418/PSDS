@@ -6,7 +6,6 @@ import com.example.psds.knowledge_base.model.Lesson;
 import com.example.psds.knowledge_base.repository.LessonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +31,19 @@ public class LessonService {
     }
 
     @Transactional
-    public void changeLesson(@RequestBody LessonDTO lessonDTO){
+    public void changeLesson(LessonDTO lessonDTO){
         lessonRepository.save(modelLessonAndObjectLesson.objectToModel(lessonDTO));
     }
 
     @Transactional
     public void deleteLesson(Long lessonId){
         lessonRepository.deleteById(lessonId);
+    }
+
+    @Transactional
+    public void changeLessonByMaterialId(Long materilaId){
+        Lesson lesson = lessonRepository.findLessonByMaterial_Id(materilaId);
+        lesson.setMaterial(null);
+        lessonRepository.save(lesson);
     }
 }
