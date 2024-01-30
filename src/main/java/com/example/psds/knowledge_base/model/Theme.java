@@ -31,7 +31,4 @@ public class Theme {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "theme")
     private List<Lesson> lessons = new ArrayList<>();
 
-
-
-
 }

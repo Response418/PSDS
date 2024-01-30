@@ -2,6 +2,7 @@ package com.example.psds.knowledge_base.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 
 @Getter
@@ -27,6 +28,7 @@ public class Lesson {
     private Theme theme;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Nullable
     private Material material;
 
 }
