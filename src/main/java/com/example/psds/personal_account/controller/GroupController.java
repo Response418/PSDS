@@ -1,4 +1,5 @@
 package com.example.psds.personal_account.controller;
+import com.example.psds.personal_account.exception.ServiceException;
 import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.response.GroupResponseBuilder;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class GroupController {
     public ResponseEntity<?> getStudentsByMaster(
         @RequestHeader("userId") Long userId,
         @RequestHeader("groupId") Long groupId
-    ) {
+    ) throws ServiceException {
         return groupResponseBuilder.getStudentsByMaster(userId, groupId);
     }
 
