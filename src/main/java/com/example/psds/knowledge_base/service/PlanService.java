@@ -8,6 +8,8 @@ import com.example.psds.knowledge_base.model.ThemeAndProfile;
 import com.example.psds.knowledge_base.repository.PlanRepository;
 import com.example.psds.knowledge_base.dto.PlanDTO;
 import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class PlanService {
     private final PlanRepository planRepository;
     private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
     private final ModelThemeAndObjectModel modelThemeAndObjectModel;
-
-    public PlanService(final PlanRepository planRepository, final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile, final ModelThemeAndObjectModel modelThemeAndObjectModel) {
-        this.planRepository = planRepository;
-        this.modelSpecialistProfileAndObjectSpecialistProfile = modelSpecialistProfileAndObjectSpecialistProfile;
-        this.modelThemeAndObjectModel = modelThemeAndObjectModel;
-    }
 
     @Transactional
     public PlanDTO getPlanByLinkUsersId(Long linkUsersId){
@@ -51,11 +48,15 @@ public class PlanService {
     }
 
     @Transactional
-    public void addSpecialistProfile(Long linkUsersId, SpecialistProfileDTO specialistProfileDTO){
-        Plan plan = new Plan();
-        plan.setRelationUsersId(linkUsersId);
-        plan.setSpecialistProfile(modelSpecialistProfileAndObjectSpecialistProfile.objectToModel(specialistProfileDTO));
-        planRepository.save(plan);
+    public void addSpecialistProfile(Long linkUsersId, @NotNull SpecialistProfileDTO specialistProfileDTO){
+        Plan plan = planRepository.getByRelationUsersIdAndSpecialistProfile_Id(linkUsersId, specialistProfileDTO.getId());
+        if (plan==null) {
+            plan = new Plan();
+            plan.setRelationUsersId(linkUsersId);
+            SpecialistProfile specialistProfile = modelSpecialistProfileAndObjectSpecialistProfile.objectToModel(specialistProfileDTO);
+            plan.setSpecialistProfile(specialistProfile);
+            planRepository.save(plan);
+        }
     }
 
     @Transactional

@@ -7,10 +7,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class LessonDTO {
+public class GradeDTO {
     private Long id;
-    private String title;
-    private String description;
-    private int level;
-    private int grade;
+
+    private int value;
+
+    private LessonDTO lesson;
+    private Long relationUsersId;
 }

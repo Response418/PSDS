@@ -6,22 +6,18 @@ import com.example.psds.knowledge_base.model.SpecialistProfile;
 import com.example.psds.knowledge_base.model.ThemeAndProfile;
 import com.example.psds.knowledge_base.repository.SpecialistProfileRepository;
 import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class SpecialistProfileService {
     private final SpecialistProfileRepository specialistProfileRepository;
     private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
     private final ModelThemeAndObjectModel modelThemeAndObjectModel;
-
-    public SpecialistProfileService(final SpecialistProfileRepository specialistProfileRepository, final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile, final ModelThemeAndObjectModel modelThemeAndObjectModel) {
-        this.specialistProfileRepository = specialistProfileRepository;
-        this.modelSpecialistProfileAndObjectSpecialistProfile = modelSpecialistProfileAndObjectSpecialistProfile;
-        this.modelThemeAndObjectModel = modelThemeAndObjectModel;
-    }
 
     @Transactional
     public SpecialistProfileDTO getSpecialistProfileByProfessionProfileId(Long specialistProfileId) {
