@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface SpecialistProfileRepository extends JpaRepository<SpecialistProfile, Long> {
     SpecialistProfile findSpecialistProfileById(Long specialistProfileId);
-    List<SpecialistProfile> findSpecialistProfilesByTitle(String title);
+    List<SpecialistProfile> findByTitleContainingIgnoreCase(String title);
 
 }
