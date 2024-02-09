@@ -1,7 +1,5 @@
 package com.example.psds.personal_account.dto;
 
-import com.example.psds.personal_account.model.Group;
-import com.example.psds.personal_account.model.User;
 import lombok.*;
 
 @Getter
@@ -11,7 +9,7 @@ import lombok.*;
 @ToString
 public class RelationUsersDTO {
     private Long id;
-    private Group group;
-    private User student;
-    private User master;
+    private GroupDTO group;
+    private UserDTO student;
+    private UserDTO master;
 }

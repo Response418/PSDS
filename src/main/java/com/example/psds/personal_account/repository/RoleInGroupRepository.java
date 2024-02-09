@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface RoleInGroupRepository extends JpaRepository<RoleInGroup, Long> {
+    RoleInGroup findByGroup_IdAndUser_Id(Long groupId, Long userId);
 }

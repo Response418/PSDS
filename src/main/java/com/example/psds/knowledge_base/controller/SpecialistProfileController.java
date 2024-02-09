@@ -7,6 +7,7 @@ import com.example.psds.knowledge_base.model.Theme;
 import com.example.psds.knowledge_base.service.SpecialistProfileService;
 import com.example.psds.knowledge_base.service.ThemeAndProfileService;
 import com.example.psds.knowledge_base.service.ThemeService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/specialistProfile")
+@AllArgsConstructor
+@RequestMapping("/specialistProfiles")
 public class SpecialistProfileController {
     private final SpecialistProfileService specialistProfileService;
     private final ThemeService themeService;
     private final ThemeAndProfileService themeAndProfileService;
-
-    public SpecialistProfileController(final SpecialistProfileService specialistProfileService, final ThemeService themeService, final ThemeAndProfileService themeAndProfileService) {
-        this.specialistProfileService = specialistProfileService;
-        this.themeService = themeService;
-        this.themeAndProfileService = themeAndProfileService;
-    }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)

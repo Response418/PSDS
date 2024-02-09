@@ -13,7 +13,5 @@ public class UserDTO {
     private String firstName;
     private String fatherName;
     private String city;
-    private String phoneNumber;
-    private String email;
-    private String password;
+    private Long linkUserId;
 }

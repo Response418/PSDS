@@ -2,19 +2,17 @@ package com.example.psds.knowledge_base.controller;
 
 import com.example.psds.knowledge_base.dto.LessonDTO;
 import com.example.psds.knowledge_base.service.LessonService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/lesson")
+@AllArgsConstructor
+@RequestMapping("/lessons")
 public class LessonController {
     private final LessonService lessonService;
-
-    public LessonController(final LessonService lessonService) {
-        this.lessonService = lessonService;
-    }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
