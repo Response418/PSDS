@@ -1,19 +1,16 @@
 package com.example.psds.knowledge_base.service;
 
 import com.example.psds.knowledge_base.dto.LinkUsersDTO;
-import com.example.psds.knowledge_base.model.Plan;
 import com.example.psds.knowledge_base.mapper.ModelSpecialistProfileAndObjectSpecialistProfile;
 import com.example.psds.knowledge_base.mapper.ModelThemeAndObjectModel;
-import com.example.psds.knowledge_base.model.SpecialistProfile;
 import com.example.psds.knowledge_base.model.Plan;
+import com.example.psds.knowledge_base.model.SpecialistProfile;
 import com.example.psds.knowledge_base.model.ThemeAndProfile;
 import com.example.psds.knowledge_base.repository.PlanRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import com.example.psds.knowledge_base.dto.PlanDTO;
 import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

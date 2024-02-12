@@ -6,7 +6,6 @@ import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
 import com.example.psds.knowledge_base.dto.PlanDTO;
 import com.example.psds.knowledge_base.dto.ThemeDTO;
 import com.example.psds.knowledge_base.model.Grade;
-import com.example.psds.knowledge_base.model.Theme;
 import com.example.psds.knowledge_base.service.GradeService;
 import com.example.psds.knowledge_base.service.PlanService;
 import lombok.AllArgsConstructor;
@@ -20,12 +19,13 @@ import java.util.List;
 @RequestMapping("/plans")
 public class PlanController {
     private final PlanService planService;
+    private final GradeService gradeService;
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPlanBylinkUsers(@RequestBody LinkUsersDTO linkUsersDTO){
+    public void createPlanBylinkUsers(@RequestBody LinkUsersDTO linkUsersDTO) {
         planService.createPlanBylinkUsers(linkUsersDTO);
-    private final GradeService gradeService;
+    }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{linkUsersId}")
     @ResponseStatus(HttpStatus.OK)
