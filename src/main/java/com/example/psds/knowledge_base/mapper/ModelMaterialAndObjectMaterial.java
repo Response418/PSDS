@@ -11,3 +11,4 @@ public interface ModelMaterialAndObjectMaterial {
     Material objectToModel(MaterialDTO materialDTO);
     MaterialDTO modelToObject(Material material);
 }
+
