@@ -15,9 +15,9 @@ public class PlanResponseBuilder {
     private final PlanService planService;
     private final MapperPlan mapperPlan;
 
-    public ResponseEntity<?> getPlanByRelationUsers(Long relationUsersId){
+    public ResponseEntity<?> getPlanByRelationUsers(Long linkUserId){
 
-        Plan plan = planService.getPlanByRelationUsers(relationUsersId);
+        Plan plan = planService.getPlanByRelationUsers(linkUserId);
         PlanDTO planDTO = mapperPlan.modelToObject(plan);
 
         return new ResponseEntity<>(planDTO, HttpStatus.OK);

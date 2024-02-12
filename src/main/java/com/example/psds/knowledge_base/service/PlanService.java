@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class PlanService {
     private final PlanRepository planRepository;
 
-    public Plan getPlanByRelationUsers(Long relationUsersId){
-        return planRepository.getPlanByRelationUsersId(relationUsersId);
+    public Plan getPlanByRelationUsers(Long linkUserId){
+        return planRepository.getPlanByRelationUsersId(linkUserId);
     }
 }

@@ -16,9 +16,9 @@ public class GradeResponseBuilder {
     private final GradeService gradeService;
     private final MapperGrade mapperGrade;
 
-    public ResponseEntity<?> updateGrade(Long lessonId, Long relationUsersId, GradeRequestDTO gradeRequestDTO){
+    public ResponseEntity<?> updateGrade(Long lessonId, Long linkUserId, GradeRequestDTO gradeRequestDTO){
         Integer newGrade = gradeRequestDTO.getGrade();
-        Grade grade = gradeService.updateGrade(lessonId, relationUsersId, newGrade);
+        Grade grade = gradeService.updateGrade(lessonId, linkUserId, newGrade);
         GradeDTO gradeDTO = mapperGrade.modelToObject(grade);
 
         return new ResponseEntity<>(gradeDTO, HttpStatus.OK);

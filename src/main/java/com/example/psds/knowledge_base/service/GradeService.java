@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 public class GradeService {
     private final GradeRepository gradeRepository;
 
-    public Grade updateGrade(Long lessonId, Long relationUsersId, Integer newGrade){
-        Grade grade = gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, relationUsersId);
+    public Grade updateGrade(Long lessonId, Long linkUserId, Integer newGrade){
+        Grade grade = gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId);
         grade.setGrade(newGrade);
         gradeRepository.save(grade);
 

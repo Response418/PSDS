@@ -20,8 +20,8 @@ public class LessonResponseBuilder {
     private final MapperLesson mapperLesson;
     private final MapperGrade mapperGrade;
 
-    public ResponseEntity<?> getLessonByIdAndRelationUsers(Long lessonId, Long relationUsersId){
-        Grade grade = lessonService.getLessonByIdAndRelationUsers(lessonId, relationUsersId);
+    public ResponseEntity<?> getLessonByIdAndRelationUsers(Long lessonId, Long linkUserId){
+        Grade grade = lessonService.getLessonByIdAndRelationUsers(lessonId, linkUserId);
         GradeDTO gradeDTO = mapperGrade.modelToObject(grade);
 
         return new ResponseEntity<>(gradeDTO, HttpStatus.OK);

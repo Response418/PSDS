@@ -24,20 +24,7 @@ public class GroupResponseBuilder {
     private final UserService userService;
     private final MapperRelationUsers mapperRelationUsers;
 
-    public ResponseEntity<?> getStudentsByMaster(Long userId, Long groupId) throws ServiceException {
-
-        if(!userService.hasUserById(userId))
-            throw new ServiceException(USER_NOT_FOUND);
-
-        if(!groupService.hasGroupById(groupId))
-            throw new ServiceException(GROUP_NOT_FOUND);
-
-        if(!userService.IfUserBelongGroup(userId, groupId))
-            throw new ServiceException(USER_NOT_BELONG_TO_GROUP);
-
-        if(!userService.ifRoleAccessByUserId(userId, Role.ROLE_MENTOR))
-            throw new ServiceException(ACCESS_DENIED);
-
+    public ResponseEntity<?> getStudentsByMaster(Long userId, Long groupId) {
 
         List<RelationUsers> relationUsers = groupService.getStudentsByMaster(userId, groupId);
 

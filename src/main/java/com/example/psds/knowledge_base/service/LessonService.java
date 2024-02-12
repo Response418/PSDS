@@ -15,7 +15,7 @@ public class LessonService {
     private final LessonRepository lessonRepository;
     private final GradeRepository gradeRepository;
 
-    public Grade getLessonByIdAndRelationUsers(Long lessonId, Long relationUsersId){
-        return gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, relationUsersId);
+    public Grade getLessonByIdAndRelationUsers(Long lessonId, Long linkUserId){
+        return gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId);
     }
 }

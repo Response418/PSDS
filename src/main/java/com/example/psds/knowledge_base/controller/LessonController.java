@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/lesson")
+@RequestMapping("/api/lessons")
 public class LessonController {
 
     private final LessonResponseBuilder lessonResponseBuilder;
 
-    @GetMapping("/{lessonId}/{relationUsersId}")
+    @GetMapping("/{lessonId}/{linkUserId}")
     public ResponseEntity<?> getLessonByIdAndRelationUsers(
-            @PathVariable("relationUsersId") Long relationUsersId,
+            @PathVariable("linkUserId") Long linkUserId,
             @PathVariable("lessonId") Long lessonId
     ) {
-        return lessonResponseBuilder.getLessonByIdAndRelationUsers(lessonId, relationUsersId);
+        return lessonResponseBuilder.getLessonByIdAndRelationUsers(lessonId, linkUserId);
     }
 
 }

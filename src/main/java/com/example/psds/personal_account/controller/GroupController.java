@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/group")
+@RequestMapping("/api/groups")
 public class GroupController {
 
     private final GroupResponseBuilder groupResponseBuilder;
 
-    @GetMapping("/master/student")
+    @GetMapping("/masters/students")
     public ResponseEntity<?> getStudentsByMaster(
         @RequestHeader("userId") Long userId,
         @RequestHeader("groupId") Long groupId
-    ) throws ServiceException {
+    ) {
         return groupResponseBuilder.getStudentsByMaster(userId, groupId);
     }
 

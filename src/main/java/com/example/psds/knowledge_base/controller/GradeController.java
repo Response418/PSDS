@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/grade")
+@RequestMapping("/api/grades")
 public class GradeController {
     private final GradeResponseBuilder gradeResponseBuilder;
 
-    @PutMapping("/{lessonId}/{relationUsersId}")
+    @PutMapping("/{lessonId}/{linkUserId}")
     public ResponseEntity<?> updateGrade(
-            @PathVariable("relationUsersId") Long relationUsersId,
+            @PathVariable("linkUserId") Long linkUserId,
             @PathVariable("lessonId") Long lessonId,
             @RequestBody GradeRequestDTO gradeRequestDTO
             ) {
-        return gradeResponseBuilder.updateGrade(lessonId, relationUsersId, gradeRequestDTO);
+        return gradeResponseBuilder.updateGrade(lessonId, linkUserId, gradeRequestDTO);
     }
 }
