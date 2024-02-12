@@ -11,4 +11,8 @@ public interface RoleInGroupRepository extends JpaRepository<RoleInGroup, Long> 
     List<RoleInGroup> findByUserId (Long id);
 
     RoleInGroup findByGroupIdAndUserId(Long groupId, Long userId);
+
+
+public interface RoleInGroupRepository extends JpaRepository<RoleInGroup, Long> {
+    RoleInGroup findByGroup_IdAndUser_Id(Long groupId, Long userId);
 }
