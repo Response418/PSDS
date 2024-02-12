@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
     Lesson findLessonByMaterial_Id(Long materialId);
+    List<Lesson> findByThemeId(Long themeId);
 }

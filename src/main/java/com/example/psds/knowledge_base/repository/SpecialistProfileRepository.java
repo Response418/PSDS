@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SpecialistProfileRepository extends JpaRepository<SpecialistProfile, Long> {
     SpecialistProfile findSpecialistProfilesById(Long specialistProfileId);
+    List<SpecialistProfile> findByTitleContainingIgnoreCase(String title);
 }
