@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,6 +35,8 @@ public class GroupService {
     private final RoleInGroupRepository roleInGroupRepository;
     private final ModelGroupsForUserToObjectGroupsForUser modelGroupsForUserToObjectGroupsForUser;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final ModelWithGroupToObjectWithGroup modelWithGroupToObjectWithGroup;
     public void createGroup(GroupsForUserDto groupDto) {
         Group group = new Group();
         group.setName(groupDto.getName());
@@ -62,19 +65,6 @@ public class GroupService {
         Group group = groupRepository.findById(groupId).orElseThrow();
         return modelGroupsForUserToObjectGroupsForUser.modelToObject(group);
     }
-}
-
-import java.util.Collections;
-import java.util.List;
-
-@Service
-@Transactional
-@AllArgsConstructor
-public class GroupService {
-    private final GroupRepository groupRepository;
-    private final RoleInGroupRepository roleInGroupRepository;
-    private final UserRepository userRepository;
-    private final ModelWithGroupToObjectWithGroup modelWithGroupToObjectWithGroup;
 
     public List<GroupDTO> getGroupList(){
         List<com.example.psds.personal_account.model.Group> groupModelList = groupRepository.findAll();
@@ -104,10 +94,10 @@ public class GroupService {
         groupRepository.deleteById(groupId);
     }
 
-    public void changeRoleInGroupByUserId(Long groupId, Long userId, Role role){
-        RoleInGroup roleInGroup = roleInGroupRepository.findByGroup_IdAndUser_Id(groupId, userId);
+    /*public void changeRoleInGroupByUserId(Long groupId, Long userId, Role role){
+        RoleInGroup roleInGroup = roleInGroupRepository.findByGroupIdAndUserId(groupId, userId);
         if (roleInGroup!=null) {
-            roleInGroup.setRoles(Collections.singleton(role));
+            roleInGroup.setRole(Collections.singleton(role));
         }else{
             roleInGroup = new RoleInGroup();
             Group group = groupRepository.findGroupById(groupId);
@@ -120,8 +110,8 @@ public class GroupService {
                 return;
             }
             roleInGroup.setUser(user);
-            roleInGroup.setRoles(Collections.singleton(role));
+            roleInGroup.setRole(Collections.singleton(role));
         }
         roleInGroupRepository.save(roleInGroup);
-    }
+    }*/
 }
