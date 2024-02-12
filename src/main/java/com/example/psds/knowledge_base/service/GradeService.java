@@ -38,7 +38,7 @@ public class GradeService {
 
     public Grade updateGrade(Long lessonId, Long linkUserId, Integer newGrade){
         Grade grade = gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId);
-        grade.setGrade(newGrade);
+        grade.setValue(newGrade);
         gradeRepository.save(grade);
 
         return grade;

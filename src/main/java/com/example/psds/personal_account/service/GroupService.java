@@ -36,8 +36,6 @@ public class GroupService {
     private final UserRepository userRepository;
     private final ModelWithGroupToObjectWithGroup modelWithGroupToObjectWithGroup;
     private final RelationUsersRepository relationUsersRepository;
-    private final GroupRepository groupRepository;
-
 
     public void createGroup(GroupsForUserDto groupDto) {
         Group group = new Group();
@@ -116,15 +114,6 @@ public class GroupService {
         }
         roleInGroupRepository.save(roleInGroup);
     }*/
-
-    public boolean hasGroupById(Long groupId){
-        Group group = getGroupById(groupId);
-        return (group != null);
-    }
-
-    public Group getGroupById(Long groupId) {
-        return groupRepository.findGroupById(groupId);
-    }
 
     public List<RelationUsers> getStudentsByMaster(Long masterId, Long groupId) {
         return relationUsersRepository.findAllByMasterIdAndGroupId(masterId, groupId);

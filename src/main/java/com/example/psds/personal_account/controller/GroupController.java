@@ -10,6 +10,8 @@ import com.example.psds.personal_account.service.GroupService;
 import com.example.psds.personal_account.service.RelationUsersService;
 import com.example.psds.personal_account.service.SessionService;
 import com.example.psds.personal_account.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -93,10 +95,20 @@ public class GroupController {
 
     @GetMapping("/masters/students")
     public ResponseEntity<?> getStudentsByMaster(
-            @RequestHeader("userId") Long userId,
-            @RequestHeader("groupId") Long groupId
+            HttpServletRequest request
     ) {
-        return groupResponseBuilder.getStudentsByMaster(userId, groupId);
+        Cookie[] cookies = request.getCookies();
+        String sessionId = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("sessionId".equals(cookie.getName())) {
+                    sessionId = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return groupResponseBuilder.getStudentsByMaster(sessionId);
     }
 
 }

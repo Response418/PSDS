@@ -5,6 +5,8 @@ import com.example.psds.personal_account.exception.ServiceException;
 import com.example.psds.personal_account.mapper.MapperRelationUsers;
 import com.example.psds.personal_account.model.RelationUsers;
 import com.example.psds.personal_account.model.Role;
+import com.example.psds.personal_account.model.Session;
+import com.example.psds.personal_account.repository.SessionRepository;
 import com.example.psds.personal_account.service.GroupService;
 import com.example.psds.personal_account.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +25,13 @@ public class GroupResponseBuilder {
     private final GroupService groupService;
     private final UserService userService;
     private final MapperRelationUsers mapperRelationUsers;
+    private final SessionRepository sessionRepository;
 
-    public ResponseEntity<?> getStudentsByMaster(Long userId, Long groupId) {
+    public ResponseEntity<?> getStudentsByMaster(String sessionId) {
+
+        Session session = sessionRepository.findBySessionId(sessionId);
+        Long userId = session.getUser().getId();
+        Long groupId = session.getGroup().getId();
 
         List<RelationUsers> relationUsers = groupService.getStudentsByMaster(userId, groupId);
 
