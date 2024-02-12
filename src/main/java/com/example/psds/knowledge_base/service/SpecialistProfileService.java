@@ -8,20 +8,12 @@ import com.example.psds.knowledge_base.model.ThemeAndProfile;
 import com.example.psds.knowledge_base.repository.SpecialistProfileRepository;
 import lombok.AllArgsConstructor;
 import com.example.psds.knowledge_base.dto.LessonDTO;
-import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
 import com.example.psds.knowledge_base.dto.ThemeDTO;
 import com.example.psds.knowledge_base.mapper.ModelLessonAndObjectLesson;
-import com.example.psds.knowledge_base.mapper.ModelSpecialistProfileAndObjectSpecialistProfile;
-import com.example.psds.knowledge_base.mapper.ModelThemeAndObjectModel;
-import com.example.psds.knowledge_base.mapper.ModelThemeAndProfileObjectModel;
 import com.example.psds.knowledge_base.model.Lesson;
-import com.example.psds.knowledge_base.model.SpecialistProfile;
 import com.example.psds.knowledge_base.model.Theme;
-import com.example.psds.knowledge_base.model.ThemeAndProfile;
 import com.example.psds.knowledge_base.repository.LessonRepository;
-import com.example.psds.knowledge_base.repository.SpecialistProfileRepository;
 import com.example.psds.knowledge_base.repository.ThemeAndProfileRepository;
-import com.example.psds.knowledge_base.repository.ThemeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +27,9 @@ public class SpecialistProfileService {
     private final SpecialistProfileRepository specialistProfileRepository;
     private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
     private final ModelThemeAndObjectModel modelThemeAndObjectModel;
+    private final ThemeAndProfileRepository themeAndProfileRepository;
+    private final LessonRepository lessonRepository;
+    private final ModelLessonAndObjectLesson modelLessonAndObjectLesson;
 
     public List<SpecialistProfileDTO> getSpecialistProfileList(){
         List<SpecialistProfile> specialistProfiles = specialistProfileRepository.findAll();
@@ -63,9 +58,9 @@ public class SpecialistProfileService {
         specialistProfileRepository.deleteById(specialistProfileId);
     }
 
-    public SpecialistProfileDTO getSpecialistProfileById(Long specialistProfileId){
+    public SpecialistProfileDTO getSpecialistProfileById(Long specialistProfileId) {
         SpecialistProfile specialistProfile = specialistProfileRepository.findSpecialistProfilesById(specialistProfileId);
-        if(specialistProfile!=null) {
+        if (specialistProfile != null) {
             SpecialistProfileDTO specialistProfileDTO = modelSpecialistProfileAndObjectSpecialistProfile.modelToObject(specialistProfile);
             List<ThemeAndProfile> themeAndProfiles = specialistProfile.getTapSpecialistProfile();
             for (int i = 0; i < themeAndProfiles.size(); i++) {
@@ -75,27 +70,6 @@ public class SpecialistProfileService {
         }
         return null;
     }
-public class SpecialistProfileService {
-    private final SpecialistProfileRepository specialistProfileRepository;
-    private final ThemeAndProfileRepository themeAndProfileRepository;
-    private final ThemeRepository themeRepository;
-    private final LessonRepository lessonRepository;
-    private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
-    private final ModelThemeAndProfileObjectModel modelThemeAndProfileObjectModel;
-    private final ModelThemeAndObjectModel modelThemeAndObjectModel;
-    private final ModelLessonAndObjectLesson modelLessonAndObjectLesson;
-
-    public SpecialistProfileService(SpecialistProfileRepository specialistProfileRepository, ThemeAndProfileRepository themeAndProfileRepository, ThemeRepository themeRepository, LessonRepository lessonRepository, ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile, ModelThemeAndProfileObjectModel modelThemeAndProfileObjectModel, ModelThemeAndObjectModel modelThemeAndObjectModel, ModelLessonAndObjectLesson modelLessonAndObjectLesson) {
-        this.specialistProfileRepository = specialistProfileRepository;
-        this.themeAndProfileRepository = themeAndProfileRepository;
-        this.themeRepository = themeRepository;
-        this.lessonRepository = lessonRepository;
-        this.modelSpecialistProfileAndObjectSpecialistProfile = modelSpecialistProfileAndObjectSpecialistProfile;
-        this.modelThemeAndProfileObjectModel = modelThemeAndProfileObjectModel;
-        this.modelThemeAndObjectModel = modelThemeAndObjectModel;
-        this.modelLessonAndObjectLesson = modelLessonAndObjectLesson;
-    }
-
 
     @Transactional
     public List<SpecialistProfileDTO> getSpecialistProfilesByString(String searchString) {
