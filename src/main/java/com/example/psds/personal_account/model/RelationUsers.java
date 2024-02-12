@@ -1,15 +1,15 @@
 package com.example.psds.personal_account.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@Table(name = "t_relation_users")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "t_relation_users")
+@ToString
 public class RelationUsers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,10 +1,7 @@
 package com.example.psds.knowledge_base.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
@@ -17,7 +14,7 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int grade;
+    private int value;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")

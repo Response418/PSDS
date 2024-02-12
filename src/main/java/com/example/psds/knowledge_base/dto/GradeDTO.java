@@ -1,17 +1,17 @@
 package com.example.psds.knowledge_base.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class GradeDTO {
     private Long id;
-    private int grade;
+
+    private int value;
+
     private LessonDTO lesson;
     private Long relationUsersId;
 }

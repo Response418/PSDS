@@ -4,9 +4,19 @@ import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findUsersById(Long userId);
+    Optional<User> findByEmail(String email);
+
+    Boolean existsByEmail(String email);
+
+    Boolean existsByPhoneNumber(String phoneNumber);
+
+    User findUserById(Long id);
 
     @Query("""
         select
