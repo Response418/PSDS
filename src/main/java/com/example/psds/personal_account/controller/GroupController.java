@@ -33,26 +33,43 @@ public class GroupController {
     private final SessionService sessionService;
     private final GroupResponseBuilder groupResponseBuilder;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("")
+    public ResponseEntity<?> findGroupByUserId(Principal principal) {
+        Long userId = userRepository.findByEmail(principal.getName()).orElseThrow().getId();
+        return new ResponseEntity<>(groupService.findByUserId(userId), HttpStatus.OK);
+    }
+
+    @PutMapping("/{groupId}")
+    public ResponseEntity<?> selectGroup(@PathVariable Long groupId, Principal principal) {
+        Long userId = userService.getUserId(principal.getName());
+        GroupDTO groups = groupService.selectGroup(groupId, userId);
+        sessionService.editGroupInSession(userId, groupId);
+        return new ResponseEntity<>(groups, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createGroup(@RequestBody @Valid GroupDTO groupDto) {
+        groupService.createGroup(groupDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @RequestMapping(method = RequestMethod.GET, path = "/moderator")
     public List<GroupDTO> getGroupList(){
         return groupService.getGroupList();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void createGroup(@RequestBody GroupDTO group){
-        groupService.createGroup(group);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/moderator/{groupId}")
-    public GroupDTO getGroupById(@PathVariable Long groupId){
-        return groupService.getGroupById(groupId);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT, path = "/moderator")
     @ResponseStatus(HttpStatus.CREATED)
     public void updateGroup(@RequestBody GroupDTO group){
         groupService.updateGroup(group);
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/moderator/{groupId}")
+    public GroupDTO getGroupById(@PathVariable Long groupId){
+
+        return groupService.getGroupById(groupId);
+    }
+
+
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/moderator/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -67,31 +84,13 @@ public class GroupController {
         relationUsersService.createRelationUsersByGroupIdAndUserId(groupId, userId, mentor);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{groupId}/users/{userId}/roles")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void changeRoleInGroupByUserId(@PathVariable Long groupId, @PathVariable Long userId, @RequestBody Role role){
-        //groupService.changeRoleInGroupByUserId(groupId, userId, role);
-    }
+//    @RequestMapping(method = RequestMethod.PUT, path = "/{groupId}/users/{userId}/roles")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public void changeRoleInGroupByUserId(@PathVariable Long groupId, @PathVariable Long userId, @RequestBody Role role){
+//        //groupService.changeRoleInGroupByUserId(groupId, userId, role);
+//    }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createGroup(@RequestBody @Valid GroupsForUserDto groupDto) {
-        groupService.createGroup(groupDto);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
-    @GetMapping("/tt")
-    public ResponseEntity<?> findByUserId(Principal principal) {
-        Long userId = userRepository.findByEmail(principal.getName()).orElseThrow().getId();
-        return new ResponseEntity<>(groupService.findByUserId(userId), HttpStatus.OK);
-    }
-
-    @PutMapping("/{groupId}")
-    public ResponseEntity<?> selectGroup(@PathVariable Long groupId, Principal principal) {
-        Long userId = userService.getUserId(principal.getName());
-        GroupsForUserDto groups = groupService.selectGroup(groupId, userId);
-        sessionService.editGroupInSession(userId, groupId);
-        return new ResponseEntity<>(groups, HttpStatus.OK);
-    }
 
     @GetMapping("/masters/students")
     public ResponseEntity<?> getStudentsByMaster(

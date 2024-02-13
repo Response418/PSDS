@@ -46,7 +46,11 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("api/auth/**").permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+//                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .logout((logout) -> logout
+                        .logoutUrl("api/logout")
+//                        .logoutSuccessUrl("api/")
+                        .invalidateHttpSession(true))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

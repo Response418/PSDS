@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/specialistProfiles")
+@RequestMapping("/api/specialistProfiles")
 public class SpecialistProfileController {
     private final SpecialistProfileService specialistProfileService;
     private final ThemeService themeService;
