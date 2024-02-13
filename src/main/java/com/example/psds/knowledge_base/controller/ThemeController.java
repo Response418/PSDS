@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/themes")
+@RequestMapping("/api/themes")
 public class ThemeController {
     private final ThemeService themeService;
 

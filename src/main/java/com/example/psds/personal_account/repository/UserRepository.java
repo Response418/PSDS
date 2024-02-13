@@ -1,9 +1,12 @@
 package com.example.psds.personal_account.repository;
 
+import com.example.psds.personal_account.dto.UserProjection;
 import com.example.psds.personal_account.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,4 +18,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByPhoneNumber(String phoneNumber);
 
     User findUserById(Long id);
+
+    @Query("SELECT u.id AS id, u.lastName AS lastName, u.firstName AS firstName, " +
+            "u.fatherName AS fatherName FROM User u WHERE u.id = :userId")
+    UserProjection findUserByUserId(Long userId);
+
+    @Query("SELECT u.id AS id, u.lastName AS lastName, u.firstName AS firstName, " +
+            "u.fatherName AS fatherName FROM User u")
+    List<UserProjection> findListUserForRoleInGroup();
 }
