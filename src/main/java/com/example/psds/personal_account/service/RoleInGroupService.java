@@ -1,5 +1,7 @@
 package com.example.psds.personal_account.service;
 
+import com.example.psds.knowledge_base.model.Plan;
+import com.example.psds.knowledge_base.service.PlanService;
 import com.example.psds.personal_account.dto.GroupDTO;
 import com.example.psds.personal_account.dto.ListRoleInGroupDTO;
 import com.example.psds.personal_account.dto.RoleDto;
@@ -28,6 +30,8 @@ public class RoleInGroupService {
     private final RoleRepository roleRepository;
     private final GroupRepository groupRepository;
     private final ModelWithGroupToObjectWithGroup modelWithGroupToObjectWithGroup;
+    private final RelationUsersService relationUsersService;
+    private final PlanService planService;
 
 
     public void create(RoleInGroupDto roleInGroupDto) {
@@ -40,6 +44,22 @@ public class RoleInGroupService {
         roleInGroup.setRole(role);
         log.info("Saving new role in group");
         roleInGroupRepository.save(roleInGroup);
+
+        if(String.valueOf(role.getName()).equals("ROLE_STUDENT")){
+            RelationUsers relationUsers = relationUsersService.getRelationUserByUserId(user.getId());
+            if(relationUsers == null){
+                RelationUsers relation = new RelationUsers();
+                relation.setGroup(group);
+                relation.setStudent(user);
+                log.info("Saving new relation user for the student");
+                relationUsersService.createRelationUser(relation);
+
+                Plan plan = new Plan();
+                plan.setRelationUsersId(relation.getId());
+                log.info("Saving the student plan for the student");
+                planService.createPlan(plan);
+            }
+        }
     }
 
     public ListRoleInGroupDTO getListsForRoleInGroup() {

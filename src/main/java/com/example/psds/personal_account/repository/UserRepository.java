@@ -20,10 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserById(Long id);
 
     @Query("SELECT u.id AS id, u.lastName AS lastName, u.firstName AS firstName, " +
-            "u.fatherName AS fatherName FROM User u WHERE u.id = :userId")
-    UserProjection findUserByUserId(Long userId);
-
-    @Query("SELECT u.id AS id, u.lastName AS lastName, u.firstName AS firstName, " +
             "u.fatherName AS fatherName FROM User u")
     List<UserProjection> findListUserForRoleInGroup();
 }

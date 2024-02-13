@@ -21,9 +21,9 @@ import java.security.Principal;
 public class RelationUsersController {
     private final RelationUsersService relationUsersService;
     
-    //Для назначение наставника для студента Руководителем группы (возвращаем только пользователей из текущей группы)
+    //Для назначение наставника для студента Руководителем группы
     @GetMapping("")
-    public ResponseEntity<?> findListUserForGroup(HttpServletRequest servletRequest) {//
-        return new ResponseEntity<>(relationUsersService.findListUserForGroup(servletRequest), HttpStatus.OK);
+    public ResponseEntity<?> getListMentorForGroup(HttpServletRequest servletRequest) {//
+        return new ResponseEntity<>(relationUsersService.findListMentorForGroup(servletRequest), HttpStatus.OK);
     }
 }

@@ -25,6 +25,11 @@ public class PlanService {
     private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
     private final ModelThemeAndObjectModel modelThemeAndObjectModel;
 
+
+    public void createPlan(Plan plan){
+        planRepository.save(plan);
+    }
+
     @Transactional
     public PlanDTO getPlanByLinkUsersId(Long linkUsersId){
         List<Plan> planModels = planRepository.findPlansByRelationUsersId(linkUsersId);
