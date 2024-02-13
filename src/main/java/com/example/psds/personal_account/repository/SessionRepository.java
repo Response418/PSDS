@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface SessionRepository extends JpaRepository<Session, Long> {
     Session findByUserId(Long userId);
     Session findBySessionId(String sessionId);
-
-    Session findBySessionId(String sessionId);
 }

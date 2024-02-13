@@ -1,7 +1,6 @@
 package com.example.psds.personal_account.service;
 
 import com.example.psds.personal_account.dto.authentication.GroupsForUserDto;
-import com.example.psds.personal_account.mapper.ModelGroupsForUserToObjectGroupsForUser;
 import com.example.psds.personal_account.model.*;
 import com.example.psds.personal_account.model.Group;
 import com.example.psds.personal_account.model.RoleInGroup;
@@ -12,11 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.example.psds.personal_account.dto.GroupDTO;
 import com.example.psds.personal_account.mapper.ModelWithGroupToObjectWithGroup;
-import com.example.psds.personal_account.model.Group;
-import com.example.psds.personal_account.model.RoleInGroup;
-import com.example.psds.personal_account.repository.GroupRepository;
-import com.example.psds.personal_account.repository.RoleInGroupRepository;
-import com.example.psds.personal_account.repository.UserRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +30,6 @@ public class GroupService {
     private final ModelWithGroupToObjectWithGroup modelWithGroupToObjectWithGroup;
     private final RelationUsersRepository relationUsersRepository;
 
-    public void createGroup(GroupsForUserDto groupDto) {
-        Group group = new Group();
-        group.setName(groupDto.getName());
-        group.setDescription(groupDto.getDescription());
-        log.info("Saving new group with name: {}", groupDto.getName());
-        groupRepository.save(group);
 
     public void createGroup(GroupDTO groupDTO){
         Group groupModel = modelWithGroupToObjectWithGroup.objectToModel(groupDTO);
