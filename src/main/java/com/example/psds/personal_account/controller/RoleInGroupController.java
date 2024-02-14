@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class RoleInGroupController {
     private final RoleInGroupService roleInGroupService;
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<?> createRoleInGroup(@RequestBody @Valid RoleInGroupDto roleInGroupDto) {
         roleInGroupService.create(roleInGroupDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/create")
+    @GetMapping("")
     @Transactional
     public ResponseEntity<?> getListsForRoleInGroup() {
         return new ResponseEntity<>(roleInGroupService.getListsForRoleInGroup(), HttpStatus.OK);
