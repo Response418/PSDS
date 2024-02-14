@@ -6,6 +6,7 @@ import com.example.psds.knowledge_base.mapper.ModelThemeAndObjectModel;
 import com.example.psds.knowledge_base.model.SpecialistProfile;
 import com.example.psds.knowledge_base.model.ThemeAndProfile;
 import com.example.psds.knowledge_base.repository.SpecialistProfileRepository;
+import com.example.psds.knowledge_base.repository.ThemeRepository;
 import lombok.AllArgsConstructor;
 import com.example.psds.knowledge_base.dto.LessonDTO;
 import com.example.psds.knowledge_base.dto.ThemeDTO;
@@ -30,6 +31,8 @@ public class SpecialistProfileService {
     private final ThemeAndProfileRepository themeAndProfileRepository;
     private final LessonRepository lessonRepository;
     private final ModelLessonAndObjectLesson modelLessonAndObjectLesson;
+
+    private final ThemeRepository themeRepository;
 
     public List<SpecialistProfileDTO> getSpecialistProfileList(){
         List<SpecialistProfile> specialistProfiles = specialistProfileRepository.findAll();
@@ -78,16 +81,18 @@ public class SpecialistProfileService {
 
         for (SpecialistProfile specialistProfile : findedSpecialistProfiles) {
             SpecialistProfileDTO specialistProfileDTO = modelSpecialistProfileAndObjectSpecialistProfile.modelToObject(specialistProfile);
-            specialistProfileDTO.setThemes(getThemesBySpecialistProfileId(specialistProfile.getId()));
+            specialistProfileDTO.setThemes(getThemesBySpecialistProfileId(specialistProfile));
             specialistProfileDTOs.add(specialistProfileDTO);
         }
 
         return specialistProfileDTOs;
     }
 
-    private List<ThemeDTO> getThemesBySpecialistProfileId(Long specialistProfileId) {
-        List<ThemeAndProfile> themeAndProfile = themeAndProfileRepository.findTapSpecialistProfileById(specialistProfileId);
+    private List<ThemeDTO> getThemesBySpecialistProfileId(SpecialistProfile specialistProfileId) {
+        List<ThemeAndProfile> themeAndProfile = themeAndProfileRepository.findByTapSpecialistProfileId(specialistProfileId);
+
         List<Theme> themes = new ArrayList<>();
+
         for (ThemeAndProfile pair : themeAndProfile) {
             themes.add(pair.getTapTheme());
         }
