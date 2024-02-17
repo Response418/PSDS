@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -82,5 +83,19 @@ public class RelationUsersService {
         listRelationUserDTO.setListRelation(relationUsersDTOs);
         listRelationUserDTO.setMentorList(userMentor);
         return listRelationUserDTO;
+    }
+
+    public Long getUserIdByLink(Long linkUserId) {
+        return relationUsersRepository.getStudentIdById(linkUserId);
+    }
+
+    public List<RelationUsersDTO> getListRelationByStudentId(Long studentId) {
+        User student = userRepository.findUserById(studentId);
+        List<RelationUsers> relationUsers = relationUsersRepository.findAllByStudent(student);
+
+        return relationUsers
+                .stream()
+                .map(modelRelationUsersToObjectRelationUsers::modelToObject)
+                .collect(Collectors.toList());
     }
 }

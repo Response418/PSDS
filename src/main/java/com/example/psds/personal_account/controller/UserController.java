@@ -41,4 +41,11 @@ public class UserController {
         relationUsersService.deleteRelationUsersByUserIdOrMasterId(userId, userId);
         userService.deleteUser(userId);
     }
+
+    @GetMapping("/link/{linkUserId}")
+    public Long getUserIdByLink(
+        @PathVariable("linkUserId") Long linkUserId
+    ) {
+        return relationUsersService.getUserIdByLink(linkUserId);
+    }
 }

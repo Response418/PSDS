@@ -1,6 +1,7 @@
 package com.example.psds.personal_account.repository;
 
 import com.example.psds.personal_account.model.RelationUsers;
+import com.example.psds.personal_account.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,4 +23,13 @@ public interface RelationUsersRepository extends JpaRepository<RelationUsers, Lo
     List<RelationUsers> findAllByMasterIdAndGroupId(Long masterId, Long groupId);
 
     RelationUsers findByStudentId(Long userId);
+
+    @Query("""
+        select ru.student.id
+            from RelationUsers ru
+                where ru.id = :id
+    """)
+    Long getStudentIdById(Long id);
+
+    List<RelationUsers> findAllByStudent(User student);
 }
