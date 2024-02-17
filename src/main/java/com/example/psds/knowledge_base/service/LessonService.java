@@ -47,4 +47,10 @@ public class LessonService {
     public Grade getLessonByIdAndRelationUsers(Long lessonId, Long linkUserId){
         return gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId);
     }
+
+    public LessonDTO getLessonById(Long lessonId){
+        Lesson lesson = lessonRepository.findLessonById(lessonId);
+        return modelLessonAndObjectLesson.modelToObject(lesson);
+
+    }
 }
