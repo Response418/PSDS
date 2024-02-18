@@ -8,6 +8,7 @@ import com.example.psds.knowledge_base.dto.ThemeDTO;
 import com.example.psds.knowledge_base.model.Grade;
 import com.example.psds.knowledge_base.service.GradeService;
 import com.example.psds.knowledge_base.service.PlanService;
+import com.example.psds.knowledge_base.service.SpecialistProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.List;
 public class PlanController {
     private final PlanService planService;
     private final GradeService gradeService;
+    private final SpecialistProfileService specialistProfileService;
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.CREATED)
@@ -61,5 +63,15 @@ public class PlanController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSpecialistProfile(@PathVariable Long linkUsersId, @PathVariable Long specialistProfileId){
         planService.deleteSpecialistProfile(linkUsersId,specialistProfileId);
+    }
+
+    @GetMapping("/{linkUsersId}/specialistProfiles/{specialistProfilesId}")
+    public void subscribeSpecialistProfile(
+            @PathVariable Long linkUsersId,
+            @PathVariable Long specialistProfilesId
+    ) {
+        SpecialistProfileDTO specialistProfileDTO = specialistProfileService.getSpecialistProfileById(specialistProfilesId);
+        planService.addSpecialistProfile(linkUsersId, specialistProfileDTO);
+        gradeService.addNullGrades(specialistProfileDTO, linkUsersId);
     }
 }

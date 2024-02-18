@@ -10,4 +10,5 @@ import lombok.Setter;
 public class SessionDataDTO {
     private Long userId;
     private Long groupId;
+    private String role;
 }

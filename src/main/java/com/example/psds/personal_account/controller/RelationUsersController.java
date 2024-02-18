@@ -37,4 +37,12 @@ public class RelationUsersController {
     ){
         return relationUsersService.getListRelationByStudentId(studentId);
     }
+
+    @GetMapping("/{studentId}/{groupId}")
+    public RelationUsersDTO getLinkByStudentAndGroup(
+            @PathVariable("studentId") Long studentId,
+            @PathVariable("groupId") Long groupId
+    ){
+        return relationUsersService.getLinkByStudentAndGroup(studentId, groupId);
+    }
 }

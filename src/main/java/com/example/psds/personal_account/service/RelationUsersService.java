@@ -98,4 +98,9 @@ public class RelationUsersService {
                 .map(modelRelationUsersToObjectRelationUsers::modelToObject)
                 .collect(Collectors.toList());
     }
+
+    public RelationUsersDTO getLinkByStudentAndGroup(Long studentId, Long groupId){
+        RelationUsers relationUsers = relationUsersRepository.findRelationUsersByGroup_IdAndStudent_Id(groupId, studentId);
+        return modelRelationUsersToObjectRelationUsers.modelToObject(relationUsers);
+    }
 }
