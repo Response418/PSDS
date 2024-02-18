@@ -47,7 +47,9 @@ public class GroupResponseBuilder {
     public ResponseEntity<?> getDataSession(String sessionId) {
         Session session = sessionRepository.findBySessionId(sessionId);
         Long userId = session.getUser().getId();
-        Long groupId = session.getGroup().getId();
+        Long groupId = 0L;
+        if(session.getGroup() != null)
+            groupId = session.getGroup().getId();
         SessionDataDTO sessionDataDTO = new SessionDataDTO(userId, groupId);
         return new ResponseEntity<>(sessionDataDTO, HttpStatus.OK);
     }
