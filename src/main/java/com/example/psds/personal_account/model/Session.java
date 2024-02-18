@@ -23,11 +23,9 @@ public class Session {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 
     private LocalDateTime dateOfCreated;
-
-
 }

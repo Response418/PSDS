@@ -1,6 +1,7 @@
 package com.example.psds.personal_account.response;
 
 import com.example.psds.personal_account.dto.RelationUsersDTO;
+import com.example.psds.personal_account.dto.SessionDataDTO;
 import com.example.psds.personal_account.exception.ServiceException;
 import com.example.psds.personal_account.mapper.MapperRelationUsers;
 import com.example.psds.personal_account.model.RelationUsers;
@@ -41,5 +42,13 @@ public class GroupResponseBuilder {
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(relationUsersDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> getDataSession(String sessionId) {
+        Session session = sessionRepository.findBySessionId(sessionId);
+        Long userId = session.getUser().getId();
+        Long groupId = session.getGroup().getId();
+        SessionDataDTO sessionDataDTO = new SessionDataDTO(userId, groupId);
+        return new ResponseEntity<>(sessionDataDTO, HttpStatus.OK);
     }
 }

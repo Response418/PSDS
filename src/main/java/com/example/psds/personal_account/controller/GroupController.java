@@ -101,7 +101,7 @@ public class GroupController {
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("sessionId".equals(cookie.getName())) {
+                if ("JSESSIONID".equals(cookie.getName())) {
                     sessionId = cookie.getValue();
                     break;
                 }

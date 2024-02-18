@@ -1,10 +1,14 @@
 package com.example.psds.personal_account.controller;
 
 import com.example.psds.personal_account.dto.UserDTO;
+import com.example.psds.personal_account.response.GroupResponseBuilder;
 import com.example.psds.personal_account.service.RelationUsersService;
 import com.example.psds.personal_account.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,6 +20,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final RelationUsersService relationUsersService;
+    private final GroupResponseBuilder groupResponseBuilder;
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -47,5 +52,23 @@ public class UserController {
         @PathVariable("linkUserId") Long linkUserId
     ) {
         return relationUsersService.getUserIdByLink(linkUserId);
+    }
+
+    @GetMapping("/data/session")
+    public ResponseEntity<?> getDataSession(
+        HttpServletRequest request
+    ) {
+        Cookie[] cookies = request.getCookies();
+        String sessionId = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("JSESSIONID".equals(cookie.getName())) {
+                    sessionId = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return groupResponseBuilder.getDataSession(sessionId);
     }
 }
