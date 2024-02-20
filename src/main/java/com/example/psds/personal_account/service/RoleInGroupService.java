@@ -5,6 +5,7 @@ import com.example.psds.knowledge_base.service.PlanService;
 import com.example.psds.personal_account.dto.GroupDTO;
 import com.example.psds.personal_account.dto.ListRoleInGroupDTO;
 import com.example.psds.personal_account.dto.RoleDto;
+import com.example.psds.personal_account.dto.UserProjection;
 import com.example.psds.personal_account.dto.moderator.RoleInGroupDto;
 import com.example.psds.personal_account.mapper.ModelWithGroupToObjectWithGroup;
 import com.example.psds.personal_account.model.*;
@@ -70,6 +71,10 @@ public class RoleInGroupService {
         }
         List<Role> roles = roleRepository.findAll();
         ListRoleInGroupDTO list = new ListRoleInGroupDTO();
+        List<UserProjection> userProjections = userRepository.findListUserForRoleInGroup();
+        for (UserProjection userProjection : userProjections) {
+            System.out.println(userProjection.getId());
+        }
         list.setUserList(userRepository.findListUserForRoleInGroup());
         list.setGroupList(groupDTO);
         list.setRoleList(returnRoleDto(roles));

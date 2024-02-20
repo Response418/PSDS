@@ -32,4 +32,6 @@ public class Session {
     private Role role;
 
     private LocalDateTime dateOfCreated;
+
+
 }

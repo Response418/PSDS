@@ -24,11 +24,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RelationUsersController {
     private final RelationUsersService relationUsersService;
-    
-    //Для назначение наставника для студента Руководителем группы
+
+
     @GetMapping("")
-    public ResponseEntity<?> getListMentorForGroup(HttpServletRequest servletRequest) {//
-        return new ResponseEntity<>(relationUsersService.findListMentorForGroup(servletRequest), HttpStatus.OK);
+    public ResponseEntity<?> getListMentorForGroup(Principal principal) {//
+        return new ResponseEntity<>(relationUsersService.findListMentorForGroup(principal), HttpStatus.OK);
     }
 
     @GetMapping("/{studentId}")

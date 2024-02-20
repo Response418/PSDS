@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,5 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ListRelationUserDTO {
     private List<RelationUsersDTO> listRelation;
-    private List<UserProjection> mentorList;
+    private Long groupId;
+    private List<UserProjection> studentList;
+    private Set<UserProjection> mentorList;
 }

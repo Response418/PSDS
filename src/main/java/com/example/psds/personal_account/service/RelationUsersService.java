@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.security.Principal;
+import java.util.*;
 
 @Service
 @Transactional
@@ -67,20 +69,30 @@ public class RelationUsersService {
         }
     }
 
-    public ListRelationUserDTO findListMentorForGroup(HttpServletRequest request) {
-        Session session = sessionRepository.findBySessionId(request.getSession().getId());
-        Role roleMentor = roleRepository.findByName(ERole.ROLE_MENTOR);
-        Role roleDirector = roleRepository.findByName(ERole.ROLE_DIRECTOR);
-        List<UserProjection> userMentor = new ArrayList<>();
-        userMentor.addAll(roleInGroupRepository.findUsersByRoleIdAndGroupId(roleMentor, session.getGroup().getId()));
-        userMentor.addAll(roleInGroupRepository.findUsersByRoleIdAndGroupId(roleDirector, session.getGroup().getId()));
-        List<RelationUsers> relationUsers = relationUsersRepository.findRelationUsersByGroupId(session.getGroup().getId());
+
+    public ListRelationUserDTO findListMentorForGroup(Principal principal) {
+        Role roleStudent = roleRepository.findByName(ERole.ROLE_STUDENT);
+        Optional<User> user = userRepository.findByEmail(principal.getName());
+
+        Session session = sessionRepository.findByUserId(user.get().getId());
+        Long groupId = session.getGroup().getId();
+
+
+        List<UserProjection> userStudent = new ArrayList<>(roleInGroupRepository.
+                findUsersByRoleIdAndGroupId(roleStudent, groupId));
+
+
+
+        Set<UserProjection> userMentor= new HashSet<>(roleInGroupRepository.findUsersByGroupId(groupId));
+        List<RelationUsers> relationUsers = relationUsersRepository.findRelationUsersByGroupId(groupId);
         List<RelationUsersDTO> relationUsersDTOs = new ArrayList<>();
         for (RelationUsers relationUser : relationUsers) {
             relationUsersDTOs.add(modelRelationUsersToObjectRelationUsers.modelToObject(relationUser));
         }
         ListRelationUserDTO listRelationUserDTO = new ListRelationUserDTO();
         listRelationUserDTO.setListRelation(relationUsersDTOs);
+        listRelationUserDTO.setGroupId(groupId);
+        listRelationUserDTO.setStudentList(userStudent);
         listRelationUserDTO.setMentorList(userMentor);
         return listRelationUserDTO;
     }

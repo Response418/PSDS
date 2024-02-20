@@ -27,7 +27,7 @@ public class SessionService {
             session.setUser(userRepository.findById(userId).orElseThrow());
             session.setSessionId(sessionId);
             session.setDateOfCreated(LocalDateTime.now());
-            log.info("Saving new session");
+            log.info("Saving new session with id {},", sessionId);
             sessionRepository.save(session);
         } else {
             editSession(session, sessionId);
