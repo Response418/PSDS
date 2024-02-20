@@ -21,8 +21,8 @@ public class MaterialService {
     public List<MaterialDTO> getMaterialList(){
         List<Material> materials = materialRepository.findAll();
         List<MaterialDTO> materialDTOS = new ArrayList<>();
-        for (int i=0; i<materials.size(); i++){
-            materialDTOS.add(modelMaterialAndObjectMaterial.modelToObject(materials.get(i)));
+        for (Material material : materials) {
+            materialDTOS.add(modelMaterialAndObjectMaterial.modelToObject(material));
         }
         return materialDTOS;
     }
@@ -33,14 +33,14 @@ public class MaterialService {
     public void deleteMaterial(Long materialId) {
         materialRepository.deleteById(materialId);
     }
-    @Transactional
+
     public List<MaterialDTO> getMaterialsByLessonId(Long lessonId){
         List<Material> materials = materialRepository.findMaterialsByLesson_Id(lessonId);
         List<MaterialDTO> materialDTOS = new ArrayList<>();
 
-        for (int i=0; i<materials.size(); i++){
-            materialDTOS.add(modelMaterialAndObjectMaterial.modelToObject(materials.get(i)));
-            }
+        for (Material material : materials) {
+            materialDTOS.add(modelMaterialAndObjectMaterial.modelToObject(material));
+        }
         return materialDTOS;
     }
 }

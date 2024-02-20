@@ -5,6 +5,7 @@ import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.repository.RoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,10 +21,14 @@ public class RoleInitializer {
 
     private void initializeRoles() {
         for (ERole role : ERole.values()) {
-            if (roleRepository.findByName(role) == null) {
-                Role newRole = new Role();
-                newRole.setName(role);
-                roleRepository.save(newRole);
+            try {
+                if (roleRepository.findByName(role) == null) {
+                    Role newRole = new Role();
+                    newRole.setName(role);
+                    roleRepository.save(newRole);
+                }
+            }catch (IncorrectResultSizeDataAccessException e){
+
             }
         }
     }
