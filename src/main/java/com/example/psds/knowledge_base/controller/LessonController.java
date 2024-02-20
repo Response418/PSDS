@@ -42,4 +42,11 @@ public class LessonController {
     ) {
         return lessonResponseBuilder.getLessonByIdAndRelationUsers(lessonId, linkUserId);
     }
+
+    @GetMapping("/{lessonId}")
+    public LessonDTO getLessonByIdAndRelationUsers(
+            @PathVariable("lessonId") Long lessonId
+    ) {
+        return lessonService.getLessonById(lessonId);
+    }
 }

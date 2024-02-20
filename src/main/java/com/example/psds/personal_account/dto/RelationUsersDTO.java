@@ -11,5 +11,5 @@ public class RelationUsersDTO {
     private Long id;
     private GroupDTO group;
     private UserDTO student;
-    private UserDTO mentor;
+    private UserDTO master;
 }

@@ -43,4 +43,8 @@ public class GradeService {
 
         return grade;
     }
+
+    public Grade getGradeByLessonAndLink(Long lessonId, Long linkUserId){
+        return gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId);
+    }
 }

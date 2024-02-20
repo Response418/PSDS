@@ -14,10 +14,18 @@ public class GradeController {
 
     @PutMapping("/{lessonId}/{linkUserId}")
     public ResponseEntity<?> updateGrade(
-            @PathVariable("linkUserId") Long linkUserId,
-            @PathVariable("lessonId") Long lessonId,
-            @RequestBody GradeRequestDTO gradeRequestDTO
-            ) {
+        @PathVariable("linkUserId") Long linkUserId,
+        @PathVariable("lessonId") Long lessonId,
+        @RequestBody GradeRequestDTO gradeRequestDTO
+    ) {
         return gradeResponseBuilder.updateGrade(lessonId, linkUserId, gradeRequestDTO);
+    }
+
+    @GetMapping("/{lessonId}/{linkUserId}")
+    public ResponseEntity<?> getGradeByLessonId(
+        @PathVariable("linkUserId") Long linkUserId,
+        @PathVariable("lessonId") Long lessonId
+    ){
+        return gradeResponseBuilder.getGradeByLessonId(lessonId, linkUserId);
     }
 }
