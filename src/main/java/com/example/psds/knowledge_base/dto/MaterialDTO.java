@@ -12,5 +12,4 @@ public class MaterialDTO {
     private Long id;
     private String title;
     private String description;
-    private LessonDTO lesson;
 }

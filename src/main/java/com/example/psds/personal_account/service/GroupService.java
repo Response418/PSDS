@@ -16,7 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static com.example.psds.personal_account.model.ERole.*;
 
 @Service
 @RequiredArgsConstructor
@@ -39,21 +43,41 @@ public class GroupService {
 
     public List<GroupDTO> findByUserId(Long userId) {
         List<RoleInGroup> roleInGroups = roleInGroupRepository.findByUserId(userId);
-        List<Group> groups = new ArrayList<>();
+        List<GroupDTO> groupsDto = new ArrayList<>();
         for (RoleInGroup roleInGroup : roleInGroups) {
-            groups.add(groupRepository.findById(roleInGroup.getGroup().getId()).orElseThrow());
+            Group group = groupRepository.findById(roleInGroup.getGroup().getId()).orElseThrow();
+            boolean groupExists = groupsDto.stream().anyMatch(g -> g.getId() == group.getId());
+            if (!groupExists) {
+                List<RoleInGroup> r = roleInGroupRepository.findByGroupIdAndUserId(group.getId(), userId);
+                List<String> userRole = new ArrayList<>();
+                for (RoleInGroup inGroup : r) {
+                    userRole.add(inGroup.getRole().getName().toString());
+                }
+                groupsDto.add(new GroupDTO(group.getId(), group.getName(), group.getDescription(), userRole));
+            }
         }
-        List<GroupDTO> groupsByUserIdDtoList = new ArrayList<>();
-        for (Group group : groups) {
-            groupsByUserIdDtoList.add(modelWithGroupToObjectWithGroup.modelToObject(group));
-        }
-        return groupsByUserIdDtoList;
+        return groupsDto;
     }
 
+
     public GroupDTO selectGroup(Long groupId, Long userId) {
-        RoleInGroup roleInGroup = roleInGroupRepository.findByGroupIdAndUserId(groupId, userId);
-        userService.editRoleUser(userId, String.valueOf(roleInGroup.getRole().getName()));
-        log.info("The user's role has been changed");
+        List<RoleInGroup> roleInGroups = roleInGroupRepository.findByGroupIdAndUserId(groupId, userId);
+        boolean hasDirectorRole = roleInGroups.stream()
+                .map(RoleInGroup::getRole)
+                .anyMatch(role -> role.getName().equals(ERole.ROLE_DIRECTOR));
+        boolean hasMentorRole = roleInGroups.stream()
+                .map(RoleInGroup::getRole)
+                .anyMatch(role -> role.getName().equals(ERole.ROLE_MENTOR));
+        boolean hasStudentRole = roleInGroups.stream()
+                .map(RoleInGroup::getRole)
+                .anyMatch(role -> role.getName().equals(ERole.ROLE_STUDENT));
+        if (hasDirectorRole) {
+            userService.editRoleUser(userId, ERole.ROLE_DIRECTOR.toString());
+        } else if (hasMentorRole) {
+            userService.editRoleUser(userId, ROLE_MENTOR.toString());
+        } else if (hasStudentRole) {
+            userService.editRoleUser(userId, ROLE_STUDENT.toString());
+        }
         Group group = groupRepository.findById(groupId).orElseThrow();
         return modelWithGroupToObjectWithGroup.modelToObject(group);
     }

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("api/moderator/users")
 public class UserController {
     private final UserService userService;
     private final RelationUsersService relationUsersService;

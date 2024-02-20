@@ -44,7 +44,8 @@ public class SecurityConfiguration {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("api/auth/**").permitAll()
+                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers("api/auth/**").permitAll()
                         .anyRequest().authenticated())
 //                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .logout((logout) -> logout

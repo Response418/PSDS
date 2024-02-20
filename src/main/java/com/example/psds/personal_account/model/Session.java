@@ -24,7 +24,7 @@ public class Session {
     private User user;
 
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "group_id", unique = false)
     private Group group;
 
     private LocalDateTime dateOfCreated;
