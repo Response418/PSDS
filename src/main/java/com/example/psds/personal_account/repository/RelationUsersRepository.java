@@ -32,4 +32,6 @@ public interface RelationUsersRepository extends JpaRepository<RelationUsers, Lo
     Long getStudentIdById(Long id);
 
     List<RelationUsers> findAllByStudent(User student);
+
+
 }

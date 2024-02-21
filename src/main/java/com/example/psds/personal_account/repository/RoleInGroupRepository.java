@@ -19,6 +19,9 @@ public interface RoleInGroupRepository extends JpaRepository<RoleInGroup, Long> 
     List<RoleInGroup> findByGroupId (Long id);
     List<RoleInGroup> findByGroupIdAndUserId(Long groupId, Long userId);
 
+    boolean existsByGroupIdAndUserIdAndRoleId(Long groupId, Long userId, Long roleId);
+
+
     @Query("SELECT r.user.id AS id, r.user.lastName AS lastName, r.user.firstName AS firstName, " +
             "r.user.fatherName AS fatherName FROM RoleInGroup r JOIN r.user u " +
             "WHERE r.role = :role AND r.group.id = :groupId")

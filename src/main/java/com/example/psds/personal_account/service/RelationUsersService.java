@@ -8,8 +8,8 @@ import com.example.psds.personal_account.mapper.ModelRelationUsersToObjectRelati
 import com.example.psds.personal_account.mapper.ModelWithUserToObjectWithUser;
 import com.example.psds.personal_account.model.*;
 import com.example.psds.personal_account.repository.*;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +23,7 @@ import java.util.*;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class RelationUsersService {
     private final RelationUsersRepository relationUsersRepository;
     private final GroupRepository groupRepository;
@@ -32,6 +33,7 @@ public class RelationUsersService {
     private final RoleInGroupRepository roleInGroupRepository;
     private final RoleRepository roleRepository;
     private final ModelRelationUsersToObjectRelationUsers modelRelationUsersToObjectRelationUsers;
+
 
     public void createRelationUsersByGroupIdAndUserId(Long groupId, Long userId, UserDTO mentor){
         RelationUsers relationUsers = relationUsersRepository.findRelationUsersByGroup_IdAndStudent_Id(groupId, userId);
@@ -77,11 +79,8 @@ public class RelationUsersService {
         Session session = sessionRepository.findByUserId(user.get().getId());
         Long groupId = session.getGroup().getId();
 
-
         List<UserProjection> userStudent = new ArrayList<>(roleInGroupRepository.
                 findUsersByRoleIdAndGroupId(roleStudent, groupId));
-
-
 
         Set<UserProjection> userMentor= new HashSet<>(roleInGroupRepository.findUsersByGroupId(groupId));
         List<RelationUsers> relationUsers = relationUsersRepository.findRelationUsersByGroupId(groupId);
@@ -114,5 +113,26 @@ public class RelationUsersService {
     public RelationUsersDTO getLinkByStudentAndGroup(Long studentId, Long groupId){
         RelationUsers relationUsers = relationUsersRepository.findRelationUsersByGroup_IdAndStudent_Id(groupId, studentId);
         return modelRelationUsersToObjectRelationUsers.modelToObject(relationUsers);
+    }
+
+    public void editMentorForGroup(Long mentorId, Long relationId) {
+        RelationUsers relationUsers = relationUsersRepository.findById(relationId).orElseThrow();
+        relationUsers.setMaster(userRepository.findUserById(mentorId));
+        log.info("Changing a mentor for a student with id {}", mentorId);
+        relationUsersRepository.save(relationUsers);
+
+        boolean hasMentorRole = roleInGroupRepository.existsByGroupIdAndUserIdAndRoleId(
+                relationUsers.getGroup().getId(),
+                mentorId,
+                roleRepository.findByName(ERole.ROLE_MENTOR).getId()
+        );
+        if (!hasMentorRole) {
+            RoleInGroup roleInGroup = new RoleInGroup();
+            roleInGroup.setGroup(groupRepository.findById(relationUsers.getGroup().getId()).orElseThrow());
+            roleInGroup.setUser(userRepository.findById(mentorId).orElseThrow());
+            roleInGroup.setRole(roleRepository.findByName(ERole.ROLE_MENTOR));
+            log.info("Saving a mentor role for a userId {} in a groupId {}", mentorId, relationUsers.getGroup().getId());
+            roleInGroupRepository.save(roleInGroup);
+        }
     }
 }

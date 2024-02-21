@@ -63,6 +63,18 @@ public class RoleInGroupService {
         }
     }
 
+//    public void saveRoleMentor(Long groupId, Long userId, Long roleId){
+//        Group group = groupRepository.findById(groupId).orElseThrow();
+//        User user = userRepository.findById(userId).orElseThrow();
+//        Role role = roleRepository.findById(roleId).orElseThrow();
+//        RoleInGroup roleInGroup = new RoleInGroup();
+//        roleInGroup.setGroup(group);
+//        roleInGroup.setUser(user);
+//        roleInGroup.setRole(role);
+//        log.info("Saving a mentor role for a userId {} in a groupId {}", userId, groupId);
+//        roleInGroupRepository.save(roleInGroup);
+//    }
+
     public ListRoleInGroupDTO getListsForRoleInGroup() {
         List<Group> group = groupRepository.findAll();
         List<GroupDTO> groupDTO = new ArrayList<>();

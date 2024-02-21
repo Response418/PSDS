@@ -39,4 +39,9 @@ public class ThemeService {
     public void deleteTheme(Long themeId){
         themeRepository.deleteById(themeId);
     }
+
+    public ThemeDTO getThemeById(Long themeId) {
+        Theme theme = themeRepository.findThemeById(themeId);
+        return modelThemeAndObjectModel.modelToObject(theme);
+    }
 }

@@ -3,10 +3,13 @@ package com.example.psds.knowledge_base.controller;
 import com.example.psds.knowledge_base.dto.ThemeDTO;
 import com.example.psds.knowledge_base.model.Theme;
 import com.example.psds.knowledge_base.service.ThemeService;
+import com.example.psds.personal_account.dto.GroupDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -28,6 +31,11 @@ public class ThemeController {
         for (int j=0; j<theme.getLessons().size(); j++){
             theme.getLessons().get(j).setTheme(theme);
         }
+    }
+
+    @GetMapping("/{themeId}")
+    public ResponseEntity<?> getThemeById(@PathVariable Long themeId) {
+        return new ResponseEntity<>(themeService.getThemeById(themeId), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{themeId}")
