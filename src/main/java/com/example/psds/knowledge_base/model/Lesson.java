@@ -1,8 +1,12 @@
 package com.example.psds.knowledge_base.model;
 
+import com.example.psds.personal_account.model.RoleInGroup;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.lang.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -27,8 +31,8 @@ public class Lesson {
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Nullable
-    private Material material;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lesson")
+    private List<Material> materials = new ArrayList<>();
 
 }

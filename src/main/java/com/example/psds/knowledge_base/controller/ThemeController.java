@@ -1,15 +1,16 @@
 package com.example.psds.knowledge_base.controller;
 
+import com.example.psds.knowledge_base.dto.MaterialDTO;
+import com.example.psds.knowledge_base.dto.ThemeAndLessonAndMaterialsDTO;
 import com.example.psds.knowledge_base.dto.ThemeDTO;
 import com.example.psds.knowledge_base.model.Theme;
+import com.example.psds.knowledge_base.repository.ThemeRepository;
 import com.example.psds.knowledge_base.service.ThemeService;
-import com.example.psds.personal_account.dto.GroupDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -17,11 +18,12 @@ import java.util.List;
 @RequestMapping("/api/themes")
 public class ThemeController {
     private final ThemeService themeService;
+    private final ThemeRepository themeRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<ThemeDTO> getThemesList(){
-        return themeService.getThemeList();
+
+    @GetMapping("")
+    public ResponseEntity<?> getThemesList(){
+        return new ResponseEntity<>(themeService.getThemeList(), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -30,7 +32,20 @@ public class ThemeController {
         Theme theme = themeService.saveTheme(themeDTO);
         for (int j=0; j<theme.getLessons().size(); j++){
             theme.getLessons().get(j).setTheme(theme);
+            themeRepository.save(theme);
         }
+    }
+
+    @PutMapping("/lesson")
+    public ResponseEntity<?> addLessonAndMaterialForTheme(@RequestBody ThemeAndLessonAndMaterialsDTO dto){
+        themeService.addLessonAndMaterialForTheme(dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{themeId}/{lessonId}")
+    public ResponseEntity<?> deleteLessonFromTheme(@PathVariable Long themeId, @PathVariable Long lessonId){
+        themeService.deleteLessonFromTheme(themeId, lessonId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{themeId}")
@@ -38,9 +53,9 @@ public class ThemeController {
         return new ResponseEntity<>(themeService.getThemeById(themeId), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{themeId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTheme(@PathVariable Long themeId){
+    @DeleteMapping("/{themeId}")
+    public ResponseEntity<?> deleteTheme(@PathVariable Long themeId){
         themeService.deleteTheme(themeId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
