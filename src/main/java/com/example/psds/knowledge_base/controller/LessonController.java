@@ -1,5 +1,6 @@
 package com.example.psds.knowledge_base.controller;
 
+import com.example.psds.knowledge_base.dto.LessonAndMaterialDTO;
 import com.example.psds.knowledge_base.dto.LessonDTO;
 import com.example.psds.knowledge_base.response.LessonResponseBuilder;
 import com.example.psds.knowledge_base.service.LessonService;
@@ -16,6 +17,18 @@ import java.util.List;
 public class LessonController {
     private final LessonService lessonService;
     private final LessonResponseBuilder lessonResponseBuilder;
+
+
+    @GetMapping("/lesson/{themeId}")
+    public ResponseEntity<?> getLessonsForTheme(@PathVariable Long themeId) {
+        return new ResponseEntity<>(lessonService.getLessonsForTheme(themeId), HttpStatus.OK);
+    }
+
+    @PutMapping("/lesson")
+    public ResponseEntity<?> editLessonsAndMaterial(@RequestBody LessonAndMaterialDTO dto) {
+        lessonService.editLessonsAndMaterial(dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)

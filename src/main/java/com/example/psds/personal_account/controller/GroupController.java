@@ -66,7 +66,6 @@ public class GroupController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/moderator/{groupId}")
     public GroupDTO getGroupById(@PathVariable Long groupId){
-
         return groupService.getGroupById(groupId);
     }
 
@@ -110,5 +109,4 @@ public class GroupController {
         }
         return groupResponseBuilder.getStudentsByMaster(sessionId);
     }
-
 }
