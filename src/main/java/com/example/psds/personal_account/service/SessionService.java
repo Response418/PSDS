@@ -1,6 +1,9 @@
 package com.example.psds.personal_account.service;
 
+import com.example.psds.personal_account.model.Role;
+import com.example.psds.personal_account.model.RoleInGroup;
 import com.example.psds.personal_account.model.Session;
+import com.example.psds.personal_account.model.User;
 import com.example.psds.personal_account.repository.GroupRepository;
 import com.example.psds.personal_account.repository.SessionRepository;
 import com.example.psds.personal_account.repository.UserRepository;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,10 +47,27 @@ public class SessionService {
         }
     }
 
-    public void editGroupInSession(Long userId, Long groupId) {
-        Session session = sessionRepository.findByUserId(userId);
+    public void editGroupInSession(User user, Long groupId) {
+        Session session = sessionRepository.findByUserId(user.getId());
+        List<RoleInGroup> roleInGroupList = user.getRoleInGroups();
+        Role role = roleInGroupList.stream()
+                .map(RoleInGroup::getRole)
+                .filter(r ->
+                        r.getName().name().equals("ROLE_DIRECTOR") ||
+                        r.getName().name().equals("ROLE_MENTOR")   ||
+                        r.getName().name().equals("ROLE_STUDENT")
+                )
+                .findFirst()
+                .orElse(null);
+
         session.setGroup(groupRepository.findById(groupId).orElseThrow());
+        session.setRole(role);
         log.info("Changing a group in a session");
         sessionRepository.save(session);
+    }
+
+    public void deleteSession( String sessionId) {
+        Session session = sessionRepository.findBySessionId(sessionId);
+        sessionRepository.deleteById(session.getId());
     }
 }

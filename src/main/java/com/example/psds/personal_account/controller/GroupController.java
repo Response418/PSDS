@@ -4,6 +4,7 @@ import com.example.psds.personal_account.dto.GroupDTO;
 import com.example.psds.personal_account.dto.UserDTO;
 import com.example.psds.personal_account.dto.authentication.GroupsForUserDto;
 import com.example.psds.personal_account.model.Role;
+import com.example.psds.personal_account.model.User;
 import com.example.psds.personal_account.repository.UserRepository;
 import com.example.psds.personal_account.response.GroupResponseBuilder;
 import com.example.psds.personal_account.service.GroupService;
@@ -41,9 +42,9 @@ public class GroupController {
 
     @PutMapping("/{groupId}")
     public ResponseEntity<?> selectGroup(@PathVariable Long groupId, Principal principal) {
-        Long userId = userService.getUserId(principal.getName());
-        GroupDTO groups = groupService.selectGroup(groupId, userId);
-        sessionService.editGroupInSession(userId, groupId);
+        User user = userService.getUserId(principal.getName());
+        GroupDTO groups = groupService.selectGroup(groupId, user.getId());
+        sessionService.editGroupInSession(user, groupId);
         return new ResponseEntity<>(groups, HttpStatus.OK);
     }
 

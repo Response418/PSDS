@@ -48,7 +48,7 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated())
 //                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .logout((logout) -> logout
-                        .logoutUrl("api/logout")
+                        .logoutUrl("api/auth/logout")
 //                        .logoutSuccessUrl("api/")
                         .invalidateHttpSession(true))
                 .authenticationProvider(authenticationProvider())

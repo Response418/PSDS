@@ -39,7 +39,7 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private ERole role;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<RoleInGroup> roleInGroups = new ArrayList<>();
 
     @Override

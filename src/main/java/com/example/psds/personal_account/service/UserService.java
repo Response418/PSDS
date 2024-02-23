@@ -26,8 +26,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Long getUserId(String email) {
-        return userRepository.findByEmail(email).orElseThrow().getId();
+    public User getUserId(String email) {
+        return userRepository.findByEmail(email).orElseThrow();
     }
 
     public void editRoleUser(Long userId, String nameRole) {
