@@ -31,4 +31,7 @@ public interface RoleInGroupRepository extends JpaRepository<RoleInGroup, Long> 
             "r.user.fatherName AS fatherName FROM RoleInGroup r JOIN r.user u " +
             "WHERE r.group.id = :groupId")
     Set<UserProjection> findUsersByGroupId(@Param("groupId") Long groupId);
+
+    @Query("SELECT COUNT(rg) > 0 FROM RoleInGroup rg WHERE rg.user.id = :userId AND rg.role.id = :roleId AND rg.group.id = :groupId")
+    boolean existsByUserIdAndRoleIdAndGroupId(Long userId, Long roleId, Long groupId);
 }

@@ -18,8 +18,7 @@ public class RoleInGroupController {
 
     @PostMapping("")
     public ResponseEntity<?> createRoleInGroup(@RequestBody @Valid RoleInGroupDto roleInGroupDto) {
-        roleInGroupService.create(roleInGroupDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return roleInGroupService.create(roleInGroupDto);
     }
 
     @GetMapping("")

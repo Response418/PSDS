@@ -35,4 +35,7 @@ public class Lesson {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lesson")
     private List<Material> materials = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lesson")
+    private List<Grade> grades = new ArrayList<>();
+
 }

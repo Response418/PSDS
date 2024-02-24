@@ -2,10 +2,7 @@ package com.example.psds.personal_account.service;
 
 import com.example.psds.knowledge_base.model.Plan;
 import com.example.psds.knowledge_base.service.PlanService;
-import com.example.psds.personal_account.dto.GroupDTO;
-import com.example.psds.personal_account.dto.ListRoleInGroupDTO;
-import com.example.psds.personal_account.dto.RoleDto;
-import com.example.psds.personal_account.dto.UserProjection;
+import com.example.psds.personal_account.dto.*;
 import com.example.psds.personal_account.dto.moderator.RoleInGroupDto;
 import com.example.psds.personal_account.mapper.ModelWithGroupToObjectWithGroup;
 import com.example.psds.personal_account.model.*;
@@ -15,6 +12,8 @@ import com.example.psds.personal_account.repository.RoleRepository;
 import com.example.psds.personal_account.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,12 +32,26 @@ public class RoleInGroupService {
     private final ModelWithGroupToObjectWithGroup modelWithGroupToObjectWithGroup;
     private final RelationUsersService relationUsersService;
     private final PlanService planService;
+    private final MyMapperService myMapperService;
 
 
-    public void create(RoleInGroupDto roleInGroupDto) {
+    public ResponseEntity<?> create(RoleInGroupDto roleInGroupDto) {
         Group group = groupRepository.findById(roleInGroupDto.getGroupId()).orElseThrow();
         User user = userRepository.findById(roleInGroupDto.getUserId()).orElseThrow();
         Role role = roleRepository.findById(roleInGroupDto.getRoleId()).orElseThrow();
+
+        boolean userWithRoleIdExists = roleInGroupRepository.
+                existsByUserIdAndRoleIdAndGroupId(user.getId(),role.getId(),
+                        group.getId());
+        if(userWithRoleIdExists){
+            MessageResponse messageResponse = myMapperService.
+                    editStringToMessageResponse(user.getLastName() + " " + user.getFirstName() + " " +
+                            user.getFatherName() + " в группе " +
+                                    group.getName() + " с ролью " + role.getName() +
+                            " уже существует");
+            return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+        }
+
         RoleInGroup roleInGroup = new RoleInGroup();
         roleInGroup.setGroup(group);
         roleInGroup.setUser(user);
@@ -61,6 +74,7 @@ public class RoleInGroupService {
                 planService.createPlan(plan);
             }
         }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 //    public void saveRoleMentor(Long groupId, Long userId, Long roleId){
@@ -83,10 +97,6 @@ public class RoleInGroupService {
         }
         List<Role> roles = roleRepository.findAll();
         ListRoleInGroupDTO list = new ListRoleInGroupDTO();
-        List<UserProjection> userProjections = userRepository.findListUserForRoleInGroup();
-        for (UserProjection userProjection : userProjections) {
-            System.out.println(userProjection.getId());
-        }
         list.setUserList(userRepository.findListUserForRoleInGroup());
         list.setGroupList(groupDTO);
         list.setRoleList(returnRoleDto(roles));
