@@ -3,6 +3,8 @@ package com.example.psds.knowledge_base.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "t_plan")
 @Getter
@@ -18,7 +20,6 @@ public class Plan {
     @Column(name = "relation_users_id")
     private Long relationUsersId;
 
-    @ManyToOne
-    @JoinColumn(name = "specialist_profile_id")
-    private SpecialistProfile specialistProfile;
+    @OneToMany(mappedBy = "plan")
+    private List<PlanAndProfile> planAndProfiles;
 }

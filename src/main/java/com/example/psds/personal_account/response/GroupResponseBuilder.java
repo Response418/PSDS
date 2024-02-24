@@ -4,11 +4,13 @@ import com.example.psds.personal_account.dto.RelationUsersDTO;
 import com.example.psds.personal_account.dto.SessionDataDTO;
 import com.example.psds.personal_account.exception.ServiceException;
 import com.example.psds.personal_account.mapper.MapperRelationUsers;
+import com.example.psds.personal_account.model.ERole;
 import com.example.psds.personal_account.model.RelationUsers;
 import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.model.Session;
 import com.example.psds.personal_account.repository.SessionRepository;
 import com.example.psds.personal_account.service.GroupService;
+import com.example.psds.personal_account.service.SessionService;
 import com.example.psds.personal_account.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ public class GroupResponseBuilder {
     private final UserService userService;
     private final MapperRelationUsers mapperRelationUsers;
     private final SessionRepository sessionRepository;
+    private final SessionService sessionService;
 
     public ResponseEntity<?> getStudentsByMaster(String sessionId) {
 
@@ -52,11 +55,14 @@ public class GroupResponseBuilder {
         if(session.getGroup() != null)
             groupId = session.getGroup().getId();
 
-        String role = "ROLE_STUDENT";
-        if(session.getRole() != null)
-            role = session.getRole().getName().toString();
+        List<String> roles = sessionService
+                .getListRole(session)
+                .stream()
+                .map(Role::getName)
+                .map(ERole::name)
+                .toList();
 
-        SessionDataDTO sessionDataDTO = new SessionDataDTO(userId, groupId, role);
+        SessionDataDTO sessionDataDTO = new SessionDataDTO(userId, groupId, roles);
         return new ResponseEntity<>(sessionDataDTO, HttpStatus.OK);
     }
 }

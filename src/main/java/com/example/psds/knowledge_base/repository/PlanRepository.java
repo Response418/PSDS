@@ -8,6 +8,5 @@ import java.util.List;
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     Plan findPlanByRelationUsersId(Long relationUsersId);
     List<Plan> findPlansByRelationUsersId(Long relationUsersId);
-    Plan getByRelationUsersIdAndSpecialistProfile_Id(Long linkUsersId, Long specialistProfileId);
     Plan getPlanByRelationUsersId(Long relationUsersId);
 }

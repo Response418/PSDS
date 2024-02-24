@@ -32,24 +32,7 @@ public class PlanController {
     @RequestMapping(method = RequestMethod.GET, path = "/{linkUsersId}")
     @ResponseStatus(HttpStatus.OK)
     public PlanDTO getPlanByLinkUsersId (@PathVariable Long linkUsersId){
-        PlanDTO planDTO = planService.getPlanByLinkUsersId(linkUsersId);
-        List<SpecialistProfileDTO> specialistProfileDTOS = planDTO.getSpecialistProfiles();
-        List<ThemeDTO> themeDTOS;
-        List<LessonDTO> lessonDTOS;
-        Grade grade;
-        for(SpecialistProfileDTO specialistProfileDTO : specialistProfileDTOS){
-            themeDTOS = specialistProfileDTO.getThemes();
-            for (ThemeDTO themeDTO : themeDTOS){
-                lessonDTOS = themeDTO.getLessons();
-                for (LessonDTO lessonDTO : lessonDTOS){
-                    grade = gradeService.getGradeModel(lessonDTO.getId(), linkUsersId);
-                    if (grade!=null) {
-                        lessonDTO.setGrade(grade.getValue());
-                    }
-                }
-            }
-        }
-        return planDTO;
+        return planService.getPlanByLinkUsersId(linkUsersId);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{linkUsersId}/specialistProfiles")

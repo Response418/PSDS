@@ -1,12 +1,16 @@
 package com.example.psds.knowledge_base.service;
 
 import com.example.psds.knowledge_base.dto.LinkUsersDTO;
+import com.example.psds.knowledge_base.mapper.ModelPlanAndObjectPlan;
 import com.example.psds.knowledge_base.mapper.ModelSpecialistProfileAndObjectSpecialistProfile;
 import com.example.psds.knowledge_base.mapper.ModelThemeAndObjectModel;
 import com.example.psds.knowledge_base.model.Plan;
+import com.example.psds.knowledge_base.model.PlanAndProfile;
 import com.example.psds.knowledge_base.model.SpecialistProfile;
 import com.example.psds.knowledge_base.model.ThemeAndProfile;
+import com.example.psds.knowledge_base.repository.PlanAndProfileRepository;
 import com.example.psds.knowledge_base.repository.PlanRepository;
+import com.example.psds.knowledge_base.repository.SpecialistProfileRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import com.example.psds.knowledge_base.dto.PlanDTO;
@@ -16,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +31,8 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
     private final ModelThemeAndObjectModel modelThemeAndObjectModel;
+    private final PlanAndProfileRepository planAndProfileRepository;
+    private final SpecialistProfileRepository specialistProfileRepository;
 
 
     public void createPlan(Plan plan){
@@ -32,38 +41,36 @@ public class PlanService {
 
     @Transactional
     public PlanDTO getPlanByLinkUsersId(Long linkUsersId){
-        List<Plan> planModels = planRepository.findPlansByRelationUsersId(linkUsersId);
-        List<SpecialistProfileDTO> specialistProfiles = new ArrayList<>();
-        List<ThemeAndProfile> themeAndProfiles;
-        SpecialistProfile specialistProfile;
-        for (int i=0; i<planModels.size(); i++){
-            /*получаем профиль специалиста из плана*/
-            specialistProfile = planModels.get(i).getSpecialistProfile();
-            /*с помощью mapper*/
-            specialistProfiles.add(modelSpecialistProfileAndObjectSpecialistProfile.modelToObject(specialistProfile));
-            /*получаем связи*/
-            themeAndProfiles = specialistProfile.getTapSpecialistProfile();
+        Plan plan = planRepository.findPlanByRelationUsersId(linkUsersId);
+        List<PlanAndProfile> pap = plan.getPlanAndProfiles();
+        List<SpecialistProfileDTO> specialistProfileDTOS =
+                pap.stream()
+                    .map(PlanAndProfile::getSpecialistProfile)
+                    .map(modelSpecialistProfileAndObjectSpecialistProfile::modelToObject)
+                    .toList();
 
-            for (int j=0; j<themeAndProfiles.size(); j++){
-                specialistProfiles.get(i).getThemes().add(modelThemeAndObjectModel.modelToObject(themeAndProfiles.get(j).getTapTheme()));
-            }
-        }
-        PlanDTO planDTO = new PlanDTO();
-        planDTO.setRelationUsersId(linkUsersId);
-        planDTO.setSpecialistProfiles(specialistProfiles);
-        return planDTO;
+
+
+        return new PlanDTO(
+                linkUsersId,
+                specialistProfileDTOS
+            );
     }
 
     @Transactional
     public void addSpecialistProfile(Long linkUsersId, @NotNull SpecialistProfileDTO specialistProfileDTO){
-        Plan plan = planRepository.getByRelationUsersIdAndSpecialistProfile_Id(linkUsersId, specialistProfileDTO.getId());
-        if (plan==null) {
-            plan = new Plan();
-            plan.setRelationUsersId(linkUsersId);
-            SpecialistProfile specialistProfile = modelSpecialistProfileAndObjectSpecialistProfile.objectToModel(specialistProfileDTO);
-            plan.setSpecialistProfile(specialistProfile);
-            planRepository.save(plan);
-        }
+        Plan plan = planRepository.getPlanByRelationUsersId(linkUsersId);
+        SpecialistProfile specialistProfile =
+                specialistProfileRepository
+                        .findSpecialistProfilesById(
+                                specialistProfileDTO.getId()
+                        );
+
+        PlanAndProfile planAndProfile = new PlanAndProfile();
+        planAndProfile.setSpecialistProfile(specialistProfile);
+        planAndProfile.setPlan(plan);
+
+        planAndProfileRepository.save(planAndProfile);
     }
 
     public void createPlanBylinkUsers(@NotNull LinkUsersDTO linkUsersDTO){
@@ -76,8 +83,9 @@ public class PlanService {
     }
     @Transactional
     public void deleteSpecialistProfile(Long linkUsersId, Long specialistProfileId){
-        Plan plan = planRepository.getByRelationUsersIdAndSpecialistProfile_Id(linkUsersId, specialistProfileId);
-        planRepository.delete(plan);
+        Plan plan = planRepository.getPlanByRelationUsersId(linkUsersId);
+        SpecialistProfile specialistProfile = specialistProfileRepository.findSpecialistProfilesById(specialistProfileId);
+        planAndProfileRepository.deleteByPlanAndSpecialistProfile(plan, specialistProfile);
     }
 
     public Plan getPlanByRelationUsers(Long linkUserId){

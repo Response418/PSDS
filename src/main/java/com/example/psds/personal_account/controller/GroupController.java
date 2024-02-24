@@ -70,7 +70,6 @@ public class GroupController {
     }
 
 
-
     @RequestMapping(method = RequestMethod.DELETE, path = "/moderator/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteGroup(@PathVariable Long groupId){

@@ -49,21 +49,17 @@ public class SessionService {
 
     public void editGroupInSession(User user, Long groupId) {
         Session session = sessionRepository.findByUserId(user.getId());
-        List<RoleInGroup> roleInGroupList = user.getRoleInGroups();
-        Role role = roleInGroupList.stream()
-                .map(RoleInGroup::getRole)
-                .filter(r ->
-                        r.getName().name().equals("ROLE_DIRECTOR") ||
-                        r.getName().name().equals("ROLE_MENTOR")   ||
-                        r.getName().name().equals("ROLE_STUDENT")
-                )
-                .findFirst()
-                .orElse(null);
-
         session.setGroup(groupRepository.findById(groupId).orElseThrow());
-        session.setRole(role);
         log.info("Changing a group in a session");
         sessionRepository.save(session);
+    }
+
+    public List<Role> getListRole(Session session) {
+        User user = session.getUser();
+        return user.getRoleInGroups()
+                .stream()
+                .map(RoleInGroup::getRole)
+                .toList();
     }
 
     public void deleteSession( String sessionId) {
