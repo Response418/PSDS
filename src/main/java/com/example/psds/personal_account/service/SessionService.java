@@ -62,7 +62,7 @@ public class SessionService {
                 .toList();
     }
 
-    public void deleteSession( String sessionId) {
+    public void deleteSession(String sessionId) {
         Session session = sessionRepository.findBySessionId(sessionId);
         sessionRepository.deleteById(session.getId());
     }

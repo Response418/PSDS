@@ -19,13 +19,15 @@ public class Session {
 
     private String sessionId;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
+    @OneToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+
+    @ManyToOne()
     @JoinColumn(name = "group_id")
     private Group group;
+
 
     private LocalDateTime dateOfCreated;
 
