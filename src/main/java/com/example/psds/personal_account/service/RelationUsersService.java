@@ -10,6 +10,7 @@ import com.example.psds.personal_account.model.*;
 import com.example.psds.personal_account.repository.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -134,5 +135,10 @@ public class RelationUsersService {
             log.info("Saving a mentor role for a userId {} in a groupId {}", mentorId, relationUsers.getGroup().getId());
             roleInGroupRepository.save(roleInGroup);
         }
+    }
+
+    public void deleteByStudentIdAndGroupId(Long userId, Long groupId){
+        relationUsersRepository.deleteByStudentIdAndGroupId(userId, groupId);
+
     }
 }

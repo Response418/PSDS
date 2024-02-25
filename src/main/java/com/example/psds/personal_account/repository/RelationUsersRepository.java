@@ -2,12 +2,14 @@ package com.example.psds.personal_account.repository;
 
 import com.example.psds.personal_account.model.RelationUsers;
 import com.example.psds.personal_account.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-import java.util.List;
 
 public interface RelationUsersRepository extends JpaRepository<RelationUsers, Long> {
     RelationUsers findRelationUsersByGroup_Id(Long groupId);
@@ -33,5 +35,9 @@ public interface RelationUsersRepository extends JpaRepository<RelationUsers, Lo
 
     List<RelationUsers> findAllByStudent(User student);
 
-
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM RelationUsers r WHERE r.student.id = :studentId AND r.group.id = :groupId")
+    void deleteByStudentIdAndGroupId(@Param("studentId") Long studentId, @Param("groupId") Long groupId);
 }
+

@@ -2,8 +2,6 @@ package com.example.psds.personal_account.controller;
 
 import com.example.psds.personal_account.dto.GroupDTO;
 import com.example.psds.personal_account.dto.UserDTO;
-import com.example.psds.personal_account.dto.authentication.GroupsForUserDto;
-import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.model.User;
 import com.example.psds.personal_account.repository.UserRepository;
 import com.example.psds.personal_account.response.GroupResponseBuilder;
@@ -14,7 +12,6 @@ import com.example.psds.personal_account.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +63,7 @@ public class GroupController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/moderator/{groupId}")
     public GroupDTO getGroupById(@PathVariable Long groupId){
+
         return groupService.getGroupById(groupId);
     }
 
@@ -82,13 +80,6 @@ public class GroupController {
     public void setMentorByGroupIdAndUserId(@PathVariable Long groupId, @PathVariable Long userId, @RequestBody UserDTO mentor){
         relationUsersService.createRelationUsersByGroupIdAndUserId(groupId, userId, mentor);
     }
-
-//    @RequestMapping(method = RequestMethod.PUT, path = "/{groupId}/users/{userId}/roles")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void changeRoleInGroupByUserId(@PathVariable Long groupId, @PathVariable Long userId, @RequestBody Role role){
-//        //groupService.changeRoleInGroupByUserId(groupId, userId, role);
-//    }
-
 
 
     @GetMapping("/masters/students")

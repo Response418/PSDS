@@ -4,7 +4,9 @@ package com.example.psds.personal_account.repository;
 import com.example.psds.personal_account.dto.UserProjection;
 import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.model.RoleInGroup;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -34,4 +36,9 @@ public interface RoleInGroupRepository extends JpaRepository<RoleInGroup, Long> 
 
     @Query("SELECT COUNT(rg) > 0 FROM RoleInGroup rg WHERE rg.user.id = :userId AND rg.role.id = :roleId AND rg.group.id = :groupId")
     boolean existsByUserIdAndRoleIdAndGroupId(Long userId, Long roleId, Long groupId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM RoleInGroup r WHERE r.group.id = :groupId AND r.user.id = :userId")
+    void deleteByGroupIdAndUserId(@Param("groupId") Long groupId, @Param("userId") Long userId);
 }

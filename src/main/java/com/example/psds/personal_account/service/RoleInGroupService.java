@@ -1,5 +1,6 @@
 package com.example.psds.personal_account.service;
 
+import com.example.psds.personal_account.mapper.MapperRole;
 import com.example.psds.knowledge_base.model.Plan;
 import com.example.psds.knowledge_base.service.PlanService;
 import com.example.psds.personal_account.dto.*;
@@ -33,6 +34,7 @@ public class RoleInGroupService {
     private final RelationUsersService relationUsersService;
     private final PlanService planService;
     private final MyMapperService myMapperService;
+    private final MapperRole mapperRole;
 
 
     public ResponseEntity<?> create(RoleInGroupDto roleInGroupDto) {
@@ -77,17 +79,6 @@ public class RoleInGroupService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    public void saveRoleMentor(Long groupId, Long userId, Long roleId){
-//        Group group = groupRepository.findById(groupId).orElseThrow();
-//        User user = userRepository.findById(userId).orElseThrow();
-//        Role role = roleRepository.findById(roleId).orElseThrow();
-//        RoleInGroup roleInGroup = new RoleInGroup();
-//        roleInGroup.setGroup(group);
-//        roleInGroup.setUser(user);
-//        roleInGroup.setRole(role);
-//        log.info("Saving a mentor role for a userId {} in a groupId {}", userId, groupId);
-//        roleInGroupRepository.save(roleInGroup);
-//    }
 
     public ListRoleInGroupDTO getListsForRoleInGroup() {
         List<Group> group = groupRepository.findAll();
@@ -102,7 +93,6 @@ public class RoleInGroupService {
         list.setRoleList(returnRoleDto(roles));
         return list;
     }
-
 
     private List<RoleDto> returnRoleDto(List<Role> roles){
         List<RoleDto> roleDtos = new ArrayList<>();
@@ -127,5 +117,24 @@ public class RoleInGroupService {
             }
         }
         return roleDtos;
+    }
+
+    public List<UserForGroupDTO> getUsersForGroup(Long groupId) {
+        List<UserProjection> users = new ArrayList<>(roleInGroupRepository.findUsersByGroupId(groupId));
+        List<UserForGroupDTO> userDTO = new ArrayList<>(users.size());
+        for (UserProjection user : users) {
+            userDTO.add(new UserForGroupDTO(user));
+        }
+        return userDTO;
+    }
+
+    public RoleDto getRoleStudent() {
+        Role role = roleRepository.findByName(ERole.ROLE_STUDENT);
+        return mapperRole.modelToObject(role);
+    }
+
+    public void deleteUsersForGroup(Long groupId, Long userId) {
+        roleInGroupRepository.deleteByGroupIdAndUserId(groupId, userId);
+        relationUsersService.deleteByStudentIdAndGroupId(userId, groupId);
     }
 }

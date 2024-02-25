@@ -21,12 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthenticationService authenticationService;
 
-
     @PostMapping("/registration")
     public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest request) {
         return authenticationService.signUp(request);
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<?> signIn(@RequestBody @Valid SignInRequest request,

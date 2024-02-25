@@ -24,12 +24,10 @@ import java.util.List;
 public class RelationUsersController {
     private final RelationUsersService relationUsersService;
 
-
     @GetMapping("")
     public ResponseEntity<?> getListMentorForGroup(Principal principal) {//
         return new ResponseEntity<>(relationUsersService.findListMentorForGroup(principal), HttpStatus.OK);
     }
-
 
     @PutMapping("")
     public ResponseEntity<?> editMentorForStudent(@RequestBody @Valid MentorDTO mentorDTO) {
