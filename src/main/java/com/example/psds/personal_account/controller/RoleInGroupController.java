@@ -41,4 +41,5 @@ public class RoleInGroupController {
         roleInGroupService.deleteUsersForGroup(groupId, userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

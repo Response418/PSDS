@@ -137,4 +137,10 @@ public class RoleInGroupService {
         roleInGroupRepository.deleteByGroupIdAndUserId(groupId, userId);
         relationUsersService.deleteByStudentIdAndGroupId(userId, groupId);
     }
+
+
+
+
+
+
 }

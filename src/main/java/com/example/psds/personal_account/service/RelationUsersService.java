@@ -139,6 +139,6 @@ public class RelationUsersService {
 
     public void deleteByStudentIdAndGroupId(Long userId, Long groupId){
         relationUsersRepository.deleteByStudentIdAndGroupId(userId, groupId);
-
     }
+
 }

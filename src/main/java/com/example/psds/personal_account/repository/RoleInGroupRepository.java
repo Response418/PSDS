@@ -41,4 +41,6 @@ public interface RoleInGroupRepository extends JpaRepository<RoleInGroup, Long> 
     @Transactional
     @Query("DELETE FROM RoleInGroup r WHERE r.group.id = :groupId AND r.user.id = :userId")
     void deleteByGroupIdAndUserId(@Param("groupId") Long groupId, @Param("userId") Long userId);
+
+
 }

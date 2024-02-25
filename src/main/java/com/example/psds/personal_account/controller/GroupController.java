@@ -37,6 +37,11 @@ public class GroupController {
         return new ResponseEntity<>(groupService.findByUserId(userId), HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}/moderator")
+    public ResponseEntity<?> findGroupUserById(@PathVariable Long userId) {
+        return new ResponseEntity<>(groupService.findByUserId(userId), HttpStatus.OK);
+    }
+
     @PutMapping("/{groupId}")
     public ResponseEntity<?> selectGroup(@PathVariable Long groupId, Principal principal) {
         User user = userService.getUserId(principal.getName());

@@ -14,6 +14,8 @@ import java.util.List;
 public interface RelationUsersRepository extends JpaRepository<RelationUsers, Long> {
     RelationUsers findRelationUsersByGroup_Id(Long groupId);
     List<RelationUsers> findRelationUsersByGroupId(Long groupId);
+
+    List<RelationUsers> findRelationUsersByGroupIdAndMasterId(Long groupId, Long masterId);
     RelationUsers findRelationUsersByStudent_IdOrMaster_Id(Long userId, Long masterId);
     RelationUsers findRelationUsersByGroup_IdAndStudent_Id(Long groupId, Long userId);
     @Query("""
