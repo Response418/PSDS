@@ -177,35 +177,35 @@ class PsdsApplicationTests {
         lesson1.setDescription("Основы работы с Git");
         lesson1.setLevel(1);
         material1.setLesson(lesson1);
-        lesson1.setMaterial(material1);
+        lesson1.getMaterials().add(material1);
         lesson1.setTheme(theme1);
 
         lesson2.setTitle("Работа с командной строкой");
         lesson2.setDescription("Основы работы с командной строкой");
         lesson2.setLevel(2);
         material2.setLesson(lesson2);
-        lesson2.setMaterial(material2);
+        lesson2.getMaterials().add(material2);
         lesson2.setTheme(theme2);
 
         lesson3.setTitle("Введение в Git");
         lesson3.setDescription("Изучение Git");
         lesson3.setLevel(3);
         material3.setLesson(lesson3);
-        lesson3.setMaterial(material3);
+        lesson3.getMaterials().add(material3);
         lesson3.setTheme(theme1);
 
         lesson4.setTitle("Подходы к проектированию RESTful API");
         lesson4.setDescription("Основы REST и красивое проектирование сервисов");
         lesson4.setLevel(4);
         material4.setLesson(lesson4);
-        lesson4.setMaterial(material4);
+        lesson4.getMaterials().add(material4);
         lesson4.setTheme(theme2);
 
         lesson5.setTitle("PostgreSQL");
         lesson5.setDescription("Изоляция транзакций");
         lesson5.setLevel(3);
         material5.setLesson(lesson5);
-        lesson5.setMaterial(material5);
+        lesson5.getMaterials().add(material5);
         lesson5.setTheme(theme2);
         /*профили специалиста*/
         specialistProfile1.setTitle("Истинное знание Git");

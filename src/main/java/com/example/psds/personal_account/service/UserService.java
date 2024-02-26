@@ -3,7 +3,6 @@ package com.example.psds.personal_account.service;
 import com.example.psds.personal_account.dto.UserDTO;
 import com.example.psds.personal_account.mapper.ModelWithUserToObjectWithUser;
 import com.example.psds.personal_account.model.ERole;
-import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.repository.UserRepository;
 import com.example.psds.personal_account.model.User;
 import lombok.RequiredArgsConstructor;

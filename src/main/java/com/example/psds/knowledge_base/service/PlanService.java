@@ -1,13 +1,11 @@
 package com.example.psds.knowledge_base.service;
 
 import com.example.psds.knowledge_base.dto.LinkUsersDTO;
-import com.example.psds.knowledge_base.mapper.ModelPlanAndObjectPlan;
 import com.example.psds.knowledge_base.mapper.ModelSpecialistProfileAndObjectSpecialistProfile;
 import com.example.psds.knowledge_base.mapper.ModelThemeAndObjectModel;
 import com.example.psds.knowledge_base.model.Plan;
 import com.example.psds.knowledge_base.model.PlanAndProfile;
 import com.example.psds.knowledge_base.model.SpecialistProfile;
-import com.example.psds.knowledge_base.model.ThemeAndProfile;
 import com.example.psds.knowledge_base.repository.PlanAndProfileRepository;
 import com.example.psds.knowledge_base.repository.PlanRepository;
 import com.example.psds.knowledge_base.repository.SpecialistProfileRepository;
@@ -18,11 +16,7 @@ import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -39,7 +33,6 @@ public class PlanService {
         planRepository.save(plan);
     }
 
-    @Transactional
     public PlanDTO getPlanByLinkUsersId(Long linkUsersId){
         Plan plan = planRepository.findPlanByRelationUsersId(linkUsersId);
         List<PlanAndProfile> pap = plan.getPlanAndProfiles();
@@ -48,16 +41,12 @@ public class PlanService {
                     .map(PlanAndProfile::getSpecialistProfile)
                     .map(modelSpecialistProfileAndObjectSpecialistProfile::modelToObject)
                     .toList();
-
-
-
         return new PlanDTO(
                 linkUsersId,
                 specialistProfileDTOS
             );
     }
 
-    @Transactional
     public void addSpecialistProfile(Long linkUsersId, @NotNull SpecialistProfileDTO specialistProfileDTO){
         Plan plan = planRepository.getPlanByRelationUsersId(linkUsersId);
         SpecialistProfile specialistProfile =
