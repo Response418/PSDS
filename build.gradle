@@ -36,6 +36,7 @@ tasks.withType(JavaCompile).configureEach {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.jetbrains:annotations:24.0.0'
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'

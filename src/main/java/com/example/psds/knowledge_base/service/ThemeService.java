@@ -12,6 +12,7 @@ import com.example.psds.knowledge_base.model.Theme;
 import com.example.psds.knowledge_base.repository.LessonRepository;
 import com.example.psds.knowledge_base.repository.MaterialRepository;
 import com.example.psds.knowledge_base.repository.ThemeRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -64,7 +65,7 @@ public class ThemeService {
         Lesson lesson = lessonRepository.findByIdAndThemeId(lessonId, themeId);
     }
 
-    public void addLessonAndMaterialForTheme(ThemeAndLessonAndMaterialsDTO dto) {
+    public void addLessonAndMaterialForTheme(@NotNull ThemeAndLessonAndMaterialsDTO dto) {
         Theme theme = themeRepository.findThemeById(dto.getThemeId());
         Lesson lesson = lessonRepository.save(modelLessonAndObjectLesson.objectToModel(dto.getLessonDTO()));
         lesson.setTheme(theme);

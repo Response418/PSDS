@@ -7,12 +7,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,19 +40,22 @@ public class JwtService {
     }
 
     //Проверка токена на валидность
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, @NotNull UserDetails userDetails) {
         final String userName = extractUserName(token);
         return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     //Извлечение данных из токена
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolvers.apply(claims);
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
+        if (token!=null) {
+            final Claims claims = extractAllClaims(token);
+            return claimsResolvers.apply(claims);
+        }
+        return null;
     }
 
     //Генерация токена
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, @NotNull @org.jetbrains.annotations.NotNull UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 100000 * 60 * 24))
@@ -61,17 +63,17 @@ public class JwtService {
     }
 
     //Проверка токена на просроченность
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
     //Извлечение даты истечения токена
-    private Date extractExpiration(String token) {
+    public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
     //Извлечение всех данных из токена
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJws(token).getBody();
 
     }

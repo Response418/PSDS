@@ -8,12 +8,12 @@ import com.example.psds.knowledge_base.mapper.ModelGradeAndObjectGrade;
 import com.example.psds.knowledge_base.model.Grade;
 import com.example.psds.knowledge_base.repository.GradeRepository;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GradeService {
     private GradeRepository gradeRepository;
     private ModelGradeAndObjectGrade modelGradeAndObjectGrade;
@@ -22,10 +22,12 @@ public class GradeService {
     public void addNullGrades(@NotNull SpecialistProfileDTO specialistProfileDTO, Long relationUsersId){
         for (ThemeDTO themeDTO : specialistProfileDTO.getThemes()) {
             for (LessonDTO lessonDTO: themeDTO.getLessons()) {
-                GradeDTO gradeDTO = new GradeDTO(Long.valueOf(0L), 0, lessonDTO, relationUsersId);
-                Grade grade = modelGradeAndObjectGrade.objectToModel(gradeDTO);
-                if(gradeRepository.findGradeByLesson_IdAndRelationUsersId(lessonDTO.getId(), relationUsersId)==null){
-                    gradeRepository.save(grade);
+                if (lessonDTO != null) {
+                    if(!gradeRepository.existsByLesson_IdAndRelationUsersId(lessonDTO.getId(), relationUsersId)){
+                        GradeDTO gradeDTO = new GradeDTO(Long.valueOf(0L), 0, lessonDTO, relationUsersId);
+                        Grade grade = modelGradeAndObjectGrade.objectToModel(gradeDTO);
+                        gradeRepository.save(grade);
+                    }
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.example.psds.personal_account.service;
 
-import com.example.psds.personal_account.dto.authentication.GroupsForUserDto;
 import com.example.psds.personal_account.model.*;
 import com.example.psds.personal_account.model.Group;
 import com.example.psds.personal_account.model.RoleInGroup;
@@ -16,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static com.example.psds.personal_account.model.ERole.*;
 
@@ -102,7 +99,7 @@ public class GroupService {
     }
 
     public void updateGroup(GroupDTO group){
-        com.example.psds.personal_account.model.Group groupModel = modelWithGroupToObjectWithGroup.objectToModel(group);
+        Group groupModel = modelWithGroupToObjectWithGroup.objectToModel(group);
         groupRepository.save(groupModel);
     }
 
