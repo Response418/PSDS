@@ -4,6 +4,7 @@ import com.example.psds.knowledge_base.dto.SpecialistProfileDTO;
 import com.example.psds.knowledge_base.service.SpecialistProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +16,8 @@ public class SearchSpecialistProfilesController {
 
     private final SpecialistProfileService specialistProfileService;
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{searchString}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<SpecialistProfileDTO> getSpecialistProfilesByString(@PathVariable String searchString){
-        return specialistProfileService.getSpecialistProfilesByString(searchString);
+    @GetMapping("/{searchString}")
+    public ResponseEntity<?> getSpecialistProfilesByString(@PathVariable String searchString){
+        return new ResponseEntity<>(specialistProfileService.getSpecialistProfilesByString(searchString), HttpStatus.OK);
     }
 }

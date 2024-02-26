@@ -9,6 +9,8 @@ import com.example.psds.knowledge_base.service.ThemeAndProfileService;
 import com.example.psds.knowledge_base.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,15 +24,14 @@ public class SpecialistProfileController {
     private final ThemeService themeService;
     private final ThemeAndProfileService themeAndProfileService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<SpecialistProfileDTO> getSpecialistProfileList(){
-        return specialistProfileService.getSpecialistProfileList();
+    @GetMapping("")
+    public ResponseEntity<?> getSpecialistProfileList(){
+        return new ResponseEntity<>(specialistProfileService.getSpecialistProfileList(), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void changeSpecialistProfile(@RequestBody SpecialistProfileDTO specialistProfileDTO){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public ResponseEntity<?> changeSpecialistProfile(@RequestBody SpecialistProfileDTO specialistProfileDTO){
         SpecialistProfile specialistProfile =  specialistProfileService.changeSpecialistProfile(specialistProfileDTO);
         List<ThemeDTO> themeDTOS = specialistProfileDTO.getThemes();
         List<Theme> themes = new ArrayList<>();
@@ -43,16 +44,18 @@ public class SpecialistProfileController {
             themes.add(theme);
         }
         themeAndProfileService.saveThemeAndProfileModels(specialistProfile, themes);
-    }
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{specialistProfileId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteSpecialistProfile(@PathVariable Long specialistProfileId){
-        specialistProfileService.deleteSpecialistProfile(specialistProfileId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{specialistProfileId}")
-    @ResponseStatus(HttpStatus.OK)
-    public SpecialistProfileDTO getSpecialistProfileById(@PathVariable Long specialistProfileId) {
-        return specialistProfileService.getSpecialistProfileById(specialistProfileId);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/{specialistProfileId}")
+    public ResponseEntity<?> deleteSpecialistProfile(@PathVariable Long specialistProfileId){
+        specialistProfileService.deleteSpecialistProfile(specialistProfileId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{specialistProfileId}")
+    public ResponseEntity<?> getSpecialistProfileById(@PathVariable Long specialistProfileId) {
+        return new ResponseEntity<>(specialistProfileService.getSpecialistProfileById(specialistProfileId), HttpStatus.OK);
     }
 }

@@ -34,6 +34,9 @@ public class GroupService {
     private final ModelWithGroupToObjectWithGroup modelWithGroupToObjectWithGroup;
     private final RelationUsersRepository relationUsersRepository;
 
+    public void save(Group group){
+        groupRepository.save(group);
+    }
 
     public void createGroup(GroupDTO groupDTO){
         Group groupModel = modelWithGroupToObjectWithGroup.objectToModel(groupDTO);

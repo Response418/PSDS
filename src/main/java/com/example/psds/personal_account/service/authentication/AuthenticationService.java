@@ -12,7 +12,6 @@ import com.example.psds.personal_account.service.SessionService;
 import com.example.psds.personal_account.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -63,6 +62,7 @@ public class AuthenticationService {
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+
     public ResponseEntity<?> signIn(SignInRequest request, String sessionId) {
         if(userRepository.findByEmail(request.getEmail()).isEmpty()){
             MessageResponse messageResponse = myMapperService.
@@ -89,4 +89,5 @@ public class AuthenticationService {
         sessionService.deleteSession(sessionId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

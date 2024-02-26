@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -37,6 +38,7 @@ public class GroupController {
         return new ResponseEntity<>(groupService.findByUserId(userId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{userId}/moderator")
     public ResponseEntity<?> findGroupUserById(@PathVariable Long userId) {
         return new ResponseEntity<>(groupService.findByUserId(userId), HttpStatus.OK);
@@ -50,40 +52,46 @@ public class GroupController {
         return new ResponseEntity<>(groups, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/moderator/group")
     public ResponseEntity<?> createGroup(@RequestBody @Valid GroupDTO groupDto) {
         groupService.createGroup(groupDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @RequestMapping(method = RequestMethod.GET, path = "/moderator")
-    public List<GroupDTO> getGroupList(){
-        return groupService.getGroupList();
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/moderator")
+    public ResponseEntity<?> getGroupList(){
+        return new ResponseEntity<>(groupService.getGroupList(), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/moderator")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateGroup(@RequestBody GroupDTO group){
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/moderator")
+    public ResponseEntity<?> updateGroup(@RequestBody GroupDTO group){
         groupService.updateGroup(group);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/moderator/{groupId}")
-    public GroupDTO getGroupById(@PathVariable Long groupId){
-
-        return groupService.getGroupById(groupId);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/moderator/{groupId}")
+    public ResponseEntity<?> getGroupById(@PathVariable Long groupId){
+        return new ResponseEntity<>(groupService.getGroupById(groupId), HttpStatus.OK);
     }
 
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/moderator/{groupId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGroup(@PathVariable Long groupId){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/moderator/{groupId}")
+    public ResponseEntity<?> deleteGroup(@PathVariable Long groupId){
         relationUsersService.deleteRelationUsersByGroupId(groupId);
         groupService.deleteGroup(groupId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{groupId}/users/{userId}/mentors")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void setMentorByGroupIdAndUserId(@PathVariable Long groupId, @PathVariable Long userId, @RequestBody UserDTO mentor){
+    @PutMapping("/{groupId}/users/{userId}/mentors")
+    public ResponseEntity<?> setMentorByGroupIdAndUserId(@PathVariable Long groupId, @PathVariable Long userId, @RequestBody UserDTO mentor){
         relationUsersService.createRelationUsersByGroupIdAndUserId(groupId, userId, mentor);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 

@@ -7,6 +7,7 @@ import com.example.psds.knowledge_base.service.LessonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,34 +19,36 @@ public class LessonController {
     private final LessonService lessonService;
     private final LessonResponseBuilder lessonResponseBuilder;
 
-
     @GetMapping("/lesson/{themeId}")
     public ResponseEntity<?> getLessonsForTheme(@PathVariable Long themeId) {
         return new ResponseEntity<>(lessonService.getLessonsForTheme(themeId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/lesson")
     public ResponseEntity<?> editLessonsAndMaterial(@RequestBody LessonAndMaterialDTO dto) {
         lessonService.editLessonsAndMaterial(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<LessonDTO> getLessonList(){
-        return lessonService.getLessonList();
+    @GetMapping("")
+    public ResponseEntity<?> getLessonList(){
+        return new ResponseEntity<>(lessonService.getLessonList(), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void changeLesson(@RequestBody LessonDTO lessonDTO){
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public ResponseEntity<?> changeLesson(@RequestBody LessonDTO lessonDTO){
         lessonService.changeLesson(lessonDTO);
+        return new ResponseEntity<>(lessonService.getLessonList(), HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{lessonId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteLesson(@PathVariable Long lessonId){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/{lessonId}")
+    public ResponseEntity<?> deleteLesson(@PathVariable Long lessonId){
         lessonService.deleteLesson(lessonId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{lessonId}/{linkUserId}")

@@ -9,6 +9,7 @@ import com.example.psds.knowledge_base.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class ThemeController {
         return new ResponseEntity<>(themeService.getThemeList(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.CREATED)
     public void changeTheme(@RequestBody ThemeDTO themeDTO){
@@ -36,12 +38,14 @@ public class ThemeController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/lesson")
     public ResponseEntity<?> addLessonAndMaterialForTheme(@RequestBody ThemeAndLessonAndMaterialsDTO dto){
         themeService.addLessonAndMaterialForTheme(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{themeId}/{lessonId}")
     public ResponseEntity<?> deleteLessonFromTheme(@PathVariable Long themeId, @PathVariable Long lessonId){
         themeService.deleteLessonFromTheme(themeId, lessonId);
@@ -53,6 +57,7 @@ public class ThemeController {
         return new ResponseEntity<>(themeService.getThemeById(themeId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{themeId}")
     public ResponseEntity<?> deleteTheme(@PathVariable Long themeId){
         themeService.deleteTheme(themeId);

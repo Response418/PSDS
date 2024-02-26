@@ -5,6 +5,8 @@ import com.example.psds.knowledge_base.service.LessonService;
 import com.example.psds.knowledge_base.service.MaterialService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,17 +24,19 @@ public class MaterialController {
         return materialService.getMaterialList();
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void changeMaterial(@RequestBody MaterialDTO materialDTO){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("")
+    public ResponseEntity<?> changeMaterial(@RequestBody MaterialDTO materialDTO){
         materialService.changeMaterial(materialDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{materialId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteMaterial(@PathVariable Long materialId) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/{materialId}")
+    public ResponseEntity<?> deleteMaterial(@PathVariable Long materialId) {
         lessonService.changeLessonByMaterialId(materialId);
         materialService.deleteMaterial(materialId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @RequestMapping(method = RequestMethod.GET, path = "/{lessonId}")
     @ResponseStatus(HttpStatus.OK)

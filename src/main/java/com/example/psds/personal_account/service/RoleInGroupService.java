@@ -37,6 +37,10 @@ public class RoleInGroupService {
     private final MapperRole mapperRole;
 
 
+    public void save(RoleInGroup roleInGroup){
+        roleInGroupRepository.save(roleInGroup);
+    }
+
     public ResponseEntity<?> create(RoleInGroupDto roleInGroupDto) {
         Group group = groupRepository.findById(roleInGroupDto.getGroupId()).orElseThrow();
         User user = userRepository.findById(roleInGroupDto.getUserId()).orElseThrow();

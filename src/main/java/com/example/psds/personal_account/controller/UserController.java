@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,10 +23,10 @@ public class UserController {
     private final RelationUsersService relationUsersService;
     private final GroupResponseBuilder groupResponseBuilder;
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<UserDTO> getUserList(){
-        return userService.getUserList();
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_DIRECTOR')")
+    @GetMapping("")
+    public ResponseEntity<?> getUserList(){
+        return new ResponseEntity<>(userService.getUserList(), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{userId}")
@@ -40,6 +41,8 @@ public class UserController {
         userService.changeUser(userDTO);
     }
 
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_DIRECTOR')")
     @RequestMapping(method = RequestMethod.DELETE, path = "/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long userId){
