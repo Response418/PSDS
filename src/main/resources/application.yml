@@ -33,3 +33,7 @@ logging:
   level:
     root: ${LOGGING_LEVEL:info}
   length: ${LOGGING_LENGTH:100}
+
+admin:
+  email: admin
+  password: admin
