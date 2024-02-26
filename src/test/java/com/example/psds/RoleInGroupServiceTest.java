@@ -2,6 +2,7 @@ package com.example.psds;
 
 import com.example.psds.knowledge_base.service.PlanService;
 import com.example.psds.personal_account.dto.moderator.RoleInGroupDto;
+import com.example.psds.personal_account.mapper.MapperRole;
 import com.example.psds.personal_account.mapper.ModelWithGroupToObjectWithGroup;
 import com.example.psds.personal_account.model.*;
 import com.example.psds.personal_account.repository.GroupRepository;
@@ -48,6 +49,9 @@ public class RoleInGroupServiceTest {
     private PlanService planService;
 
     @Mock
+    private MapperRole mapperRole;
+
+    @Mock
     private MyMapperService myMapperService;
 
     @InjectMocks
@@ -56,7 +60,7 @@ public class RoleInGroupServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        roleInGroupService = new RoleInGroupService(roleInGroupRepository, userRepository, roleRepository, groupRepository, modelWithGroupToObjectWithGroup, relationUsersService, planService, myMapperService);
+        roleInGroupService = new RoleInGroupService(roleInGroupRepository, userRepository, roleRepository, groupRepository, modelWithGroupToObjectWithGroup, relationUsersService, planService, myMapperService, mapperRole);
     }
 
     @Test
