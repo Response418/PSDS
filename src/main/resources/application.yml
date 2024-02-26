@@ -1,0 +1,35 @@
+token:
+  signing:
+    key: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
+
+server:
+  port: ${PORT:8080}
+spring:
+  datasource:
+    kb:
+      jdbc-url: jdbc:postgresql://${URL_KB:localhost:5433}/${SOURCE_KB:kb_db}
+      username: ${USERNAME_KB:postgres}
+      password: ${PASSWORD_KB:postgres}
+      driverClassName: org.postgresql.Driver
+      jpa:
+        hibernate:
+          ddl-auto: ${DDL_AUTO:update}
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+    pa:
+      jdbc-url: jdbc:postgresql://${URL_PA:localhost:5433}/${SOURCE_PA:pa_db}
+      username: ${USERNAME_PA:postgres}
+      password: ${PASSWORD_PA:postgres}
+      driverClassName: org.postgresql.Driver
+      jpa:
+        hibernate:
+          ddl-auto: ${DDL_AUTO:update}
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL:info}
+  length: ${LOGGING_LENGTH:100}
