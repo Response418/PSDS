@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface PlanAndProfileRepository extends JpaRepository<PlanAndProfile, Long> {
     void deleteByPlanAndSpecialistProfile(Plan plan, SpecialistProfile specialistProfile);
+
+    List<PlanAndProfile> findAllByPlan(Plan plan);
 }

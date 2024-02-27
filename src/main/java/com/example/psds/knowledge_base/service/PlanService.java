@@ -24,7 +24,6 @@ import java.util.List;
 public class PlanService {
     private final PlanRepository planRepository;
     private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
-    private final ModelThemeAndObjectModel modelThemeAndObjectModel;
     private final PlanAndProfileRepository planAndProfileRepository;
     private final SpecialistProfileRepository specialistProfileRepository;
 
@@ -35,7 +34,7 @@ public class PlanService {
 
     public PlanDTO getPlanByLinkUsersId(Long linkUsersId){
         Plan plan = planRepository.findPlanByRelationUsersId(linkUsersId);
-        List<PlanAndProfile> pap = plan.getPlanAndProfiles();
+        List<PlanAndProfile> pap = planAndProfileRepository.findAllByPlan(plan);
         List<SpecialistProfileDTO> specialistProfileDTOS =
                 pap.stream()
                     .map(PlanAndProfile::getSpecialistProfile)

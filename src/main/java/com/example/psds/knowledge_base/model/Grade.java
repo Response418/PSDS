@@ -20,6 +20,6 @@ public class Grade {
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
-    @Column(name = "relation_users_id")
-    private Long relationUsersId;
+    @Column(name = "users_id")
+    private Long usersId;
 }

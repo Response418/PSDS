@@ -19,7 +19,4 @@ public class Plan {
 
     @Column(name = "relation_users_id")
     private Long relationUsersId;
-
-    @OneToMany(mappedBy = "plan")
-    private List<PlanAndProfile> planAndProfiles;
 }

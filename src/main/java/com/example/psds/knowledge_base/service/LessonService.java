@@ -47,8 +47,8 @@ public class LessonService {
         lessonRepository.save(lesson);
     }
 
-    public Grade getLessonByIdAndRelationUsers(Long lessonId, Long linkUserId){
-        return gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId);
+    public Grade getLessonByIdAndRelationUsers(Long lessonId, Long usersId){
+        return gradeRepository.getGradeByLessonIdAndUsersId(lessonId, usersId);
     }
 
     public LessonDTO getLessonById(Long lessonId){

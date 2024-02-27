@@ -51,12 +51,12 @@ public class LessonController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{lessonId}/{linkUserId}")
+    @GetMapping("/{lessonId}/{userId}")
     public ResponseEntity<?> getLessonByIdAndRelationUsers(
-            @PathVariable("linkUserId") Long linkUserId,
+            @PathVariable("userId") Long userId,
             @PathVariable("lessonId") Long lessonId
     ) {
-        return lessonResponseBuilder.getLessonByIdAndRelationUsers(lessonId, linkUserId);
+        return lessonResponseBuilder.getLessonByIdAndRelationUsers(lessonId, userId);
     }
 
     @GetMapping("/{lessonId}")

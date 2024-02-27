@@ -26,5 +26,4 @@ public class PlanAndProfile {
     @ManyToOne
     @JoinColumn(name = "specialist_profile_id")
     private SpecialistProfile specialistProfile;
-
 }

@@ -1,10 +1,8 @@
 package com.example.psds.personal_account.service;
 
-import com.example.psds.personal_account.model.Role;
-import com.example.psds.personal_account.model.RoleInGroup;
-import com.example.psds.personal_account.model.Session;
-import com.example.psds.personal_account.model.User;
+import com.example.psds.personal_account.model.*;
 import com.example.psds.personal_account.repository.GroupRepository;
+import com.example.psds.personal_account.repository.RoleInGroupRepository;
 import com.example.psds.personal_account.repository.SessionRepository;
 import com.example.psds.personal_account.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,7 @@ public class SessionService {
     private final SessionRepository sessionRepository;
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
+    private final RoleInGroupRepository roleInGroupRepository;
 
     public void createSession(Long userId, String sessionId) {
         Session session = sessionRepository.findByUserId(userId);
@@ -56,7 +55,9 @@ public class SessionService {
 
     public List<Role> getListRole(Session session) {
         User user = session.getUser();
-        return user.getRoleInGroups()
+        Group group = session.getGroup();
+        return roleInGroupRepository
+                .findAllByGroupAndUser(group, user)
                 .stream()
                 .map(RoleInGroup::getRole)
                 .toList();

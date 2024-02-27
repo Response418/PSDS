@@ -9,9 +9,7 @@ import lombok.*;
 @ToString
 public class GradeDTO {
     private Long id;
-
     private int value;
-
     private LessonDTO lesson;
-    private Long relationUsersId;
+    private Long usersId;
 }

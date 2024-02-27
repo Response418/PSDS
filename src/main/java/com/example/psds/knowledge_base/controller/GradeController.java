@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.*;
 public class GradeController {
     private final GradeResponseBuilder gradeResponseBuilder;
 
-    @PutMapping("/{lessonId}/{linkUserId}")
+    @PutMapping("/{lessonId}/{userId}")
     public ResponseEntity<?> updateGrade(
-        @PathVariable("linkUserId") Long linkUserId,
+        @PathVariable("userId") Long userId,
         @PathVariable("lessonId") Long lessonId,
         @RequestBody GradeRequestDTO gradeRequestDTO
     ) {
-        return gradeResponseBuilder.updateGrade(lessonId, linkUserId, gradeRequestDTO);
+        return gradeResponseBuilder.updateGrade(lessonId, userId, gradeRequestDTO);
     }
 
-    @GetMapping("/{lessonId}/{linkUserId}")
+    @GetMapping("/{lessonId}/{userId}")
     public ResponseEntity<?> getGradeByLessonId(
-        @PathVariable("linkUserId") Long linkUserId,
+        @PathVariable("userId") Long userId,
         @PathVariable("lessonId") Long lessonId
     ){
-        return gradeResponseBuilder.getGradeByLessonId(lessonId, linkUserId);
+        return gradeResponseBuilder.getGradeByLessonId(lessonId, userId);
     }
 }

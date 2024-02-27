@@ -2,8 +2,10 @@ package com.example.psds.personal_account.repository;
 
 
 import com.example.psds.personal_account.dto.UserProjection;
+import com.example.psds.personal_account.model.Group;
 import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.model.RoleInGroup;
+import com.example.psds.personal_account.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -42,5 +44,5 @@ public interface RoleInGroupRepository extends JpaRepository<RoleInGroup, Long> 
     @Query("DELETE FROM RoleInGroup r WHERE r.group.id = :groupId AND r.user.id = :userId")
     void deleteByGroupIdAndUserId(@Param("groupId") Long groupId, @Param("userId") Long userId);
 
-
+    List<RoleInGroup> findAllByGroupAndUser(Group group, User user);
 }

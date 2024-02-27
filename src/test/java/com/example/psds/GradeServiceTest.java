@@ -30,7 +30,7 @@ class GradeServiceTest {
         Long lessonId = 1L;
         Long relationUsersId = 1L;
         Grade expectedGrade = new Grade();
-        when(gradeRepository.findGradeByLesson_IdAndRelationUsersId(lessonId, relationUsersId)).thenReturn(expectedGrade);
+        when(gradeRepository.findGradeByLesson_IdAndUsersId(lessonId, relationUsersId)).thenReturn(expectedGrade);
 
         Grade result = gradeService.getGradeModel(lessonId, relationUsersId);
 
@@ -43,7 +43,7 @@ class GradeServiceTest {
         Long linkUserId = 1L;
         Integer newGrade = 90;
         Grade grade = new Grade();
-        when(gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId)).thenReturn(grade);
+        when(gradeRepository.getGradeByLessonIdAndUsersId(lessonId, linkUserId)).thenReturn(grade);
 
         Grade result = gradeService.updateGrade(lessonId, linkUserId, newGrade);
 
@@ -56,7 +56,7 @@ class GradeServiceTest {
         Long lessonId = 1L;
         Long linkUserId = 1L;
         Grade expectedGrade = new Grade();
-        when(gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId)).thenReturn(expectedGrade);
+        when(gradeRepository.getGradeByLessonIdAndUsersId(lessonId, linkUserId)).thenReturn(expectedGrade);
 
         Grade result = gradeService.getGradeByLessonAndLink(lessonId, linkUserId);
 

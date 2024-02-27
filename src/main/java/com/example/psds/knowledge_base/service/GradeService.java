@@ -15,16 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GradeService {
-    private GradeRepository gradeRepository;
-    private ModelGradeAndObjectGrade modelGradeAndObjectGrade;
+    private final GradeRepository gradeRepository;
+    private final ModelGradeAndObjectGrade modelGradeAndObjectGrade;
 
     @Transactional
-    public void addNullGrades(@NotNull SpecialistProfileDTO specialistProfileDTO, Long relationUsersId){
+    public void addNullGrades(@NotNull SpecialistProfileDTO specialistProfileDTO, Long usersId){
         for (ThemeDTO themeDTO : specialistProfileDTO.getThemes()) {
             for (LessonDTO lessonDTO: themeDTO.getLessons()) {
                 if (lessonDTO != null) {
-                    if(!gradeRepository.existsByLesson_IdAndRelationUsersId(lessonDTO.getId(), relationUsersId)){
-                        GradeDTO gradeDTO = new GradeDTO(Long.valueOf(0L), 0, lessonDTO, relationUsersId);
+                    if(!gradeRepository.existsByLesson_IdAndUsersId(lessonDTO.getId(), usersId)){
+                        GradeDTO gradeDTO = new GradeDTO(Long.valueOf(0L), 0, lessonDTO, usersId);
                         Grade grade = modelGradeAndObjectGrade.objectToModel(gradeDTO);
                         gradeRepository.save(grade);
                     }
@@ -34,19 +34,19 @@ public class GradeService {
     }
 
     @Transactional
-    public Grade getGradeModel(Long lesson_id, Long relationUsersId){
-        return gradeRepository.findGradeByLesson_IdAndRelationUsersId(lesson_id, relationUsersId);
+    public Grade getGradeModel(Long lesson_id, Long usersId){
+        return gradeRepository.findGradeByLesson_IdAndUsersId(lesson_id, usersId);
     }
 
-    public Grade updateGrade(Long lessonId, Long linkUserId, Integer newGrade){
-        Grade grade = gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId);
+    public Grade updateGrade(Long lessonId, Long usersId, Integer newGrade){
+        Grade grade = gradeRepository.getGradeByLessonIdAndUsersId(lessonId, usersId);
         grade.setValue(newGrade);
         gradeRepository.save(grade);
 
         return grade;
     }
 
-    public Grade getGradeByLessonAndLink(Long lessonId, Long linkUserId){
-        return gradeRepository.getGradeByLessonIdAndRelationUsersId(lessonId, linkUserId);
+    public Grade getGradeByLessonAndLink(Long lessonId, Long usersId){
+        return gradeRepository.getGradeByLessonIdAndUsersId(lessonId, usersId);
     }
 }
