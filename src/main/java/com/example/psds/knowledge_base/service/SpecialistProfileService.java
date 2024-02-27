@@ -32,20 +32,15 @@ public class SpecialistProfileService {
     private final LessonRepository lessonRepository;
     private final ModelLessonAndObjectLesson modelLessonAndObjectLesson;
 
-    private final ThemeRepository themeRepository;
 
     public List<SpecialistProfileDTO> getSpecialistProfileList(){
         List<SpecialistProfile> specialistProfiles = specialistProfileRepository.findAll();
         List<SpecialistProfileDTO> specialistProfileDTOS = new ArrayList<>();
-        /*связи*/
         List<ThemeAndProfile> themeAndProfiles;
         for (int i=0; i<specialistProfiles.size(); i++){
-            /*преобразуем*/
             specialistProfileDTOS.add(modelSpecialistProfileAndObjectSpecialistProfile.modelToObject(specialistProfiles.get(i)));
-            /*получаем связи*/
             themeAndProfiles = specialistProfiles.get(i).getTapSpecialistProfile();
             for (int j=0; j<themeAndProfiles.size(); j++){
-                /*с помощью mapper*/
                 specialistProfileDTOS.get(i).getThemes().add(modelThemeAndObjectModel.modelToObject(themeAndProfiles.get(j).getTapTheme()));
             }
         }
@@ -97,25 +92,21 @@ public class SpecialistProfileService {
             themes.add(pair.getTapTheme());
         }
         List<ThemeDTO> themeDTOs = new ArrayList<>();
-
         for (Theme theme : themes) {
             ThemeDTO themeDTO = modelThemeAndObjectModel.modelToObject(theme);
             themeDTO.setLessons(getLessonsByThemeId(theme.getId()));
             themeDTOs.add(themeDTO);
         }
-
         return themeDTOs;
     }
 
     private List<LessonDTO> getLessonsByThemeId(Long themeId) {
         List<Lesson> lessons = lessonRepository.findByThemeId(themeId);
         List<LessonDTO> lessonDTOs = new ArrayList<>();
-
         for (Lesson lesson : lessons) {
             LessonDTO lessonDTO = modelLessonAndObjectLesson.modelToObject(lesson);
             lessonDTOs.add(lessonDTO);
         }
-
         return lessonDTOs;
     }
 

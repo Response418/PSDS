@@ -7,10 +7,7 @@ import com.example.psds.personal_account.repository.UserRepository;
 import com.example.psds.personal_account.response.GroupResponseBuilder;
 import com.example.psds.personal_account.service.GroupService;
 import com.example.psds.personal_account.service.RelationUsersService;
-import com.example.psds.personal_account.service.SessionService;
 import com.example.psds.personal_account.service.UserService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/groups")
@@ -29,7 +25,6 @@ public class GroupController {
     private final RelationUsersService relationUsersService;
     private final UserRepository userRepository;
     private final UserService userService;
-    private final SessionService sessionService;
     private final GroupResponseBuilder groupResponseBuilder;
 
     @GetMapping("")
@@ -48,7 +43,6 @@ public class GroupController {
     public ResponseEntity<?> selectGroup(@PathVariable Long groupId, Principal principal) {
         User user = userService.getUserId(principal.getName());
         GroupDTO groups = groupService.selectGroup(groupId, user.getId());
-        sessionService.editGroupInSession(user, groupId);
         return new ResponseEntity<>(groups, HttpStatus.OK);
     }
 
@@ -64,7 +58,6 @@ public class GroupController {
     public ResponseEntity<?> getGroupList(){
         return new ResponseEntity<>(groupService.getGroupList(), HttpStatus.OK);
     }
-
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/moderator")
@@ -96,20 +89,7 @@ public class GroupController {
 
 
     @GetMapping("/masters/students")
-    public ResponseEntity<?> getStudentsByMaster(
-            HttpServletRequest request
-    ) {
-        Cookie[] cookies = request.getCookies();
-        String sessionId = null;
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("JSESSIONID".equals(cookie.getName())) {
-                    sessionId = cookie.getValue();
-                    break;
-                }
-            }
-        }
-        return groupResponseBuilder.getStudentsByMaster(sessionId);
+    public ResponseEntity<?> getStudentsByMaster(@RequestParam Long userId, @RequestParam Long groupId) {
+        return groupResponseBuilder.getStudentsByMaster(userId, groupId);
     }
 }

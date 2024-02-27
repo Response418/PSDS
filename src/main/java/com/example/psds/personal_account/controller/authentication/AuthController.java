@@ -4,10 +4,9 @@ import com.example.psds.personal_account.dto.authentication.SignInRequest;
 import com.example.psds.personal_account.dto.authentication.SignUpRequest;
 
 import com.example.psds.personal_account.service.authentication.AuthenticationService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,25 +26,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> signIn(@RequestBody @Valid SignInRequest request,
-                                    HttpServletRequest servletRequest) {
-        return authenticationService.signIn(request, servletRequest.getSession().getId());
+    public ResponseEntity<?> signIn(@RequestBody @Valid SignInRequest request) {
+        return authenticationService.signIn(request);
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<?> signOut( HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        String sessionId = null;
 
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("JSESSIONID".equals(cookie.getName())) {
-                    sessionId = cookie.getValue();
-                    break;
-                }
-            }
-        }
-        return authenticationService.signOut(sessionId);
+    @PostMapping("/logout")
+    public ResponseEntity<?> signOut() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

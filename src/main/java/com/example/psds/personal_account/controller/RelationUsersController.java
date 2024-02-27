@@ -2,12 +2,7 @@ package com.example.psds.personal_account.controller;
 
 import com.example.psds.personal_account.dto.MentorDTO;
 import com.example.psds.personal_account.dto.RelationUsersDTO;
-import com.example.psds.personal_account.dto.UserDTO;
-import com.example.psds.personal_account.repository.GroupRepository;
-import com.example.psds.personal_account.service.GroupService;
 import com.example.psds.personal_account.service.RelationUsersService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,8 +20,9 @@ public class RelationUsersController {
     private final RelationUsersService relationUsersService;
 
     @GetMapping("")
-    public ResponseEntity<?> getListMentorForGroup(Principal principal) {//
-        return new ResponseEntity<>(relationUsersService.findListMentorForGroup(principal), HttpStatus.OK);
+    public ResponseEntity<?> getListMentorForGroup(Principal principal, @RequestParam Long groupId) {
+        return new ResponseEntity<>(relationUsersService.
+                findListMentorForGroup(principal, groupId), HttpStatus.OK);
     }
 
     @PutMapping("")
@@ -36,17 +32,13 @@ public class RelationUsersController {
     }
 
     @GetMapping("/{studentId}")
-    public List<RelationUsersDTO> getListRelationByStudentId(
-            @PathVariable("studentId") Long studentId
-    ){
+    public List<RelationUsersDTO> getListRelationByStudentId(@PathVariable("studentId") Long studentId){
         return relationUsersService.getListRelationByStudentId(studentId);
     }
 
     @GetMapping("/{studentId}/{groupId}")
-    public RelationUsersDTO getLinkByStudentAndGroup(
-            @PathVariable("studentId") Long studentId,
-            @PathVariable("groupId") Long groupId
-    ){
+    public RelationUsersDTO getLinkByStudentAndGroup(@PathVariable("studentId") Long studentId,
+            @PathVariable("groupId") Long groupId){
         return relationUsersService.getLinkByStudentAndGroup(studentId, groupId);
     }
 }
