@@ -2,10 +2,10 @@ package com.example.psds.personal_account.service;
 
 import com.example.psds.personal_account.dto.UserDTO;
 import com.example.psds.personal_account.mapper.ModelWithUserToObjectWithUser;
-import com.example.psds.personal_account.model.ERole;
+import com.example.psds.personal_account.model.*;
 import com.example.psds.personal_account.repository.UserRepository;
-import com.example.psds.personal_account.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +20,9 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelWithUserToObjectWithUser modelWithUserToObjectWithUser;
+
+    @Value("${admin.email}")
+    private String email;
 
     public User save(User user) {
         return userRepository.save(user);
@@ -57,7 +60,8 @@ public class UserService {
     }
 
     public List<UserDTO> getUserList(){
-        List<User> users = userRepository.findAll();
+        Long userId = userRepository.findByEmail(email).orElseThrow().getId();
+        List<User> users = userRepository.findAllExceptUserId(userId);
         List<UserDTO> userDTOS = new ArrayList<>();
         for (int i=0; i<users.size(); i++){
             userDTOS.add(modelWithUserToObjectWithUser.modelToObject(users.get(i)));

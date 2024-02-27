@@ -9,11 +9,13 @@ import com.example.psds.personal_account.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@DependsOn("roleInitializer")
 public class AdminInitializer {
 
     private final PasswordEncoder passwordEncoder;

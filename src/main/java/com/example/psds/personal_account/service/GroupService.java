@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.example.psds.personal_account.dto.GroupDTO;
 import com.example.psds.personal_account.mapper.ModelWithGroupToObjectWithGroup;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,9 @@ public class GroupService {
 
     private final ModelWithGroupToObjectWithGroup modelWithGroupToObjectWithGroup;
     private final RelationUsersRepository relationUsersRepository;
+
+    @Value("${admin.email}")
+    private String email;
 
     public void save(Group group){
         groupRepository.save(group);
@@ -83,14 +87,15 @@ public class GroupService {
     }
 
     public List<GroupDTO> getGroupList(){
-        List<com.example.psds.personal_account.model.Group> groupModelList = groupRepository.findAll();
+        Long userId = userService.getUserId(email).getId();
+        Long groupId = roleInGroupRepository.findByUserId(userId).get(0).getGroup().getId();
+        List<Group> groupModelList = groupRepository.findAllExceptGroupId(groupId);
         List<GroupDTO> groupObjectList = new ArrayList<>();
         for(int i=0; i<groupModelList.size(); i++){
             groupObjectList.add(modelWithGroupToObjectWithGroup.modelToObject(groupModelList.get(i)));
         }
         return groupObjectList;
     }
-
 
 
     public GroupDTO getGroupById(Long groupId){

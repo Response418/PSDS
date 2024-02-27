@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GradeService {
-    private GradeRepository gradeRepository;
-    private ModelGradeAndObjectGrade modelGradeAndObjectGrade;
+    private final GradeRepository gradeRepository;
+    private final ModelGradeAndObjectGrade modelGradeAndObjectGrade;
 
     @Transactional
     public void addNullGrades(@NotNull SpecialistProfileDTO specialistProfileDTO, Long relationUsersId){

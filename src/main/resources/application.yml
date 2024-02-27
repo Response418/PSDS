@@ -7,7 +7,7 @@ server:
 spring:
   datasource:
     kb:
-      jdbc-url: jdbc:postgresql://${URL_KB:localhost:5433}/${SOURCE_KB:kb_db}
+      jdbc-url: jdbc:postgresql://${URL_KB:localhost:5432}/${SOURCE_KB:kb_db}
       username: ${USERNAME_KB:postgres}
       password: ${PASSWORD_KB:postgres}
       driverClassName: org.postgresql.Driver
@@ -18,7 +18,7 @@ spring:
           hibernate:
             dialect: org.hibernate.dialect.PostgreSQLDialect
     pa:
-      jdbc-url: jdbc:postgresql://${URL_PA:localhost:5433}/${SOURCE_PA:pa_db}
+      jdbc-url: jdbc:postgresql://${URL_PA:localhost:5432}/${SOURCE_PA:pa_db}
       username: ${USERNAME_PA:postgres}
       password: ${PASSWORD_PA:postgres}
       driverClassName: org.postgresql.Driver

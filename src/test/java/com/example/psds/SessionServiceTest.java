@@ -2,9 +2,7 @@ package com.example.psds;
 
 import com.example.psds.personal_account.model.*;
 import com.example.psds.personal_account.repository.GroupRepository;
-import com.example.psds.personal_account.repository.SessionRepository;
 import com.example.psds.personal_account.repository.UserRepository;
-import com.example.psds.personal_account.service.SessionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

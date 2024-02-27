@@ -24,7 +24,6 @@ import java.util.List;
 public class PlanService {
     private final PlanRepository planRepository;
     private final ModelSpecialistProfileAndObjectSpecialistProfile modelSpecialistProfileAndObjectSpecialistProfile;
-    private final ModelThemeAndObjectModel modelThemeAndObjectModel;
     private final PlanAndProfileRepository planAndProfileRepository;
     private final SpecialistProfileRepository specialistProfileRepository;
 

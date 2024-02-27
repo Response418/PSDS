@@ -30,7 +30,6 @@ public class RelationUsersService {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final ModelWithUserToObjectWithUser modelWithUserToObjectWithUser;
-    private final SessionRepository sessionRepository;
     private final RoleInGroupRepository roleInGroupRepository;
     private final RoleRepository roleRepository;
     private final ModelRelationUsersToObjectRelationUsers modelRelationUsersToObjectRelationUsers;
@@ -73,13 +72,8 @@ public class RelationUsersService {
     }
 
 
-    public ListRelationUserDTO findListMentorForGroup(Principal principal) {
+    public ListRelationUserDTO findListMentorForGroup(Principal principal, Long groupId) {
         Role roleStudent = roleRepository.findByName(ERole.ROLE_STUDENT);
-        Optional<User> user = userRepository.findByEmail(principal.getName());
-
-        Session session = sessionRepository.findByUserId(user.get().getId());
-        Long groupId = session.getGroup().getId();
-
         List<UserProjection> userStudent = new ArrayList<>(roleInGroupRepository.
                 findUsersByRoleIdAndGroupId(roleStudent, groupId));
 

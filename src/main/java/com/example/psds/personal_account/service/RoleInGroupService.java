@@ -13,6 +13,7 @@ import com.example.psds.personal_account.repository.RoleRepository;
 import com.example.psds.personal_account.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,10 @@ public class RoleInGroupService {
     private final PlanService planService;
     private final MyMapperService myMapperService;
     private final MapperRole mapperRole;
+    private final UserService userService;
+
+    @Value("${admin.email}")
+    private String email;
 
 
     public void save(RoleInGroup roleInGroup){
@@ -85,14 +90,16 @@ public class RoleInGroupService {
 
 
     public ListRoleInGroupDTO getListsForRoleInGroup() {
-        List<Group> group = groupRepository.findAll();
+        Long userId = userService.getUserId(email).getId();
+        Long groupId = roleInGroupRepository.findByUserId(userId).get(0).getGroup().getId();
+        List<Group> group = groupRepository.findAllExceptGroupId(groupId);
         List<GroupDTO> groupDTO = new ArrayList<>();
         for (Group group1 : group) {
             groupDTO.add(modelWithGroupToObjectWithGroup.modelToObject(group1));
         }
         List<Role> roles = roleRepository.findAll();
         ListRoleInGroupDTO list = new ListRoleInGroupDTO();
-        list.setUserList(userRepository.findListUserForRoleInGroup());
+        list.setUserList(userRepository.findListUserForRoleInGroup(userId));
         list.setGroupList(groupDTO);
         list.setRoleList(returnRoleDto(roles));
         return list;

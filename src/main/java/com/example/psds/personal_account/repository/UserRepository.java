@@ -1,5 +1,6 @@
 package com.example.psds.personal_account.repository;
 
+import com.example.psds.personal_account.model.Group;
 import com.example.psds.personal_account.model.Role;
 import com.example.psds.personal_account.dto.UserProjection;
 import com.example.psds.personal_account.model.User;
@@ -21,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserById(Long id);
 
     @Query("SELECT u.id AS id, u.lastName AS lastName, u.firstName AS firstName, " +
-            "u.fatherName AS fatherName FROM User u")
-    List<UserProjection> findListUserForRoleInGroup();
+            "u.fatherName AS fatherName FROM User u WHERE u.id <> :userId")
+    List<UserProjection> findListUserForRoleInGroup(Long userId);
+
+    @Query("SELECT g FROM User g WHERE g.id <> :userId")
+    List<User> findAllExceptUserId(Long userId);
 }

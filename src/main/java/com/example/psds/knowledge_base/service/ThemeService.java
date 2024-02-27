@@ -37,7 +37,6 @@ public class ThemeService {
         return themeRepository.save(modelThemeAndObjectModel.objectToModel(themeDTO));
     }
 
-
     public List<ThemeDTO> getThemeList(){
         List<Theme> themes = themeRepository.findAll();
         List<ThemeDTO> themeDTOS = new ArrayList<>();

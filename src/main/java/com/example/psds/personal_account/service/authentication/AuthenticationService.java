@@ -1,14 +1,13 @@
 package com.example.psds.personal_account.service.authentication;
 
+import com.example.psds.knowledge_base.dto.JWTdto;
 import com.example.psds.personal_account.dto.MessageResponse;
-import com.example.psds.personal_account.dto.authentication.JwtResponse;
 import com.example.psds.personal_account.dto.authentication.SignUpRequest;
 import com.example.psds.personal_account.dto.authentication.SignInRequest;
 import com.example.psds.personal_account.model.ERole;
 import com.example.psds.personal_account.model.User;
 import com.example.psds.personal_account.repository.UserRepository;
 import com.example.psds.personal_account.service.MyMapperService;
-import com.example.psds.personal_account.service.SessionService;
 import com.example.psds.personal_account.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final MyMapperService myMapperService;
-    private final SessionService sessionService;
 
 
     public ResponseEntity<?> signUp(SignUpRequest request) {
@@ -63,7 +61,7 @@ public class AuthenticationService {
     }
 
 
-    public ResponseEntity<?> signIn(SignInRequest request, String sessionId) {
+    public ResponseEntity<?> signIn(SignInRequest request) {
         if(userRepository.findByEmail(request.getEmail()).isEmpty()){
             MessageResponse messageResponse = myMapperService.
                     editStringToMessageResponse("Пользователя с таким email не существует");
@@ -76,18 +74,11 @@ public class AuthenticationService {
         var user = userService
                 .userDetailsService()
                 .loadUserByUsername(request.getEmail());
-
         var jwt = jwtService.generateToken(user);
-
         Long userId = userRepository.findByEmail(request.getEmail()).orElseThrow().getId();
-        sessionService.createSession(userId, sessionId);
-
-        return new ResponseEntity<>(new JwtResponse(jwt), HttpStatus.OK);
+        JWTdto jwtDTO = new JWTdto(jwt, userId);
+        return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> signOut(String sessionId) {
-        sessionService.deleteSession(sessionId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
 }
