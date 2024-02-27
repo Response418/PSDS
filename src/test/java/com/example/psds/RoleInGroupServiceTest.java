@@ -12,6 +12,7 @@ import com.example.psds.personal_account.repository.UserRepository;
 import com.example.psds.personal_account.service.MyMapperService;
 import com.example.psds.personal_account.service.RelationUsersService;
 import com.example.psds.personal_account.service.RoleInGroupService;
+import com.example.psds.personal_account.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -57,10 +58,13 @@ public class RoleInGroupServiceTest {
     @InjectMocks
     private RoleInGroupService roleInGroupService;
 
+    @InjectMocks
+    private UserService userService;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        roleInGroupService = new RoleInGroupService(roleInGroupRepository, userRepository, roleRepository, groupRepository, modelWithGroupToObjectWithGroup, relationUsersService, planService, myMapperService, mapperRole);
+        roleInGroupService = new RoleInGroupService(roleInGroupRepository, userRepository, roleRepository, groupRepository, modelWithGroupToObjectWithGroup, relationUsersService, planService, myMapperService, mapperRole, userService);
     }
 
     @Test

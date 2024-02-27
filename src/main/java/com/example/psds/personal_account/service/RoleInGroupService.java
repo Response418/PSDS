@@ -71,7 +71,7 @@ public class RoleInGroupService {
         roleInGroupRepository.save(roleInGroup);
 
         if(String.valueOf(role.getName()).equals("ROLE_STUDENT")){
-            RelationUsers relationUsers = relationUsersService.getRelationUserByUserId(user.getId());
+            RelationUsers relationUsers = relationUsersService.getRelationUserByUserIdAndGroupId(user.getId(), group.getId());
             if(relationUsers == null){
                 RelationUsers relation = new RelationUsers();
                 relation.setGroup(group);

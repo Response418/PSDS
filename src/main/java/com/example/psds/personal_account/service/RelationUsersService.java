@@ -53,6 +53,11 @@ public class RelationUsersService {
         return relationUsersRepository.findByStudentId(userId);
     }
 
+
+    public RelationUsers getRelationUserByUserIdAndGroupId(Long userId, Long groupId){
+        return relationUsersRepository.findByStudentIdAndGroupId(userId, groupId);
+    }
+
     public void createRelationUser(RelationUsers relationUsers){
         relationUsersRepository.save(relationUsers);
     }

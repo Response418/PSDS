@@ -7,6 +7,8 @@ import com.example.psds.knowledge_base.dto.ThemeDTO;
 import com.example.psds.knowledge_base.mapper.ModelGradeAndObjectGrade;
 import com.example.psds.knowledge_base.model.Grade;
 import com.example.psds.knowledge_base.repository.GradeRepository;
+import com.example.psds.personal_account.model.User;
+import com.example.psds.personal_account.repository.RelationUsersRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class GradeService {
     private final GradeRepository gradeRepository;
     private final ModelGradeAndObjectGrade modelGradeAndObjectGrade;
+    private final RelationUsersRepository relationUsersRepository;
 
     @Transactional
-    public void addNullGrades(@NotNull SpecialistProfileDTO specialistProfileDTO, Long usersId){
+    public void addNullGrades(@NotNull SpecialistProfileDTO specialistProfileDTO, Long linkUsersId){
+        Long userId = relationUsersRepository.getStudentIdById(linkUsersId);
         for (ThemeDTO themeDTO : specialistProfileDTO.getThemes()) {
             for (LessonDTO lessonDTO: themeDTO.getLessons()) {
                 if (lessonDTO != null) {
-                    if(!gradeRepository.existsByLesson_IdAndUsersId(lessonDTO.getId(), usersId)){
-                        GradeDTO gradeDTO = new GradeDTO(Long.valueOf(0L), 0, lessonDTO, usersId);
+                    if(!gradeRepository.existsByLesson_IdAndUsersId(lessonDTO.getId(), userId)){
+                        GradeDTO gradeDTO = new GradeDTO(Long.valueOf(0L), 0, lessonDTO, userId);
                         Grade grade = modelGradeAndObjectGrade.objectToModel(gradeDTO);
                         gradeRepository.save(grade);
                     }

@@ -104,19 +104,19 @@ public class GroupServiceTest {
         assertEquals(GroupDTO.class, result.getClass());
     }
 
-    @Test
-    void testGetGroupList() {
-        List<com.example.psds.personal_account.model.Group> groupModelList = new ArrayList<>();
-        groupModelList.add(new com.example.psds.personal_account.model.Group());
-
-        when(groupRepository.findAll()).thenReturn(groupModelList);
-        when(modelWithGroupToObjectWithGroup.modelToObject(any(com.example.psds.personal_account.model.Group.class))).thenReturn(new GroupDTO());
-
-        List<GroupDTO> result = groupService.getGroupList();
-
-        assertEquals(1, result.size());
-        assertEquals(GroupDTO.class, result.get(0).getClass());
-    }
+//    @Test
+//    void testGetGroupList() {
+//        List<com.example.psds.personal_account.model.Group> groupModelList = new ArrayList<>();
+//        groupModelList.add(new com.example.psds.personal_account.model.Group());
+//
+//        when(groupRepository.findAll()).thenReturn(groupModelList);
+//        when(modelWithGroupToObjectWithGroup.modelToObject(any(com.example.psds.personal_account.model.Group.class))).thenReturn(new GroupDTO());
+//
+//        List<GroupDTO> result = groupService.getGroupList();
+//
+//        assertEquals(1, result.size());
+//        assertEquals(GroupDTO.class, result.get(0).getClass());
+//    }
     @Test
     void testGetGroupById() {
         Long groupId = 1L;

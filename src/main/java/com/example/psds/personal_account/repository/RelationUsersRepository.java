@@ -27,6 +27,7 @@ public interface RelationUsersRepository extends JpaRepository<RelationUsers, Lo
     List<RelationUsers> findAllByMasterIdAndGroupId(Long masterId, Long groupId);
 
     RelationUsers findByStudentId(Long userId);
+    RelationUsers findByStudentIdAndGroupId(Long userId, Long groupId);
 
     @Query("""
         select ru.student.id
